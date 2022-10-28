@@ -1,0 +1,11 @@
+{
+  "login": {
+  "login_title": "Logowanie",
+  "username": "Nazwa użytkownika",
+  "password": "Hasło",
+  "username_error": "Nazwa użytkownika jest wymagana",
+  "password_error": "Hasło jest wymagane",
+  "login_button": "Zaloguj",
+  "error-message": "Logowanie nie powiodło się"
+  }
+}
