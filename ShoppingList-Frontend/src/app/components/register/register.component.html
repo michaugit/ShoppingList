@@ -11,9 +11,6 @@
                     <mat-error *ngIf="form.controls['username'].hasError('minlength') || form.controls['username'].hasError('maxlength') ">
                       {{ 'register.username_length_error' | translate}}
                     </mat-error>
-                    <mat-errror>
-                      {{}}
-                    </mat-errror>
       </mat-form-field>
 
       <mat-form-field class="full-width-input" appearance="outline">

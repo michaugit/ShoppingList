@@ -25,6 +25,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //tlumaczenie
@@ -32,12 +34,14 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { RegisterComponent } from './components/register/register.component';
+import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ShoppingListComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -61,6 +65,7 @@ import { RegisterComponent } from './components/register/register.component';
     MatTabsModule,
     MatCheckboxModule,
     MatTooltipModule,
+    MatSlideToggleModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -69,7 +74,8 @@ import { RegisterComponent } from './components/register/register.component';
         deps: [HttpClient]
       }
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

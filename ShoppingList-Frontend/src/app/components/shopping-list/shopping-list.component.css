@@ -1,0 +1,52 @@
+.done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+mat-card {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto 0 auto;
+}
+mat-checkbox {
+  width: 100%;
+  padding-top: 10px;
+}
+.mat-list-item-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+mat-divider {
+  top: 0;
+  bottom: auto;
+}
+mat-icon {
+  color: grey;
+}
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.add_item {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.add_item button{
+  margin-top: 10px;
+  height: fit-content;
+}
+
+#newItem{
+  width:500px
+}
+
+#editItem{
+  width:350px
+}
+
+#unit, #num {
+  width:90px
+}
