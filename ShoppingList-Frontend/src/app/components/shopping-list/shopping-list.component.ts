@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Item} from "../../models/item";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-shopping-list',
@@ -13,7 +14,7 @@ export class ShoppingListComponent implements OnInit {
   selectedUnit: string
   unitTypes: string[] = [];
 
-  constructor() {
+  constructor(private translate: TranslateService) {
     this.items = [];
     this.unitTypes.push('count')
     this.unitTypes.push('kg')

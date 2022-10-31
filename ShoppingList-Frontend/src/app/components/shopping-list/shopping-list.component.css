@@ -11,6 +11,11 @@ mat-checkbox {
   width: 100%;
   padding-top: 10px;
 }
+
+.shoppingList .mat-list-item {
+  height: 65px;
+}
+
 .mat-list-item-content {
   display: flex;
   flex-direction: row;
@@ -33,8 +38,19 @@ mat-icon {
   flex-direction: row;
   gap: 20px;
 }
+.edit_item {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
 
 .add_item button{
+  margin-top: 10px;
+  height: fit-content;
+}
+
+.edit_item button{
   margin-top: 10px;
   height: fit-content;
 }
@@ -43,7 +59,7 @@ mat-icon {
   width:500px
 }
 
-#editItem{
+#nameItem{
   width:350px
 }
 
