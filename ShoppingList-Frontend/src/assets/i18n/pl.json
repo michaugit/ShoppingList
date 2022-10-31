@@ -1,11 +1,25 @@
 {
   "login": {
-  "login_title": "Logowanie",
-  "username": "Nazwa użytkownika",
-  "password": "Hasło",
-  "username_error": "Nazwa użytkownika jest wymagana",
-  "password_error": "Hasło jest wymagane",
-  "login_button": "Zaloguj",
-  "error-message": "Logowanie nie powiodło się"
+    "login_title": "Logowanie",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "username_error": "Nazwa użytkownika jest wymagana",
+    "password_error": "Hasło jest wymagane",
+    "login_button": "Zaloguj",
+    "error-message": "Logowanie nie powiodło się"
+  },
+
+  "register": {
+    "register_title": "Rejestracja",
+    "username": "Nazwa użytkownika",
+    "username_error": "Nazwa użytkownika jest wymagana",
+    "username_length_error": "Nazwa użytkownika powinna zawierać pomiędzy 4 a 25 znaków",
+    "password": "Hasło",
+    "password_repeat": "Powtórz hasło",
+    "password_error": "Hasło jest wymagane",
+    "password_length_error": "Hasło powinno zawierać pomiędzy 4 a 25 znaków",
+    "password_equal_error": "Hasła różnią się",
+    "register_button": "Zarejestruj",
+    "register_error_message": "Rejestracja nie powiodła się"
   }
 }
