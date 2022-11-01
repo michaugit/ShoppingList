@@ -26,10 +26,30 @@
     "shopping_list": "Lista zakupów",
     "delete_item": "Usuń",
     "edit_item": "Edytuj",
-    "add_item": "Dodaj nowy produkt",
+    "add_item": "Dodaj",
+    "add_new_item": "Dodaj nowy produkt",
     "item_name": "Nazwa produktu",
     "item_num": "Liczba",
     "item_unit": "Jednostka",
-    "cancel" : "Anuluj"
+    "cancel" : "Anuluj",
+    "write_or_select" : "Wpisz lub wybierz"
+  },
+  "count" : "szt.",
+
+  "units" : {
+    "count" : "szt.",
+    "kg" : "kg",
+    "dag": "dag",
+    "g": "gram"
+  },
+
+  "commonProducts" : {
+    "milk": "Mleko",
+    "bread": "Chleb",
+    "eggs": "Jajka",
+    "apples": "Jabłka",
+    "fruits": "Owoce",
+    "potatoes": "Ziemniaki",
+    "tomatoes": "Pomidory"
   }
 }

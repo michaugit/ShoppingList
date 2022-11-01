@@ -7,13 +7,20 @@
       <div *ngIf="!item.isBeingEditing; then content else edit_content">here is ignored</div>
 
       <ng-template #content>
+
+
         <mat-checkbox (change)="toggle(item)" [checked] ="item.done" color="primary">
-          <span [ngClass]="{done:item.done}">{{i}}. {{item.text}}    ({{item.num}} {{item.unit}})</span>
+          <span [ngClass]="{done:item.done}">{{i}}. {{item.text}}    ({{item.num}} {{'units.' + item.unit | translate}})</span>
         </mat-checkbox>
-        <button  matTooltip="{{'item_managing.edit_item' | translate}}" matTooltipPosition="above" mat-icon-button (click)="doEditable(item)">
+
+        <img mat-card-image class="itemPhoto" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+
+        <button  matTooltip="{{'item_managing.edit_item' | translate}}" matTooltipPosition="above" mat-icon-button
+                 (click)="doEditable(item)">
           <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
         </button>
-        <button  matTooltip="{{'item_managing.delete_item' | translate}}" matTooltipPosition="above" mat-icon-button (click)="removeItem(item)">
+        <button  matTooltip="{{'item_managing.delete_item' | translate}}" matTooltipPosition="above" mat-icon-button
+                 (click)="removeItem(item)">
           <mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
         </button>
       </ng-template>
@@ -23,20 +30,22 @@
           <mat-form-field id="nameItem" >
             <input matInput placeholder="{{'item_managing.item_name' | translate}}" [value]="item.text" #newItem >
           </mat-form-field>
+
           <mat-form-field id="num">
             <input matInput placeholder="{{'item_managing.item_num' | translate}}" [value]="item.num" #num >
           </mat-form-field>
 
           <mat-form-field id="unit">
             <mat-select placeholder="{{'item_managing.item_unit' | translate}}" [value]="item.unit" #editedUnit>
-              <mat-option *ngFor="let unit of unitTypes" [value]="unit">{{unit}}</mat-option>
+              <mat-option *ngFor="let unit of unitTypes" [value]="unit">{{unit | translate}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <button [disabled]="newItem.value == ''" mat-raised-button color="primary"
                   (click)="editItem(item ,newItem.value, num.value, editedUnit.value);
                   newItem.value = ''; num.value= '1'">{{'item_managing.edit_item' | translate}}</button>
-          <button mat-raised-button color="primary" (click)=" item.isBeingEditing = false">{{'item_managing.cancel' | translate}}</button>
+          <button mat-raised-button color="primary"
+                  (click)=" item.isBeingEditing = false">{{'item_managing.cancel' | translate}}</button>
         </div>
       </ng-template>
 
@@ -52,21 +61,36 @@
 </mat-card>
 
 <mat-card>
-  <h4>{{'item_managing.add_item' | translate}}</h4>
+  <h4>{{'item_managing.add_new_item' | translate}}</h4>
   <div class="add_item">
-  <mat-form-field id="newItem">
-    <input matInput placeholder="{{'item_managing.item_name' | translate}}" #newItem >
-  </mat-form-field>
+    <mat-form-field id="newItem" >
+      <mat-label>{{'item_managing.item_name' | translate}}</mat-label>
+      <input type="text"
+             placeholder="{{'item_managing.write_or_select' | translate}}"
+             matInput
+             [formControl]="productName"
+             [matAutocomplete]="auto"
+             #newItem>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
+          {{"commonProducts."+ option | translate}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
   <mat-form-field id="num">
     <input matInput placeholder="{{'item_managing.item_num' | translate}}" #num value="1">
   </mat-form-field>
 
     <mat-form-field id="unit">
       <mat-select placeholder="{{'item_managing.item_unit' | translate}}" [(ngModel)]="selectedUnit">
-        <mat-option *ngFor="let unit of unitTypes" [value]="unit">{{unit}}</mat-option>
+        <mat-option *ngFor="let unit of unitTypes" [value]="unit">{{'units.' + unit | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
 
-  <button [disabled]="newItem.value == ''" mat-raised-button color="primary" (click)="addItem(newItem.value, num.value, selectedUnit); newItem.value = ''; num.value= '1'">Dodaj</button>
+  <button [disabled]="newItem.value == ''" mat-raised-button color="primary"
+          (click)="addItem(newItem.value, num.value, selectedUnit); newItem.value = '' ; num.value= '1'">
+    {{'item_managing.add_item' | translate}}</button>
   </div>
+
 </mat-card>
