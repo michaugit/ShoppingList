@@ -2,6 +2,7 @@
   text-decoration: line-through;
   opacity: 0.5;
 }
+
 mat-card {
   width: 100%;
   max-width: 800px;
@@ -74,4 +75,15 @@ mat-icon {
   margin-top: 15px;
   margin-right: 15px;
   border-radius: 5px
+}
+
+.itemVisualisation {
+  display: inline-grid;
+  padding-top: 19px;
+}
+
+#itemDescription {
+  margin-left: 2px;
+  font-size: 12px;
+  margin-top: -5px;
 }

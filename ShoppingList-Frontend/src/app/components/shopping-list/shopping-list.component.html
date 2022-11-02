@@ -10,10 +10,14 @@
 
 
         <mat-checkbox (change)="toggle(item)" [checked] ="item.done" color="primary">
-          <span [ngClass]="{done:item.done}">{{i}}. {{item.text}}    ({{item.num}} {{'units.' + item.unit | translate}})</span>
+          <span [ngClass]="{done:item.done}">{{i}}. </span>
+          <div class = "itemVisualisation">
+            <span [ngClass]="{done:item.done}">{{item.text}}</span>
+            <span [ngClass]="{done:item.done}" id="itemDescription">{{item.num}} {{'units.' + item.unit | translate}}</span>
+          </div>
         </mat-checkbox>
 
-        <img mat-card-image class="itemPhoto" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <img mat-card-image [ngClass]="{done:item.done}" class="itemPhoto" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
 
         <button  matTooltip="{{'item_managing.edit_item' | translate}}" matTooltipPosition="above" mat-icon-button
                  (click)="doEditable(item)">
