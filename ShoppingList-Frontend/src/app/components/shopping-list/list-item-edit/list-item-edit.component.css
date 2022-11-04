@@ -1,0 +1,67 @@
+.edit_item {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  display: grid;
+}
+
+.edit_item_product_row {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.edit_item_image_row {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.edit_item button {
+  margin-top: 10px;
+  height: fit-content;
+}
+
+.edit_buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.edit_buttons button {
+  width: -moz-available;
+}
+
+.edit_item_image_row #image {
+  width: 500px
+}
+
+.edit_item_image_row .preview {
+  float: left;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-top: -5px;
+  border-radius: 5px
+}
+
+#name {
+  width: 500px
+}
+
+#unit, #num {
+  width: 90px
+}
+
+#fileInput {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  width: -moz-available;
+}

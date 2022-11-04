@@ -1,0 +1,56 @@
+<div class="edit_item">
+  <div class="edit_item_product_row">
+<!--    <mat-form-field id="newItem" >-->
+<!--      <mat-label>{{'item_managing.item_name' | translate}}</mat-label>-->
+<!--      <input type="text"-->
+<!--             placeholder="{{'item_managing.write_or_select' | translate}}"-->
+<!--             matInput-->
+<!--             [formControl]="productName"-->
+<!--             [matAutocomplete]="auto"-->
+<!--             #newItem>-->
+<!--      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">-->
+<!--        <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >-->
+<!--          {{"commonProducts."+ option | translate}}-->
+<!--        </mat-option>-->
+<!--      </mat-autocomplete>-->
+<!--    </mat-form-field>-->
+<!--    -->
+    <mat-form-field id="name">
+      <input matInput placeholder="{{'item_managing.item_name' | translate}}" [value]="item.text" #newItem>
+    </mat-form-field>
+
+    <mat-form-field id="num">
+      <input matInput placeholder="{{'item_managing.item_num' | translate}}" [value]="item.num" #num>
+    </mat-form-field>
+
+    <mat-form-field id="unit">
+      <mat-select placeholder="{{'item_managing.item_unit' | translate}}" [value]="item.unit" #editedUnit>
+        <mat-option *ngFor="let unit of unitTypes" [value]="unit">{{unit | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="edit_item_image_row">
+    <mat-form-field id="image">
+      <input matInput placeholder=" Dodaj obrazek" [value]="selectedFileName" readonly/>
+      <input type="file" id="fileInput" name="fileInput" accept="image/*"
+             (change)="selectFile($event)"
+      />
+    </mat-form-field>
+
+    <img mat-card-image class="preview" [src]="photoPreview" [hidden]="photoPreview === undefined ">
+
+    <button [hidden]="photoPreview === undefined" mat-raised-button color="primary"
+            (click)="deletePicture()">Usuń obrazek
+    </button>
+  </div>
+
+  <div class="edit_buttons">
+
+    <button [disabled]="newItem.value == ''" mat-raised-button color="primary"
+            (click)="editItem(item ,newItem.value, num.value, editedUnit.value);
+                  newItem.value = ''; num.value= '1'">{{'item_managing.edit_item' | translate}}</button>
+    <button mat-raised-button color="primary"
+            (click)=" item.isBeingEditing = false">{{'item_managing.cancel' | translate}}</button>
+  </div>
+</div>

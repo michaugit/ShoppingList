@@ -10,11 +10,11 @@ mat-card {
 }
 mat-checkbox {
   width: 100%;
-  padding-top: 10px;
+  /*padding-top: 10px;*/
 }
 
 .shoppingList .mat-list-item {
-  height: 65px;
+  height: auto;
 }
 
 .mat-list-item-content {
@@ -35,15 +35,83 @@ mat-icon {
 
 .add_item {
   margin-top: 10px;
+  display: grid;
+}
+.add_item_product_row{
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   gap: 20px;
 }
+
+.add_item_image_row{
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.add_item_image_row #image{
+  width: 550px
+}
+
+.add_item_image_row .preview{
+  float: left;
+  width:  50px;
+  height: 50px;
+  object-fit: cover;
+  margin-top: -5px;
+  border-radius: 5px
+}
+
+/*.edit_item {*/
+/*  margin-top: 25px;*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*  gap: 20px;*/
+/*}*/
+
 .edit_item {
-  margin-top: 25px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  display: grid;
+}
+
+.edit_item_product_row{
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   gap: 20px;
+}
+
+.edit_item_image_row{
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.edit_buttons{
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.edit_buttons button{
+  width: -moz-available;
+}
+
+.edit_item_image_row #image{
+  width: 500px
+}
+
+.edit_item_image_row .preview{
+  float: left;
+  width:  50px;
+  height: 50px;
+  object-fit: cover;
+  margin-top: -5px;
+  border-radius: 5px
 }
 
 .add_item button{
@@ -57,11 +125,11 @@ mat-icon {
 }
 
 #newItem{
-  width:500px
+  width:550px
 }
 
 #nameItem{
-  width:350px
+  width:500px
 }
 
 #unit, #num {
@@ -86,4 +154,19 @@ mat-icon {
   margin-left: 2px;
   font-size: 12px;
   margin-top: -5px;
+}
+
+#fileInput {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  width: -moz-available;
+}
+
+.itemSimple {
+  width: -moz-available;
 }

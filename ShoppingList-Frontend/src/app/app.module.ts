@@ -35,13 +35,17 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { RegisterComponent } from './components/register/register.component';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
+import { ListItemComponent } from './components/shopping-list/list-item/list-item.component';
+import { ListItemEditComponent } from './components/shopping-list/list-item-edit/list-item-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ShoppingListComponent
+    ShoppingListComponent,
+    ListItemComponent,
+    ListItemEditComponent
   ],
   imports: [
     ReactiveFormsModule,
