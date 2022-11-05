@@ -33,6 +33,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+
+import { AppRoutingModule } from './app-routing.module';
+
 import { RegisterComponent } from './components/register/register.component';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { ListItemComponent } from './components/shopping-list/list-item/list-item.component';
@@ -58,6 +61,7 @@ import { UserListComponent } from './components/user-lists/user-list/user-list.c
     UserListComponent
   ],
   imports: [
+    AppRoutingModule,
     ReactiveFormsModule,
     BrowserModule,
     MatToolbarModule,
@@ -89,7 +93,7 @@ import { UserListComponent } from './components/user-lists/user-list/user-list.c
       }
     }),
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

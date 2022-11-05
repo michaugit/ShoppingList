@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {List} from "../../../models/list";
+import {Router} from "@angular/router";
 
 
 
@@ -19,7 +20,7 @@ export class UserListComponent implements OnInit {
   @Output()
   public removeList: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -28,4 +29,11 @@ export class UserListComponent implements OnInit {
     list.isBeingEditing = true;
   }
 
+  goToList(): void{
+    this.router.navigate(['/shopping-list']).then(() => this.reloadPage());
+  }
+
+  reloadPage(): void {
+    window.location.reload();
+  }
 }
