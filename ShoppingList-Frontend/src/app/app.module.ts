@@ -36,7 +36,8 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { RegisterComponent } from './components/register/register.component';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { ListItemComponent } from './components/shopping-list/list-item/list-item.component';
-import { ListItemEditComponent } from './components/shopping-list/list-item-edit/list-item-edit.component';
+import { AddListItemComponent } from './components/shopping-list/add-list-item/add-list-item.component';
+import { EditListItemComponent } from './components/shopping-list/edit-list-item/edit-list-item.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ListItemEditComponent } from './components/shopping-list/list-item-edit
     RegisterComponent,
     ShoppingListComponent,
     ListItemComponent,
-    ListItemEditComponent
+    AddListItemComponent,
+    EditListItemComponent
   ],
   imports: [
     ReactiveFormsModule,

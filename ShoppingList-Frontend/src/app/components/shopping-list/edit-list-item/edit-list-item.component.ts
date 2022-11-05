@@ -7,11 +7,11 @@ import UnitService from "../../../services/unitService";
 import CommonProductsService from "../../../services/commonProductsService";
 
 @Component({
-  selector: 'app-list-item-edit',
-  templateUrl: './list-item-edit.component.html',
-  styleUrls: ['./list-item-edit.component.css']
+  selector: 'app-edit-list-item',
+  templateUrl: './edit-list-item.component.html',
+  styleUrls: ['./edit-list-item.component.css']
 })
-export class ListItemEditComponent implements OnInit {
+export class EditListItemComponent implements OnInit {
 
   @Input()
   item!: Item;
@@ -26,18 +26,20 @@ export class ListItemEditComponent implements OnInit {
   selectedFileName: string = ''
   photoPreview?: string
 
-  productName = new FormControl('');
+  productName: FormControl;
   commonProducts: string[];
   filteredOptions: Observable<string[]> | undefined;
 
   constructor(private translate: TranslateService) {
+    this.productName = new FormControl('')
     this.unitTypes = UnitService.getUnits()
     this.commonProducts = CommonProductsService.getCommonProducts()
   }
 
   ngOnInit(): void {
+    this.productName.setValue(this.item.text)
     this.filteredOptions = this.productName.valueChanges.pipe(
-      startWith(''), map(value => this._filter(value || '')),
+      startWith(this.productName.value), map(value => this._filter(value || '')),
     );
 
     this.loadPhoto()
@@ -67,7 +69,7 @@ export class ListItemEditComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.commonProducts.filter(
-      option => (this.translate.instant("commonProducts." + option)).toLowerCase().includes(filterValue));
+      option => (this.translate.instant("commonProducts." + option)).toLowerCase().includes(filterValue))
   }
 
   onSelectionChanged($event: any) {

@@ -1,0 +1,49 @@
+<mat-card>
+  <h4>{{'item_managing.add_new_item' | translate}}</h4>
+  <div class="add_item">
+    <div class="add_item_product_row">
+      <mat-form-field id="newItem" >
+        <mat-label>{{'item_managing.item_name' | translate}}</mat-label>
+        <input type="text"
+               placeholder="{{'item_managing.write_or_select' | translate}}"
+               matInput
+               [formControl]="productName"
+               [matAutocomplete]="auto"
+               #newItem>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
+            {{"commonProducts."+ option | translate}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field id="num">
+        <input matInput placeholder="{{'item_managing.item_num' | translate}}" #num value="1">
+      </mat-form-field>
+
+      <mat-form-field id="unit">
+        <mat-select placeholder="{{'item_managing.item_unit' | translate}}" [(ngModel)]="selectedUnit">
+          <mat-option *ngFor="let unit of unitTypes" [value]="unit">{{'units.' + unit | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="add_item_image_row">
+      <mat-form-field id="image">
+        <input matInput placeholder=" Dodaj obrazek" [value]="selectedFileName" readonly />
+        <input type="file" id="fileInput" name="fileInput" accept="image/*"
+               (change)="selectFiles($event)"
+        />
+      </mat-form-field>
+
+      <img mat-card-image class="preview" [src]="preview" [hidden]="preview == '' ">
+
+      <button [hidden]="selectedFileName == ''" mat-raised-button color="primary"
+              (click)="deletePicture()">Usuń obrazek</button>
+    </div>
+
+    <button [disabled]="newItem.value == ''" mat-raised-button color="primary"
+            (click)="addItem(newItem.value, num.value, selectedUnit); newItem.value = '' ; num.value= '1'">
+      {{'item_managing.add_item' | translate}}</button>
+
+  </div>
+</mat-card>
