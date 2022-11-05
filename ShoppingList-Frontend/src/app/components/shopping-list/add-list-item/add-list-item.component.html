@@ -2,7 +2,7 @@
   <h4>{{'item_managing.add_new_item' | translate}}</h4>
   <div class="add_item">
     <div class="add_item_product_row">
-      <mat-form-field id="newItem" >
+      <mat-form-field id="newItem">
         <mat-label>{{'item_managing.item_name' | translate}}</mat-label>
         <input type="text"
                placeholder="{{'item_managing.write_or_select' | translate}}"
@@ -11,8 +11,8 @@
                [matAutocomplete]="auto"
                #newItem>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
-            {{"commonProducts."+ option | translate}}
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{"commonProducts." + option | translate}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -29,7 +29,7 @@
     </div>
     <div class="add_item_image_row">
       <mat-form-field id="image">
-        <input matInput placeholder=" Dodaj obrazek" [value]="selectedFileName" readonly />
+        <input matInput placeholder=" Dodaj obrazek" [value]="selectedFileName" readonly/>
         <input type="file" id="fileInput" name="fileInput" accept="image/*"
                (change)="selectFiles($event)"
         />
@@ -38,12 +38,17 @@
       <img mat-card-image class="preview" [src]="preview" [hidden]="preview == '' ">
 
       <button [hidden]="selectedFileName == ''" mat-raised-button color="primary"
-              (click)="deletePicture()">Usuń obrazek</button>
+              (click)="deletePicture()">Usuń obrazek
+      </button>
     </div>
 
-    <button [disabled]="newItem.value == ''" mat-raised-button color="primary"
-            (click)="addItem(newItem.value, num.value, selectedUnit); newItem.value = '' ; num.value= '1'">
-      {{'item_managing.add_item' | translate}}</button>
+    <div class="add_buttons">
+      <button [disabled]="newItem.value == ''" mat-raised-button color="primary"
+              (click)="addItem(newItem.value, num.value, selectedUnit); newItem.value = '' ; num.value= '1'">
+        {{'item_managing.add_item' | translate}}</button>
+      <button mat-raised-button color="primary" (click)="cancel(); newItem.value = '' ; num.value= '1'">
+        {{'item_managing.cancel' | translate}}</button>
+    </div>
 
   </div>
 </mat-card>

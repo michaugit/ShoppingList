@@ -1,0 +1,15 @@
+<div class="list">
+  <div class="listBody">
+    <span id="name">{{list.name}}</span>
+    <span id="date">{{list.date}}</span>
+  </div>
+
+  <button matTooltip="{{'item_managing.edit_item' | translate}}" matTooltipPosition="above" mat-icon-button
+          (click)="doEditable(list)">
+    <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
+  </button>
+  <button matTooltip="{{'item_managing.delete_item' | translate}}" matTooltipPosition="above" mat-icon-button
+          (click)="removeList.emit()">
+    <mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
+  </button>
+</div>

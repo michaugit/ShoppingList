@@ -1,0 +1,21 @@
+<mat-card *ngIf="lists.length > 0">
+  <h2>{{'user_lists.title' | translate}}</h2>
+  <mat-list class="userLists">
+    <mat-list-item *ngFor="let list of lists; let i = index">
+      <mat-divider *ngIf="i != 0"></mat-divider>
+
+      <div *ngIf="!list.isBeingEditing; then content else edit_content">here is ignored</div>
+
+      <ng-template #content>
+        <app-user-list [list]="list" [index]="i+1" (removeList)="removeList(list)" class='singleList'></app-user-list>
+      </ng-template>
+
+      <ng-template #edit_content>
+        <app-edit-user-list [list]="list" [index]="i"  class="singleListEdit"></app-edit-user-list>
+      </ng-template>
+
+    </mat-list-item>
+  </mat-list>
+</mat-card>
+
+<app-add-user-list [lists]="lists"></app-add-user-list>

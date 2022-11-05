@@ -1,0 +1,33 @@
+.list{
+  height: auto;
+  width: -moz-available;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#date{
+  float: right;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.listBody{
+  width: -moz-available;
+}
+
+mat-icon {
+  color: grey;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto 0 auto;
+}
+

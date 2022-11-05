@@ -1,0 +1,23 @@
+<mat-card>
+  <h4>{{'user_lists.add_new_list' | translate}}</h4>
+  <div class="addList">
+    <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="submitForm(formDirective)">
+      <div class="addListRow">
+        <mat-form-field id="name">
+          <input matInput formControlName="name" required placeholder="{{'user_lists.name' | translate}}" #name>
+        </mat-form-field>
+
+        <mat-form-field id="date">
+          <input matInput formControlName="date" required placeholder="{{'user_lists.date' | translate}}" #date>
+        </mat-form-field>
+      </div>
+
+      <div class="add_buttons">
+        <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="addList()">
+          {{'user_lists.add' | translate}}</button>
+        <button mat-raised-button color="primary" (click)="cancel(formDirective)">
+          {{'user_lists.cancel' | translate}}</button>
+      </div>
+    </form>
+  </div>
+</mat-card>

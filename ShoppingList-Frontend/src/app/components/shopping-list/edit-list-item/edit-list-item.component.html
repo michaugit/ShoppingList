@@ -45,7 +45,7 @@
 
     <button [disabled]="name.value == ''" mat-raised-button color="primary"
             (click)="editItem(item ,name.value, num.value, editedUnit.value);
-                  name.value = ''; num.value= '1'">{{'item_managing.edit_item' | translate}}</button>
+                  name.value = ''; num.value= '1'">{{'item_managing.save' | translate}}</button>
     <button mat-raised-button color="primary"
             (click)=" item.isBeingEditing = false">{{'item_managing.cancel' | translate}}</button>
   </div>

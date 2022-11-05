@@ -38,6 +38,10 @@ import { ShoppingListComponent } from './components/shopping-list/shopping-list.
 import { ListItemComponent } from './components/shopping-list/list-item/list-item.component';
 import { AddListItemComponent } from './components/shopping-list/add-list-item/add-list-item.component';
 import { EditListItemComponent } from './components/shopping-list/edit-list-item/edit-list-item.component';
+import { UserListsComponent } from './components/user-lists/user-lists.component';
+import { AddUserListComponent } from './components/user-lists/add-user-list/add-user-list.component';
+import { EditUserListComponent } from './components/user-lists/edit-user-list/edit-user-list.component';
+import { UserListComponent } from './components/user-lists/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +51,11 @@ import { EditListItemComponent } from './components/shopping-list/edit-list-item
     ShoppingListComponent,
     ListItemComponent,
     AddListItemComponent,
-    EditListItemComponent
+    EditListItemComponent,
+    UserListsComponent,
+    AddUserListComponent,
+    EditUserListComponent,
+    UserListComponent
   ],
   imports: [
     ReactiveFormsModule,

@@ -81,4 +81,9 @@ export class AddListItemComponent implements OnInit {
     this.preview = ''
   }
 
+  cancel(): void {
+    this.selectedUnit = UnitService.getDefaultUnit()
+    this.deletePicture()
+  }
+
 }

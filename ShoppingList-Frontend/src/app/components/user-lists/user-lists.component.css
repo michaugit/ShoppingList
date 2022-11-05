@@ -1,0 +1,28 @@
+mat-card {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto 0 auto;
+}
+
+.userLists .mat-list-item {
+  height: auto;
+}
+
+.mat-list-item-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+mat-divider {
+  top: 0;
+  bottom: auto;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.singleList {
+  width: -moz-available;
+}

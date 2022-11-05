@@ -46,6 +46,16 @@ mat-icon {
   height: fit-content;
 }
 
+.add_buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.add_buttons button {
+  width: -moz-available;
+}
+
 #newItem{
   width:550px
 }

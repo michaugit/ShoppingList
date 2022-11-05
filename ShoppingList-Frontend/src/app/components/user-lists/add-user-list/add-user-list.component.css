@@ -1,0 +1,42 @@
+mat-card {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto 0 auto;
+}
+
+mat-icon {
+  color: grey;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.addList {
+  margin-top: 10px;
+  display: grid;
+}
+.addListRow {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.add_buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.add_buttons button {
+  width: -moz-available;
+}
+
+#name{
+  width:550px
+}
+
+#date {
+  width:200px
+}

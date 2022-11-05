@@ -31,6 +31,7 @@
     "item_name": "Nazwa produktu",
     "item_num": "Liczba",
     "item_unit": "Jednostka",
+    "save": "Zapisz",
     "cancel" : "Anuluj",
     "write_or_select" : "Wpisz lub wybierz"
   },
@@ -51,5 +52,15 @@
     "fruits": "Owoce",
     "potatoes": "Ziemniaki",
     "tomatoes": "Pomidory"
+  },
+
+  "user_lists": {
+    "title": "Twoje listy zakupów",
+    "add_new_list": "Dodaj nową listę",
+    "name": "Nazwa listy",
+    "date": "Data",
+    "add": "Dodaj",
+    "save": "Zapisz",
+    "cancel": "Anuluj"
   }
 }

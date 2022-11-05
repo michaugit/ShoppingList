@@ -1,0 +1,38 @@
+mat-icon {
+  color: grey;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.editList {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: grid;
+}
+
+.editListRow {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.edit_buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.edit_buttons button {
+  width: -moz-available;
+}
+
+#name {
+  width: 520px
+}
+
+#date {
+  width: 200px
+}
