@@ -17,6 +17,7 @@ mat-card {
 mat-divider {
   top: 0;
   bottom: auto;
+  height: fit-content;
 }
 
 .mat-form-field-wrapper {
