@@ -6,10 +6,6 @@
         <input matInput formControlName="name" required placeholder="{{'user_lists.name' | translate}}" #name>
       </mat-form-field>
 
-<!--      <mat-form-field id="date">-->
-<!--        <input matInput formControlName="date" required placeholder="{{'user_lists.date' | translate}}" #date>-->
-<!--      </mat-form-field>-->
-
       <mat-form-field appearance="fill" id="date">
         <mat-label>{{'user_lists.date'| translate}}</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="date" required>
