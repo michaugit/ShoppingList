@@ -28,7 +28,6 @@ export class EditUserListComponent implements OnInit {
       name: [this.list.name, Validators.required],
       date: [this.formatDate(this.list.date), Validators.required]
     });
-    // this.list.name.replace('-','/')
   }
 
   editList(): void{
