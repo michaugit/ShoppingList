@@ -15,6 +15,7 @@ export class MainNavigationComponent implements OnInit {
   constructor(public translate: TranslateService, private router: Router) { }
 
   ngOnInit(): void {
+    this.router.navigate(['/login']);
   }
 
   logout(): void {

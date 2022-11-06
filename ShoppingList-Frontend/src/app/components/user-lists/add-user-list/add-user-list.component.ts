@@ -3,11 +3,13 @@ import {List} from "../../../models/list";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
 import {FormGroupDirective} from '@angular/forms';
+import {formatDate} from '@angular/common';
+
 
 @Component({
   selector: 'app-add-user-list',
   templateUrl: './add-user-list.component.html',
-  styleUrls: ['./add-user-list.component.css']
+  styleUrls: ['./add-user-list.component.css'],
 })
 export class AddUserListComponent implements OnInit {
 
@@ -17,8 +19,7 @@ export class AddUserListComponent implements OnInit {
   form!: FormGroup;
 
   constructor(private translate: TranslateService,
-              private formBuilder: FormBuilder) {
-  }
+              private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -29,7 +30,7 @@ export class AddUserListComponent implements OnInit {
 
   addList() {
     let name = this.form.get('name')?.value;
-    let date = this.form.get('date')?.value;
+    let date = formatDate(this.form.get('date')?.value, 'dd-MM-yyyy', 'en_US')
 
     this.lists.push(new List(name, date))
     this.form.reset();

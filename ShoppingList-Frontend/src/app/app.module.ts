@@ -17,9 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatCardModule} from "@angular/material/card";
 import {MatSelectModule} from "@angular/material/select";
 import {MatStepperModule} from "@angular/material/stepper";
-import {MatRippleModule} from "@angular/material/core";
+import {DateAdapter, MAT_DATE_LOCALE, MatRippleModule} from "@angular/material/core";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
@@ -36,6 +35,12 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { CUSTOM_DATE_FORMATS } from './models/custom-date-formats';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
 import { RegisterComponent } from './components/register/register.component';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { ListItemComponent } from './components/shopping-list/list-item/list-item.component';
@@ -46,6 +51,7 @@ import { AddUserListComponent } from './components/user-lists/add-user-list/add-
 import { EditUserListComponent } from './components/user-lists/edit-user-list/edit-user-list.component';
 import { UserListComponent } from './components/user-lists/user-list/user-list.component';
 import { MainNavigationComponent } from './components/main-navigation/main-navigation.component';
+
 
 @NgModule({
   declarations: [
@@ -86,6 +92,7 @@ import { MainNavigationComponent } from './components/main-navigation/main-navig
     MatCheckboxModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    MatDatepickerModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -96,8 +103,12 @@ import { MainNavigationComponent } from './components/main-navigation/main-navig
     }),
     BrowserAnimationsModule,
     FormsModule,
+    MatNativeDateModule
   ],
-  providers: [],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
