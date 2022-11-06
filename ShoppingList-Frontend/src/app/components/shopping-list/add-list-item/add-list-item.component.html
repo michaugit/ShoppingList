@@ -46,7 +46,7 @@
       <button [disabled]="newItem.value == ''" mat-raised-button color="primary"
               (click)="addItem(newItem.value, num.value, selectedUnit); newItem.value = '' ; num.value= '1'">
         {{'item_managing.add_item' | translate}}</button>
-      <button mat-raised-button color="primary" (click)="cancel(); newItem.value = '' ; num.value= '1'">
+      <button mat-raised-button color="primary" (click)="cancel() ; num.value= '1'">
         {{'item_managing.cancel' | translate}}</button>
     </div>
 

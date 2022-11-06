@@ -29,11 +29,11 @@ export class UserListComponent implements OnInit {
     list.isBeingEditing = true;
   }
 
-  goToList(): void{
-    this.router.navigate(['/shopping-list']).then(() => this.reloadPage());
-  }
-
-  reloadPage(): void {
-    window.location.reload();
-  }
+  // goToList(): void{
+  //   this.router.navigate(['/shopping-list']).then(() => this.reloadPage());
+  // }
+  //
+  // reloadPage(): void {
+  //   window.location.reload();
+  // }
 }

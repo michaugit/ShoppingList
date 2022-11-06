@@ -83,6 +83,10 @@ export class AddListItemComponent implements OnInit {
 
   cancel(): void {
     this.selectedUnit = UnitService.getDefaultUnit()
+    this.productName.setValue('')
+    this.filteredOptions = this.productName.valueChanges.pipe(
+      startWith(this.productName.value), map(value => this._filter(value || '')),
+    );
     this.deletePicture()
   }
 

@@ -45,6 +45,7 @@ import { UserListsComponent } from './components/user-lists/user-lists.component
 import { AddUserListComponent } from './components/user-lists/add-user-list/add-user-list.component';
 import { EditUserListComponent } from './components/user-lists/edit-user-list/edit-user-list.component';
 import { UserListComponent } from './components/user-lists/user-list/user-list.component';
+import { MainNavigationComponent } from './components/main-navigation/main-navigation.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { UserListComponent } from './components/user-lists/user-list/user-list.c
     UserListsComponent,
     AddUserListComponent,
     EditUserListComponent,
-    UserListComponent
+    UserListComponent,
+    MainNavigationComponent
   ],
   imports: [
     AppRoutingModule,

@@ -62,5 +62,12 @@
     "add": "Dodaj",
     "save": "Zapisz",
     "cancel": "Anuluj"
+  },
+
+  "navigation": {
+    "login": "Logowanie",
+    "register": "Rejestracja",
+    "logout": "Wyloguj",
+    "user_lists": "Twoje listy"
   }
 }

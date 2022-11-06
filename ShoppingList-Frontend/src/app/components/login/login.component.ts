@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   hidePassword = true;
 
   constructor(private translate: TranslateService,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -29,6 +31,11 @@ export class LoginComponent implements OnInit {
     this.username  = this.form.get('username')?.value;
     this.password = this.form.get('password')?.value;
     console.log(this.username, this.password)
+    this.router.navigate(['/user-lists']).then(() => this.reloadPage());
+  }
+
+  reloadPage(): void {
+    window.location.reload();
   }
 
 }
