@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "lists")
-public class List {
+public class ShoppingList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,9 +29,9 @@ public class List {
     private Set<Item> items;
 
 
-    public List(){}
+    public ShoppingList(){}
 
-    public List(String name, Date date, User user){
+    public ShoppingList(String name, Date date, User user){
         this.name = name;
         this.date = date;
         this.user = user;

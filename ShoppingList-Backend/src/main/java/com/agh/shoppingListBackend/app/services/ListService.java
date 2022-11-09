@@ -3,8 +3,9 @@ package com.agh.shoppingListBackend.app.services;
 
 import com.agh.shoppingListBackend.app.exepction.ForbiddenException;
 import com.agh.shoppingListBackend.app.exepction.NotFoundException;
-import com.agh.shoppingListBackend.app.models.List;
+import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.models.User;
+import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
 import com.agh.shoppingListBackend.app.repository.ListRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.Objects;
 
 @Service
@@ -30,15 +32,15 @@ public class ListService {
 
 
     @Transactional
-    public void addList(List list){
+    public void addList(ShoppingList list){
         User user = getCurrentUser();
         list.setUser(user);
         listRepository.save(list);
     }
 
     @Transactional
-    public void updateList(Long listId, List updatedList){
-        List list = getListById(listId);
+    public void updateList(Long listId, ShoppingList updatedList){
+        ShoppingList list = getListById(listId);
         User user = getCurrentUser();
 
         if(!list.getUser().equals(user)){
@@ -59,7 +61,7 @@ public class ListService {
 
     @Transactional
     public void deleteList(Long listId){
-        List list = getListById(listId);
+        ShoppingList list = getListById(listId);
         User user = getCurrentUser();
 
         if(!list.getUser().equals(user)){
@@ -69,7 +71,15 @@ public class ListService {
         listRepository.delete(list);
     }
 
-    public List getListById(Long id){
+    @Transactional
+    public ListsResponse getAllLists(){
+        User user = getCurrentUser();
+        ListsResponse listsResponse = new ListsResponse();
+        listsResponse.setShoppingLists(listRepository.findListsByUser(user).orElse(Collections.emptyList()));
+        return listsResponse;
+    }
+
+    public ShoppingList getListById(Long id){
         return listRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("exception.listNotFound")
         );

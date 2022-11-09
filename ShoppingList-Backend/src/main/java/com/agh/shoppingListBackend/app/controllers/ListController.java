@@ -1,7 +1,8 @@
 package com.agh.shoppingListBackend.app.controllers;
 
-import com.agh.shoppingListBackend.app.models.List;
+import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.payload.request.ListDTO;
+import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
 import com.agh.shoppingListBackend.app.payload.response.MessageResponse;
 import com.agh.shoppingListBackend.app.services.ListService;
 import org.modelmapper.ModelMapper;
@@ -36,7 +37,7 @@ public class ListController {
     @PostMapping( path ="/add")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addList(@Valid @RequestBody ListDTO listDTO){
-        List list = mapListDTOtoList(listDTO);
+        ShoppingList list = mapListDTOtoList(listDTO);
         listService.addList(list);
         return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.addList", null, LocaleContextHolder.getLocale())));
     }
@@ -44,7 +45,7 @@ public class ListController {
     @PostMapping( path ="/update/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateList(@Valid @RequestBody ListDTO listDTO,  @PathVariable(value = "id") Long listId){
-        List list = mapListDTOtoList(listDTO);
+        ShoppingList list = mapListDTOtoList(listDTO);
         listService.updateList(listId, list);
         return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.updateList", null, LocaleContextHolder.getLocale())));
     }
@@ -56,10 +57,15 @@ public class ListController {
         return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.deleteList", null, LocaleContextHolder.getLocale())));
     }
 
+    @GetMapping( path = "/all" )
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getAllLists(){
+        ListsResponse listsResponse = listService.getAllLists();
+        return ResponseEntity.ok(listsResponse);
+    }
 
 
-
-    private List mapListDTOtoList(ListDTO listDTO){
-        return this.modelMapper.map(listDTO, List.class);
+    private ShoppingList mapListDTOtoList(ListDTO listDTO){
+        return this.modelMapper.map(listDTO, ShoppingList.class);
     }
 }
