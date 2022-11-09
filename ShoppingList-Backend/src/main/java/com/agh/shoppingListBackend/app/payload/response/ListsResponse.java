@@ -14,7 +14,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 public class ListsResponse implements Serializable {
-    private List<ShoppingList> shoppingLists = new ArrayList<>();
+    private List<SingleListResponse> shoppingLists = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

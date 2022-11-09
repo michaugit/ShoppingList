@@ -2,6 +2,8 @@ package com.agh.shoppingListBackend.app.controllers;
 
 import com.agh.shoppingListBackend.app.models.Item;
 import com.agh.shoppingListBackend.app.payload.request.ItemDTO;
+import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
+import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
 import com.agh.shoppingListBackend.app.payload.response.MessageResponse;
 import com.agh.shoppingListBackend.app.services.ItemService;
 import org.modelmapper.ModelMapper;
@@ -15,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/item")
@@ -56,8 +59,13 @@ public class ItemController {
         return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.deleteItem", null, LocaleContextHolder.getLocale())));
     }
 
-
-
+    @GetMapping( path = "/all/{list_id}" )
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getAllItems(@PathVariable(value = "list_id") Long listId ){
+        ItemsResponse itemsResponse = itemService.getAllItemsByListId(listId);
+        return ResponseEntity.ok(itemsResponse);
+    }
+    
     private Item mapItemDTOtoItem(ItemDTO itemDTO){
         return this.modelMapper.map(itemDTO, Item.class);
     }

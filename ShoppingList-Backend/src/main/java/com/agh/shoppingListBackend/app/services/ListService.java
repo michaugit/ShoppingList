@@ -6,52 +6,60 @@ import com.agh.shoppingListBackend.app.exepction.NotFoundException;
 import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.models.User;
 import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
+import com.agh.shoppingListBackend.app.payload.response.SingleListResponse;
 import com.agh.shoppingListBackend.app.repository.ListRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ListService {
     private final UserRepository userRepository;
     private final ListRepository listRepository;
+    private final ModelMapper modelMapper;
 
 
     @Autowired
-    public ListService(UserRepository userRepository, ListRepository listRepository){
+    public ListService(UserRepository userRepository, ListRepository listRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.listRepository = listRepository;
+        this.modelMapper = modelMapper;
     }
 
 
     @Transactional
-    public void addList(ShoppingList list){
+    public void addList(ShoppingList list) {
         User user = getCurrentUser();
         list.setUser(user);
         listRepository.save(list);
     }
 
     @Transactional
-    public void updateList(Long listId, ShoppingList updatedList){
+    public void updateList(Long listId, ShoppingList updatedList) {
         ShoppingList list = getListById(listId);
         User user = getCurrentUser();
 
-        if(!list.getUser().equals(user)){
+        if (!list.getUser().equals(user)) {
             throw new ForbiddenException("exception.listNotBelongToUser");
         }
 
-        if(!Objects.equals(list.getName(), updatedList.getName())){
+        if (!Objects.equals(list.getName(), updatedList.getName())) {
             list.setName(updatedList.getName());
         }
 
-        if(!Objects.equals(list.getDate(), updatedList.getDate())){
+        if (!Objects.equals(list.getDate(), updatedList.getDate())) {
             list.setDate(updatedList.getDate());
         }
 
@@ -60,11 +68,11 @@ public class ListService {
 
 
     @Transactional
-    public void deleteList(Long listId){
+    public void deleteList(Long listId) {
         ShoppingList list = getListById(listId);
         User user = getCurrentUser();
 
-        if(!list.getUser().equals(user)){
+        if (!list.getUser().equals(user)) {
             throw new ForbiddenException("exception.listNotBelongToUser");
         }
 
@@ -72,24 +80,33 @@ public class ListService {
     }
 
     @Transactional
-    public ListsResponse getAllLists(){
+    public ListsResponse getAllLists() {
         User user = getCurrentUser();
         ListsResponse listsResponse = new ListsResponse();
-        listsResponse.setShoppingLists(listRepository.findListsByUser(user).orElse(Collections.emptyList()));
+
+        listRepository.findListsByUser(user).ifPresent(
+                lists -> listsResponse.setShoppingLists(
+                                lists.stream()
+                                        .map(this::mapShoppingListToSingleListResponse)
+                                        .collect(Collectors.toList())));
         return listsResponse;
     }
 
-    public ShoppingList getListById(Long id){
+    private ShoppingList getListById(Long id) {
         return listRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("exception.listNotFound")
         );
     }
 
-    private User getCurrentUser(){
+    private User getCurrentUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         String username = userDetails.getUsername();
         return userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("Cannot found user"));
+    }
+
+    private SingleListResponse mapShoppingListToSingleListResponse(ShoppingList list) {
+        return this.modelMapper.map(list, SingleListResponse.class);
     }
 }
