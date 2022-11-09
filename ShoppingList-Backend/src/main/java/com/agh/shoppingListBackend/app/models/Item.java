@@ -1,11 +1,14 @@
 package com.agh.shoppingListBackend.app.models;
 
 import com.agh.shoppingListBackend.app.enums.Units;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "items")
 public class Item {
@@ -32,32 +35,5 @@ public class Item {
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
-    public Long getId(){ return id; }
-
-    public void setId(Long id){ this.id = id;}
-
-    public String getText(){ return text;}
-
-    public void setText(String text) {this.text = text;}
-
-    public Float getQuantity(){ return quantity;}
-
-    public void setQuantity(Float quantity) {this.quantity = quantity;}
-
-    public Units getUnit(){ return unit;}
-
-    public void setUnit(Units unit) {this.unit = unit;}
-
-    public byte[] getImage(){return this.image;}
-
-    public void setImage(byte[] image){this.image = image;}
-
-    public ShoppingList getList() {return list;}
-
-    public void setList(ShoppingList list) {this.list = list;}
-
-    public User getUser(){return user;}
-
-    public void setUser(User user) {this.user = user;}
 }
 

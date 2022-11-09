@@ -3,7 +3,6 @@ package com.agh.shoppingListBackend.app.controllers;
 import com.agh.shoppingListBackend.app.models.Item;
 import com.agh.shoppingListBackend.app.payload.request.ItemDTO;
 import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
-import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
 import com.agh.shoppingListBackend.app.payload.response.MessageResponse;
 import com.agh.shoppingListBackend.app.services.ItemService;
 import org.modelmapper.ModelMapper;
@@ -26,8 +25,8 @@ public class ItemController {
 
     private static final Logger logger = LoggerFactory.getLogger(ListController.class);
     private final ItemService itemService;
-    private ModelMapper modelMapper;
-    private MessageSource messageSource;
+    private final ModelMapper modelMapper;
+    private final MessageSource messageSource;
 
 
     @Autowired
@@ -65,7 +64,7 @@ public class ItemController {
         ItemsResponse itemsResponse = itemService.getAllItemsByListId(listId);
         return ResponseEntity.ok(itemsResponse);
     }
-    
+
     private Item mapItemDTOtoItem(ItemDTO itemDTO){
         return this.modelMapper.map(itemDTO, Item.class);
     }

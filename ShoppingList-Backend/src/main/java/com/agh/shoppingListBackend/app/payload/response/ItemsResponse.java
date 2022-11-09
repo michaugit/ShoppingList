@@ -11,5 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ItemsResponse {
+    private String listName;
     private List<SingleItemResponse> items = new ArrayList<>();
 }

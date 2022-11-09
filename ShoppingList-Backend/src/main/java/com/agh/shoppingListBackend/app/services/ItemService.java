@@ -109,6 +109,7 @@ public class ItemService {
         }
 
         ItemsResponse itemsResponse = new ItemsResponse();
+        itemsResponse.setListName(list.getName());
 
         itemRepository.findItemsByList(list).ifPresent(
                 items -> itemsResponse.setItems(
