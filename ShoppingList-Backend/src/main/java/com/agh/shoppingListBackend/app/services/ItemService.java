@@ -63,6 +63,7 @@ public class ItemService {
         if(!item.getUser().equals(user)){
             throw new ForbiddenException("exception.itemNotBelongToUser");
         }
+
         if(!Objects.equals(item.getList().getId(), updatedItem.getListId())){
             throw new ForbiddenException("exception.itemNotBelongToList");
         }
@@ -109,7 +110,9 @@ public class ItemService {
         }
 
         ItemsResponse itemsResponse = new ItemsResponse();
+        itemsResponse.setListId(list.getId());
         itemsResponse.setListName(list.getName());
+        itemsResponse.setDate(list.getDate().toString());
 
         itemRepository.findItemsByList(list).ifPresent(
                 items -> itemsResponse.setItems(
