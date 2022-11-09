@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import java.sql.Date;
 import java.util.Set;
 
-public class ListRequest {
+public class ListDTO {
     @NotBlank
     private String name;
 

@@ -9,8 +9,8 @@ import javax.validation.Valid;
 
 import com.agh.shoppingListBackend.app.enums.RoleEnum;
 import com.agh.shoppingListBackend.app.models.User;
-import com.agh.shoppingListBackend.app.payload.request.LoginRequest;
-import com.agh.shoppingListBackend.app.payload.request.SignupRequest;
+import com.agh.shoppingListBackend.app.payload.request.LoginDTO;
+import com.agh.shoppingListBackend.app.payload.request.SignupDTO;
 import com.agh.shoppingListBackend.app.payload.response.MessageResponse;
 import com.agh.shoppingListBackend.app.payload.response.UserInfoResponse;
 import com.agh.shoppingListBackend.app.repository.RoleRepository;
@@ -52,7 +52,7 @@ public class AuthController {
   JwtUtils jwtUtils;
 
   @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDTO loginRequest) {
 
     Authentication authentication = authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -74,7 +74,7 @@ public class AuthController {
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupDTO signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
     }

@@ -2,7 +2,7 @@ package com.agh.shoppingListBackend.app.payload.request;
 
 import javax.validation.constraints.NotBlank;
 
-public class LoginRequest {
+public class LoginDTO {
 	@NotBlank
 	private String username;
 
