@@ -5,8 +5,7 @@
 
 
   <button mat-button *ngIf="isLoggedIn" routerLink="user-lists">{{ 'navigation.user_lists' | translate}}</button>
-  <button mat-button *ngIf="isLoggedIn" (click)="logout()">
-    <mat-icon>logout</mat-icon> {{ 'navigation.logout' | translate}}</button>
+  <button mat-button *ngIf="isLoggedIn" (click)="logout()">{{ 'navigation.logout' | translate}}</button>
 
 
   <button mat-button *ngIf="!isLoggedIn" routerLink="login">{{ 'navigation.login' | translate}}</button>

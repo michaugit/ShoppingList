@@ -2,7 +2,7 @@
   <mat-card-content>
     <form *ngIf="!isLoggedIn" [formGroup]="form">
       <h2>{{ 'register.register_title' | translate }}</h2>
-      <mat-form-field class="full-width-input" appearance="outline">
+      <mat-form-field class="full-width-input" >
         <mat-label>{{ 'login.username' | translate }}</mat-label>
         <input matInput formControlName="username" required>
                     <mat-error *ngIf="form.controls['username'].hasError('required')">
@@ -13,7 +13,7 @@
                     </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="full-width-input" appearance="outline">
+      <mat-form-field class="full-width-input" >
         <mat-label>{{ 'register.password' | translate }}</mat-label>
         <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
@@ -29,7 +29,7 @@
                       </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="full-width-input" appearance="outline">
+      <mat-form-field class="full-width-input" >
         <mat-label>{{ 'register.password_repeat' | translate }}</mat-label>
         <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="passwordRepeat" required>
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
@@ -41,7 +41,6 @@
                 </mat-error>
       </mat-form-field>
       <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">
-        <mat-icon>login</mat-icon>
         <span class="login-button">{{ 'register.register_button' | translate }}</span></button>
     </form>
   </mat-card-content>
