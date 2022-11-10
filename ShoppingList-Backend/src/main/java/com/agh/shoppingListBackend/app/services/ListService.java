@@ -7,6 +7,7 @@ import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.models.User;
 import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
 import com.agh.shoppingListBackend.app.payload.response.SingleListResponse;
+import com.agh.shoppingListBackend.app.repository.ItemRepository;
 import com.agh.shoppingListBackend.app.repository.ListRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
@@ -28,13 +29,15 @@ import java.util.stream.Collectors;
 public class ListService {
     private final UserRepository userRepository;
     private final ListRepository listRepository;
+    private final ItemRepository itemRepository;
     private final ModelMapper modelMapper;
 
 
     @Autowired
-    public ListService(UserRepository userRepository, ListRepository listRepository, ModelMapper modelMapper) {
+    public ListService(UserRepository userRepository, ListRepository listRepository, ItemRepository itemRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.listRepository = listRepository;
+        this.itemRepository = itemRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -75,7 +78,8 @@ public class ListService {
         if (!list.getUser().equals(user)) {
             throw new ForbiddenException("exception.listNotBelongToUser");
         }
-
+        
+        list.getItems().forEach(itemRepository::delete);
         listRepository.delete(list);
     }
 
