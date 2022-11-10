@@ -35,7 +35,7 @@ export class AddUserListComponent implements OnInit {
     let name = this.form.get('name')?.value;
     let date = formatDate(this.form.get('date')?.value, 'yyyy-MM-dd', 'en_US')
 
-    this.userListService.create2({"name": name, "date": date}).subscribe({
+    this.userListService.create({"name": name, "date": date}).subscribe({
       next: () => {
         this.refreshUserLists.emit()
       },

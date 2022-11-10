@@ -22,20 +22,19 @@ export class UserListsService {
     return this.http.get<UserListsResponse>(USER_LISTS_API + 'all')
   }
 
+  create(listRequest: ListRequest): Observable<any> {
+    return this.http.post(USER_LISTS_API + 'add', listRequest, httpOptions)
+  }
+
+  update(list: List): Observable<any> {
+    let listRequest: ListRequest = {"name": list.name, "date": list.date}
+    return this.http.post(USER_LISTS_API + 'update/' + list.id, listRequest, httpOptions)
+  }
+
   delete(list: List): Observable<any> {
     return this.http.delete(USER_LISTS_API + 'delete/' + list.id)
   }
 
-  create(list: List): Observable<any> {
-    let request: ListRequest = new class implements ListRequest {
-      name = list.name;
-      date = list.date;
-    }
-    return this.http.post(USER_LISTS_API + 'add', request)
-  }
 
-  create2(listRequest: ListRequest): Observable<any> {
-    return this.http.post(USER_LISTS_API + 'add', listRequest, httpOptions)
-  }
 
 }

@@ -78,7 +78,7 @@ public class ListService {
         if (!list.getUser().equals(user)) {
             throw new ForbiddenException("exception.listNotBelongToUser");
         }
-        
+
         list.getItems().forEach(itemRepository::delete);
         listRepository.delete(list);
     }
