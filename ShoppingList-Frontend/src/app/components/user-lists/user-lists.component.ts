@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {List} from "../../models/list";
 import {TranslateService} from "@ngx-translate/core";
-import {FormGroup} from "@angular/forms";
+import {Router} from "@angular/router";
+import {StorageService} from "../../services/auth/storage.service";
+import {UserListsService} from "../../services/user-lists.service";
+import Swal from "sweetalert2";
+
 
 @Component({
   selector: 'app-user-lists',
@@ -12,21 +16,41 @@ export class UserListsComponent implements OnInit {
 
   lists: List[];
 
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private router: Router,
+              private userListsService: UserListsService, private storageService: StorageService) {
     this.lists = []
   }
 
   ngOnInit(): void {
-    this.loadData()
+    if (!this.storageService.isLoggedIn()) {
+      this.router.navigate(['/login'])
+    } else {
+      this.refreshUserLists()
+    }
   }
 
   removeList(list: List) {
     this.lists.splice(this.lists.indexOf(list), 1);
   }
 
-  loadData() {
-    this.lists.push(new List("Zakupy do domu", "12-02-2022"))
-    this.lists.push(new List("Zakupy do pracy", "22-02-2022"))
-    this.lists.push(new List("Zakupy do szkoły", "12-12-2022"))
+  refreshUserLists(): void {
+    this.userListsService.getUserLists().subscribe({
+      next: (data) => {
+        data.shoppingLists.forEach((shoppingList) =>{
+          if (this.lists.find(function (list){return list.id == shoppingList.id}) == undefined){
+            this.lists.push(new List(shoppingList.name, shoppingList.date, shoppingList.id));
+          }
+        })
+      },
+      error: err => {
+        Swal.fire({
+          title: this.translate.instant('common.fail'),
+          text: err.error.message,
+          icon: 'error',
+          showConfirmButton: false
+        })
+      }
+    });
   }
+
 }

@@ -1,9 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {List} from "../../../models/list";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
 import {FormGroupDirective} from '@angular/forms';
 import {formatDate} from '@angular/common';
+import {UserListsService} from "../../../services/user-lists.service";
+import Swal from "sweetalert2";
 
 
 @Component({
@@ -13,13 +15,14 @@ import {formatDate} from '@angular/common';
 })
 export class AddUserListComponent implements OnInit {
 
-  @Input()
-  lists!: List[]
+  @Output()
+  refreshUserLists: EventEmitter<any> = new EventEmitter();
 
   form!: FormGroup;
 
-  constructor(private translate: TranslateService,
-              private formBuilder: FormBuilder) {}
+  constructor(private translate: TranslateService, private formBuilder: FormBuilder,
+              private userListService: UserListsService) {
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -30,9 +33,21 @@ export class AddUserListComponent implements OnInit {
 
   addList() {
     let name = this.form.get('name')?.value;
-    let date = formatDate(this.form.get('date')?.value, 'dd-MM-yyyy', 'en_US')
+    let date = formatDate(this.form.get('date')?.value, 'yyyy-MM-dd', 'en_US')
 
-    this.lists.push(new List(name, date))
+    this.userListService.create2({"name": name, "date": date}).subscribe({
+      next: () => {
+        this.refreshUserLists.emit()
+      },
+      error: err => {
+        Swal.fire({
+          title: this.translate.instant('common.fail'),
+          text: err.error.message,
+          icon: 'error',
+          showConfirmButton: false
+        })
+      }
+    })
     this.form.reset();
   }
 

@@ -20,7 +20,7 @@ import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/item")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 public class ItemController {
 
     private static final Logger logger = LoggerFactory.getLogger(ListController.class);

@@ -32,13 +32,13 @@ export class EditUserListComponent implements OnInit {
 
   editList(): void{
     this.list.name = this.form.get('name')?.value
-    this.list.date = formatDate(this.form.get('date')?.value, 'dd-MM-yyyy', 'en_US')
+    this.list.date = formatDate(this.form.get('date')?.value, 'yyyy-MM-dd', 'en_US')
     this.list.isBeingEditing = false
   }
 
   formatDate(date: string): Date{
     let splitedData = date.split('-')
-    return new Date(splitedData[1] + '/' + splitedData[0] + '/' + splitedData[2])
+    return new Date(splitedData[1] + '/' + splitedData[2] + '/' + splitedData[0])
   }
 
 }

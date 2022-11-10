@@ -1,6 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {List} from "../../../models/list";
 import {Router} from "@angular/router";
+import {UserListsService} from "../../../services/user-lists.service";
+import Swal from "sweetalert2";
+import {TranslateService} from "@ngx-translate/core";
 
 
 
@@ -20,13 +23,31 @@ export class UserListComponent implements OnInit {
   @Output()
   public removeList: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router) { }
+  constructor(private translate: TranslateService, private router: Router,
+              private userListsService: UserListsService) { }
 
   ngOnInit(): void {
   }
 
   doEditable(list: List){
     list.isBeingEditing = true;
+  }
+
+
+  deleteList(list: List): void{
+    this.userListsService.delete(list).subscribe({
+      next: () => {
+        this.removeList.emit()
+      },
+      error: err => {
+        Swal.fire({
+          title: this.translate.instant('common.fail'),
+          text: err.error.message,
+          icon: 'error',
+          showConfirmButton: false
+        })
+      }
+    })
   }
 
   // goToList(): void{

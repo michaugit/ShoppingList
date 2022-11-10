@@ -11,7 +11,7 @@
     <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
   </button>
   <button matTooltip="{{'item_managing.delete_item' | translate}}" matTooltipPosition="above" mat-icon-button
-          (click)="removeList.emit()">
+          (click)="deleteList(list)">
     <mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
   </button>
 </div>

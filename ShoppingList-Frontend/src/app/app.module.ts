@@ -52,6 +52,7 @@ import { EditUserListComponent } from './components/user-lists/edit-user-list/ed
 import { UserListComponent } from './components/user-lists/user-list/user-list.component';
 import { MainNavigationComponent } from './components/main-navigation/main-navigation.component';
 
+import { httpInterceptorProviders } from './helpers/http.interceptor';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { MainNavigationComponent } from './components/main-navigation/main-navig
     MatNativeDateModule
   ],
   providers: [
+    httpInterceptorProviders,
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS},
   ],
