@@ -62,6 +62,18 @@ export class ListItemComponent implements OnInit {
 
   toggle(item: Item) {
     item.done = !item.done;
+    this.itemService.update(item).subscribe({
+      next: () => {},
+      error: err => {
+        item.done = !item.done
+        Swal.fire({
+          title: this.translate.instant('common.fail'),
+          text: err.error.message,
+          icon: 'error',
+          showConfirmButton: false
+        })
+      }
+    })
   }
 
 }

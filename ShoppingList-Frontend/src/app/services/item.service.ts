@@ -30,7 +30,13 @@ export class ItemService {
   }
 
   update(item: Item): Observable<any> {
-    let itemRequest: ItemRequest = { "text": item.text, "quantity": item.quantity, "unit": item.unit, "listId": item.listId}
+    let itemRequest: ItemRequest = {
+      "text": item.text,
+      "quantity": item.quantity,
+      "unit": item.unit,
+      "listId": item.listId,
+      "done": item.done
+    }
     return this.http.post(USER_ITEM_API + 'update/' + item.id, itemRequest, httpOptions)
   }
 

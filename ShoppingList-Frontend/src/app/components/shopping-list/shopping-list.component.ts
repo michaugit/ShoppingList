@@ -34,7 +34,7 @@ export class ShoppingListComponent implements OnInit {
       next: (data) => {
         data.items.forEach((item) =>{
           if (this.items.find(function (listItem){return listItem.id == item.id}) == undefined){
-            this.items.push(new Item(item.id, data.listId, item.text, item.quantity, item.unit));
+            this.items.push(new Item(item.id, data.listId, item.text, item.quantity, item.unit, item.done));
           }
         })
       },

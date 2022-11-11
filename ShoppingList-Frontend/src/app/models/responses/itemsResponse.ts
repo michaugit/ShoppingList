@@ -3,6 +3,7 @@ export interface Item {
   text: string;
   quantity: number;
   unit: string;
+  done: boolean;
 }
 
 export interface ListOfItems {

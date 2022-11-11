@@ -9,12 +9,13 @@ export class Item {
   done = false;
   isBeingEditing = false;
 
-  constructor(id: number, listId: number, text: string, num: number, unit: string, photo?: File) {
+  constructor(id: number, listId: number, text: string, num: number, unit: string, done: boolean, photo?: File) {
     this.id = id;
     this.listId = listId;
     this.text = text;
     this.quantity = num;
     this.unit = unit;
     this.photo = photo;
+    this.done = done;
   }
 }

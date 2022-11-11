@@ -80,6 +80,10 @@ public class ItemService {
             item.setUnit(updatedItem.getUnit());
         }
 
+        if(!Objects.equals(item.isDone(), updatedItem.isDone())){
+            item.setDone(updatedItem.isDone());
+        }
+
 //        if(!Objects.equals(item.getImage(), image){
 //            item.setImage(image);
 //        }

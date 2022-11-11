@@ -13,12 +13,14 @@ public class SingleItemResponse {
     private String text;
     private Float quantity;
     private Units unit;
+    private boolean done;
 
 
-    public SingleItemResponse(Long id, String text, Float quantity, Units unit){
+    public SingleItemResponse(Long id, String text, Float quantity, Units unit, boolean done){
         this.id = id;
         this.text = text;
         this.quantity = quantity;
         this.unit = unit;
+        this.done = done;
     }
 }

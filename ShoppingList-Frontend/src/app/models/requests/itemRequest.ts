@@ -3,4 +3,5 @@ export interface ItemRequest {
   quantity: number;
   unit: string;
   listId: number;
+  done: boolean;
 }

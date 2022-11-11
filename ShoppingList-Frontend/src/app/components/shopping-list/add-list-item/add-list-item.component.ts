@@ -51,7 +51,7 @@ export class AddListItemComponent implements OnInit {
   addItem(text: string, quantity: number, unit: string) {
     if (text === "") return;
 
-    this.itemService.create({'text': text, 'quantity': quantity, 'unit': unit, 'listId': this.listId!}).subscribe({
+    this.itemService.create({'text': text, 'quantity': quantity, 'unit': unit, 'listId': this.listId!, 'done': false}).subscribe({
       next: () => {
         this.refreshItems.emit()
       },

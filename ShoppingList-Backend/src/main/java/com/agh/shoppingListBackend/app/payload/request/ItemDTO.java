@@ -21,4 +21,7 @@ public class ItemDTO {
 
     @NotNull
     private Long listId;
+
+    @NotNull
+    private boolean done;
 }

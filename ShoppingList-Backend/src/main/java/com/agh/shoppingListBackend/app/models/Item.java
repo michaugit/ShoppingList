@@ -24,6 +24,9 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private Units unit;
 
+    @NotNull
+    private boolean done;
+
     @Lob
     private byte[] image;
 
