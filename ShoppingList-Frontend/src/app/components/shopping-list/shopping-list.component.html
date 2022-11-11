@@ -18,4 +18,4 @@
   </mat-list>
 </mat-card>
 
-<app-add-list-item [items]="items"></app-add-list-item>
+<app-add-list-item [listId]="listId" (refreshItems)="refreshItems()"></app-add-list-item>

@@ -1,10 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Item} from "../../../models/item";
 import {FormControl} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import UnitService from "../../../services/unitService";
 import CommonProductsService from "../../../services/commonProductsService";
+import {UserListsService} from "../../../services/user-lists.service";
+import {ItemService} from "../../../services/item.service";
+import Swal from "sweetalert2";
+
 
 @Component({
   selector: 'app-add-list-item',
@@ -14,7 +18,10 @@ import CommonProductsService from "../../../services/commonProductsService";
 export class AddListItemComponent implements OnInit {
 
   @Input()
-  items: Item[];
+  listId?: number;
+
+  @Output()
+  refreshItems: EventEmitter<any> = new EventEmitter();
 
   isValid = true;
   selectedUnit: string
@@ -28,8 +35,7 @@ export class AddListItemComponent implements OnInit {
   commonProducts: string[];
   filteredOptions: Observable<string[]> | undefined;
 
-  constructor(private translate: TranslateService) {
-    this.items = [];
+  constructor(private translate: TranslateService, private itemService: ItemService) {
     this.productName = new FormControl('');
     this.unitTypes = UnitService.getUnits()
     this.selectedUnit = UnitService.getDefaultUnit()
@@ -42,9 +48,23 @@ export class AddListItemComponent implements OnInit {
     );
   }
 
-  addItem(text: string, num: string, unit: string) {
+  addItem(text: string, quantity: number, unit: string) {
     if (text === "") return;
-    this.items.push(new Item(text, +num, unit, this.selectedFile));
+
+    this.itemService.create({'text': text, 'quantity': quantity, 'unit': unit, 'listId': this.listId!}).subscribe({
+      next: () => {
+        this.refreshItems.emit()
+      },
+      error: err => {
+        Swal.fire({
+          title: this.translate.instant('common.fail'),
+          text: err.error.message,
+          icon: 'error',
+          showConfirmButton: false
+        })
+      }
+    })
+
     this.filteredOptions = this.productName.valueChanges.pipe(
       startWith(''), map(value => this._filter(value || '')),
     );

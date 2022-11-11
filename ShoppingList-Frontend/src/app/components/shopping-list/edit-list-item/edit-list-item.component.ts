@@ -5,6 +5,8 @@ import {map, Observable, startWith} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import UnitService from "../../../services/unitService";
 import CommonProductsService from "../../../services/commonProductsService";
+import {ItemService} from "../../../services/item.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-edit-list-item',
@@ -30,7 +32,7 @@ export class EditListItemComponent implements OnInit {
   commonProducts: string[];
   filteredOptions: Observable<string[]> | undefined;
 
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private itemService: ItemService) {
     this.productName = new FormControl('')
     this.unitTypes = UnitService.getUnits()
     this.commonProducts = CommonProductsService.getCommonProducts()
@@ -47,10 +49,25 @@ export class EditListItemComponent implements OnInit {
 
   editItem(item: Item, text: string, num: string, unit: string) {
     item.text = text
-    item.num = +num
+    item.quantity = +num
     item.unit = unit
     item.isBeingEditing = false
     item.photo = this.selectedFile
+
+
+    this.itemService.update(item).subscribe({
+      next: () => {
+        this.item.isBeingEditing = false
+      },
+      error: err => {
+        Swal.fire({
+          title: this.translate.instant('common.fail'),
+          text: err.error.message,
+          icon: 'error',
+          showConfirmButton: false
+        })
+      }
+    })
   }
 
   loadPhoto() {

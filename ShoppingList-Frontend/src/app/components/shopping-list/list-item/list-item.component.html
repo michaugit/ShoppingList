@@ -3,7 +3,7 @@
     <span [ngClass]="{done:item.done}">{{index}}. </span>
     <div class="itemVisualisation">
       <span [ngClass]="{done:item.done}">{{item.text}}</span>
-      <span [ngClass]="{done:item.done}" id="itemDescription">{{item.num}} {{'units.' + item.unit | translate}}</span>
+      <span [ngClass]="{done:item.done}" id="itemDescription">{{item.quantity}} {{'units.' + item.unit | translate}}</span>
     </div>
   </mat-checkbox>
 
@@ -16,7 +16,7 @@
     <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
   </button>
   <button matTooltip="{{'item_managing.delete_item' | translate}}" matTooltipPosition="above" mat-icon-button
-          (click)="removeItem.emit()">
+          (click)="deleteItem(item)">
     <mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
   </button>
 </div>

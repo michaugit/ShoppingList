@@ -5,6 +5,8 @@ import {map, Observable, startWith} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import UnitService from "../../../services/unitService";
 import CommonProductsService from "../../../services/commonProductsService";
+import Swal from "sweetalert2";
+import {ItemService} from "../../../services/item.service";
 
 @Component({
   selector: 'app-list-item',
@@ -25,7 +27,7 @@ export class ListItemComponent implements OnInit {
 
   itemPhoto?: String
 
-  constructor() { }
+  constructor(private translate: TranslateService, private itemService: ItemService) { }
 
   ngOnInit(): void {
     if(this.item.photo !== undefined){
@@ -36,6 +38,22 @@ export class ListItemComponent implements OnInit {
         this.itemPhoto = e.target.result
       }
     }
+  }
+
+  deleteItem(item: Item){
+    this.itemService.delete(item).subscribe({
+      next: () => {
+        this.removeItem.emit()
+      },
+      error: err => {
+        Swal.fire({
+          title: this.translate.instant('common.fail'),
+          text: err.error.message,
+          icon: 'error',
+          showConfirmButton: false
+        })
+      }
+    })
   }
 
   doEditable(item: Item){

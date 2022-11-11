@@ -1,6 +1,6 @@
 <div class="list">
   <div class="listBody">
-    <a [routerLink]="['/shopping-list', list]" href="">
+    <a [routerLink]="['/shopping-list']" [queryParams]="{listId: list.id}" href="">
       <span id="name">{{list.name}}</span>
     </a>
     <span id="date">{{list.date}}</span>

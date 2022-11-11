@@ -39,10 +39,10 @@
   "count" : "szt.",
 
   "units" : {
-    "count" : "szt.",
-    "kg" : "kg",
-    "dag": "dag",
-    "g": "gram"
+    "COUNT" : "szt.",
+    "KG" : "kg",
+    "DAG": "dag",
+    "G": "gram"
   },
 
   "commonProducts" : {

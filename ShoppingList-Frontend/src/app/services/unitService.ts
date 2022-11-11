@@ -1,11 +1,11 @@
 export default class UnitService {
 
   static getUnits(): string[]{
-    return ['count', 'kg', 'dag', 'g']
+    return ['COUNT', 'KG', 'DAG', 'G']
   }
 
   static getDefaultUnit(): string {
-    return 'count'
+    return 'COUNT'
   }
 
 }
