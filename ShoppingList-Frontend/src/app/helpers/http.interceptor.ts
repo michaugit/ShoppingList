@@ -6,23 +6,17 @@ import {StorageService} from "../services/auth/storage.service";
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
-
   constructor(private storageService: StorageService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-      withCredentials: true,
-    });
+    req = req.clone({withCredentials: true});
 
     return next.handle(req).pipe(
       catchError((error) => {
-        if (
-          error instanceof HttpErrorResponse &&
-          !req.url.includes('auth/signin') &&
-          error.status === 401
-        ) {
-          return this.handle401Error(req, next);
+        if (error instanceof HttpErrorResponse && !req.url.includes('auth/signin') && error.status === 401) {
+          return this.handleError(req, next);
+        } else if (error instanceof HttpErrorResponse && !req.url.includes('auth/signin') && error.status === 0){ /* sometimes credentials weren't added*/
+          return this.handleError(req, next);
         }
 
         return throwError(() => error);
@@ -30,15 +24,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     );
   }
 
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-
-    //   if (this.storageService.isLoggedIn()) {
-    //     this.eventBusService.emit(new EventData('logout', null));
-    //   }
-    }
-
+  private handleError(request: HttpRequest<any>, next: HttpHandler) {
     return next.handle(request);
   }
 }

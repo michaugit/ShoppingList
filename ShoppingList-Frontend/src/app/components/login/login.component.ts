@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.login({"username": username, "password": password}).subscribe({
       next: data => {
-        console.log(data)
         this.storageService.saveUser(data);
         this.isLoggedIn = true;
         this.reloadPage()

@@ -36,8 +36,10 @@ export class UserListsComponent implements OnInit {
   refreshUserLists(): void {
     this.userListsService.getUserLists().subscribe({
       next: (data) => {
-        data.shoppingLists.forEach((shoppingList) =>{
-          if (this.lists.find(function (list){return list.id == shoppingList.id}) == undefined){
+        data.shoppingLists.forEach((shoppingList) => {
+          if (this.lists.find(function (list) {
+            return list.id == shoppingList.id
+          }) == undefined) {
             this.lists.push(new List(shoppingList.name, shoppingList.date, shoppingList.id));
           }
         })
