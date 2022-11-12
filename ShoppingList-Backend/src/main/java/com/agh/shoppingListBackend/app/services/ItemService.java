@@ -8,7 +8,6 @@ import com.agh.shoppingListBackend.app.models.User;
 import com.agh.shoppingListBackend.app.payload.request.ItemDTO;
 import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
 import com.agh.shoppingListBackend.app.payload.response.SingleItemResponse;
-import com.agh.shoppingListBackend.app.payload.response.SingleListResponse;
 import com.agh.shoppingListBackend.app.repository.ItemRepository;
 import com.agh.shoppingListBackend.app.repository.ListRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
@@ -20,7 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -121,8 +120,9 @@ public class ItemService {
         itemRepository.findItemsByList(list).ifPresent(
                 items -> itemsResponse.setItems(
                         items.stream()
-                        .map(this::mapItemToSingleItemResponse)
-                        .collect(Collectors.toList())
+                                .sorted(Comparator.comparing(Item::getId))
+                                .map(this::mapItemToSingleItemResponse)
+                                .collect(Collectors.toList())
                 )
         );
 

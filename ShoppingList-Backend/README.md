@@ -1,15 +1,5 @@
 # Spring Boot Server with Spring Security, PostgreSql and JWT
 
-## User Registration, Login and Authorization process.
-
-![spring-boot-login-example-flow](spring-boot-login-example-flow.png)
-
-## Spring Boot Server Architecture with Spring Security
-You can have an overview of our Spring Boot Server with the diagram below:
-
-![spring-boot-login-example-architecture](spring-boot-login-example-architecture.png)
-
-
 ## Dependency
 – If you want to use PostgreSQL:
 ```xml

@@ -1,15 +1,14 @@
 <mat-card>
   <h4>{{'item_managing.add_new_item' | translate}}</h4>
   <div class="add_item">
+    <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="clearForm(formDirective)">
     <div class="add_item_product_row">
       <mat-form-field id="newItem">
         <mat-label>{{'item_managing.item_name' | translate}}</mat-label>
-        <input type="text"
+        <input matInput type="text"
+               formControlName="text"
                placeholder="{{'item_managing.write_or_select' | translate}}"
-               matInput
-               [formControl]="productName"
-               [matAutocomplete]="auto"
-               #newItem>
+               [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{"commonProducts." + option | translate}}
@@ -18,37 +17,41 @@
       </mat-form-field>
 
       <mat-form-field id="num">
-        <input matInput placeholder="{{'item_managing.item_num' | translate}}" #num value="1">
+        <input matInput type="number"
+               formControlName="quantity"
+               placeholder="{{'item_managing.item_num' | translate}}">
       </mat-form-field>
 
       <mat-form-field id="unit">
-        <mat-select placeholder="{{'item_managing.item_unit' | translate}}" [(ngModel)]="selectedUnit">
+        <mat-select formControlName="unit" placeholder="{{'item_managing.item_unit' | translate}}">
           <mat-option *ngFor="let unit of unitTypes" [value]="unit">{{'units.' + unit | translate}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="add_item_image_row">
       <mat-form-field id="image">
-        <input matInput placeholder=" Dodaj obrazek" [value]="selectedFileName" readonly/>
+        <input matInput formControlName="image" placeholder="{{'item_managing.add_image' | translate}}" readonly/>
         <input type="file" id="fileInput" name="fileInput" accept="image/*"
                (change)="selectFiles($event)"
         />
       </mat-form-field>
 
-      <img mat-card-image class="preview" [src]="preview" [hidden]="preview == '' ">
+      <img mat-card-image class="preview" [src]="photoPreview" [hidden]="photoPreview === undefined ">
 
-      <button [hidden]="selectedFileName == ''" mat-raised-button color="primary"
-              (click)="deletePicture()">Usuń obrazek
+      <button  type="button" mat-raised-button color="primary"
+               [hidden]="selectedFile === undefined"
+               (click)="deletePicture()">{{'item_managing.delete_image' | translate}}
       </button>
     </div>
 
     <div class="add_buttons">
-      <button [disabled]="newItem.value == ''" mat-raised-button color="primary"
-              (click)="addItem(newItem.value, +num.value, selectedUnit); newItem.value = '' ; num.value= '1'">
+      <button mat-raised-button color="primary"
+              [disabled]="form.invalid"
+              (click)="addItem()">
         {{'item_managing.add_item' | translate}}</button>
-      <button mat-raised-button color="primary" (click)="cancel() ; num.value= '1'">
+      <button mat-raised-button color="primary" (click)="clearForm(formDirective)">
         {{'item_managing.cancel' | translate}}</button>
     </div>
-
+  </form>
   </div>
 </mat-card>

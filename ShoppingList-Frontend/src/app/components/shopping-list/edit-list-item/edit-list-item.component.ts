@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Item} from "../../../models/item";
-import {FormControl} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import UnitService from "../../../services/unitService";
@@ -21,41 +21,43 @@ export class EditListItemComponent implements OnInit {
   @Input()
   index!: number;
 
-  isValid = true;
   unitTypes: string[] = [];
-
-  selectedFile?: File
-  selectedFileName: string = ''
-  photoPreview?: string
-
-  productName: FormControl;
   commonProducts: string[];
   filteredOptions: Observable<string[]> | undefined;
 
-  constructor(private translate: TranslateService, private itemService: ItemService) {
-    this.productName = new FormControl('')
+  selectedFile?: File
+  photoPreview?: string
+
+  form!: FormGroup
+
+  constructor(private translate: TranslateService, private formBuilder: FormBuilder,
+              private itemService: ItemService) {
     this.unitTypes = UnitService.getUnits()
     this.commonProducts = CommonProductsService.getCommonProducts()
   }
 
   ngOnInit(): void {
-    this.productName.setValue(this.item.text)
-    this.filteredOptions = this.productName.valueChanges.pipe(
-      startWith(this.productName.value), map(value => this._filter(value || '')),
-    );
+    this.form = this.formBuilder.group({
+      text: [this.item.text, Validators.required],
+      quantity: [this.item.quantity],
+      unit: [this.item.unit],
+      image: [this.item.photo?.name]
+    });
 
+    this.filteredOptions = this.form.get('text')!.valueChanges.pipe(
+      startWith(this.form.get('text')!.value), map(value => this._filter(value || '')),
+    );
     this.loadPhoto()
   }
 
-  editItem(item: Item, text: string, num: string, unit: string) {
-    item.text = text
-    item.quantity = +num
-    item.unit = unit
-    item.isBeingEditing = false
-    item.photo = this.selectedFile
+  editItem() {
+    this.item.text = this.form.get('text')?.value
+    this.item.quantity = +this.form.get('quantity')?.value
+    this.item.unit = this.form.get('unit')?.value
+    this.item.photo = this.selectedFile
 
 
-    this.itemService.update(item).subscribe({
+    this.itemService.update(this.item).subscribe({
       next: () => {
         this.item.isBeingEditing = false
       },
@@ -73,7 +75,6 @@ export class EditListItemComponent implements OnInit {
   loadPhoto() {
     if (this.item.photo !== undefined) {
       this.selectedFile = this.item.photo
-      this.selectedFileName = this.item.photo.name!
 
       const reader = new FileReader();
       reader.readAsDataURL(this.item.photo)
@@ -91,12 +92,12 @@ export class EditListItemComponent implements OnInit {
 
   onSelectionChanged($event: any) {
     const translatedValue = this.translate.instant("commonProducts." + $event.option.value);
-    this.productName.setValue(translatedValue)
+    this.form.get('text')?.setValue(translatedValue)
   }
 
   selectFile(event: any): void {
     this.selectedFile = event.target.files[0]
-    this.selectedFileName = event.target.files[0].name
+    this.form.get('image')?.setValue(this.selectedFile!.name)
 
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0])
@@ -108,7 +109,6 @@ export class EditListItemComponent implements OnInit {
 
   deletePicture(): void {
     this.selectedFile = undefined
-    this.selectedFileName = ''
     this.photoPreview =  undefined
   }
 }

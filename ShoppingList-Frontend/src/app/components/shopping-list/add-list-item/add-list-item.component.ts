@@ -1,11 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Item} from "../../../models/item";
-import {FormControl} from "@angular/forms";
+import {FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import UnitService from "../../../services/unitService";
 import CommonProductsService from "../../../services/commonProductsService";
-import {UserListsService} from "../../../services/user-lists.service";
 import {ItemService} from "../../../services/item.service";
 import Swal from "sweetalert2";
 
@@ -18,40 +16,48 @@ import Swal from "sweetalert2";
 export class AddListItemComponent implements OnInit {
 
   @Input()
-  listId?: number;
+  listId!: number;
 
   @Output()
   refreshItems: EventEmitter<any> = new EventEmitter();
 
-  isValid = true;
-  selectedUnit: string
   unitTypes: string[] = [];
-
-  selectedFile?: File
-  selectedFileName: string = ''
-  preview: string = ''
-
-  productName: FormControl
   commonProducts: string[];
   filteredOptions: Observable<string[]> | undefined;
 
-  constructor(private translate: TranslateService, private itemService: ItemService) {
-    this.productName = new FormControl('');
+  selectedFile?: File
+  photoPreview?: string
+
+  form!: FormGroup
+
+  constructor(private translate: TranslateService, private formBuilder: FormBuilder,
+              private itemService: ItemService) {
     this.unitTypes = UnitService.getUnits()
-    this.selectedUnit = UnitService.getDefaultUnit()
     this.commonProducts = CommonProductsService.getCommonProducts()
   }
 
   ngOnInit(): void {
-    this.filteredOptions = this.productName.valueChanges.pipe(
-      startWith(this.productName.value), map(value => this._filter(value || '')),
+    this.form = this.formBuilder.group({
+      text: ['', Validators.required],
+      quantity: [''],
+      unit: [''],
+      image: ['']
+    });
+
+    this.setDefaultValues()
+    this.filteredOptions = this.form.get('text')!.valueChanges.pipe(
+      startWith(this.form.get('text')!.value), map(value => this._filter(value || '')),
     );
   }
 
-  addItem(text: string, quantity: number, unit: string) {
-    if (text === "") return;
-
-    this.itemService.create({'text': text, 'quantity': quantity, 'unit': unit, 'listId': this.listId!, 'done': false}).subscribe({
+  addItem() {
+    this.itemService.create({
+      'text': this.form.get('text')?.value,
+      'quantity': +this.form.get('quantity')?.value,
+      'unit': this.form.get('unit')?.value,
+      'listId': +this.listId,
+      'done': false
+    }).subscribe({
       next: () => {
         this.refreshItems.emit()
       },
@@ -64,12 +70,6 @@ export class AddListItemComponent implements OnInit {
         })
       }
     })
-
-    this.filteredOptions = this.productName.valueChanges.pipe(
-      startWith(''), map(value => this._filter(value || '')),
-    );
-    this.selectedUnit = UnitService.getDefaultUnit()
-    this.deletePicture()
   }
 
   private _filter(value: string): string[] {
@@ -80,34 +80,36 @@ export class AddListItemComponent implements OnInit {
 
   onSelectionChanged($event: any) {
     const translatedValue = this.translate.instant("commonProducts." + $event.option.value);
-    this.productName.setValue(translatedValue)
+    this.form.get('text')?.setValue(translatedValue)
   }
 
   selectFiles(event: any): void {
     this.selectedFile = event.target.files[0]
-    this.selectedFileName = event.target.files[0].name
+    this.form.get('image')?.setValue(this.selectedFile?.name)
 
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0])
 
     reader.onload = (e: any) => {
-      this.preview = e.target.result
+      this.photoPreview = e.target.result
     }
   }
 
-  deletePicture(): void {
-    this.selectedFile = undefined
-    this.selectedFileName = ''
-    this.preview = ''
-  }
-
-  cancel(): void {
-    this.selectedUnit = UnitService.getDefaultUnit()
-    this.productName.setValue('')
-    this.filteredOptions = this.productName.valueChanges.pipe(
-      startWith(this.productName.value), map(value => this._filter(value || '')),
-    );
+  clearForm(formDirective: FormGroupDirective): void {
+    this.form.reset();
+    formDirective.resetForm();
+    this.setDefaultValues()
     this.deletePicture()
   }
 
+  setDefaultValues(): void{
+    this.form.get('quantity')!.setValue('1')
+    this.form.get('unit')!.setValue(UnitService.getDefaultUnit())
+  }
+
+  deletePicture(): void{
+    this.selectedFile = undefined
+    this.photoPreview =  undefined
+    this.form.get('image')?.reset()
+  }
 }

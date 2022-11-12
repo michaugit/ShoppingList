@@ -1,13 +1,12 @@
 <div class="edit_item">
+  <form [formGroup]="form">
   <div class="edit_item_product_row">
     <mat-form-field id="name" >
       <mat-label>{{'item_managing.item_name' | translate}}</mat-label>
-      <input type="text"
+      <input matInput type="text"
+             formControlName="text"
              placeholder="{{'item_managing.write_or_select' | translate}}"
-             matInput
-             [formControl]="productName"
-             [matAutocomplete]="auto"
-             #name>
+             [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
           {{"commonProducts."+ option | translate}}
@@ -16,11 +15,13 @@
     </mat-form-field>
 
     <mat-form-field id="num">
-      <input matInput placeholder="{{'item_managing.item_num' | translate}}" [value]="item.quantity" #num>
+      <input matInput type="number"
+             formControlName="quantity"
+             placeholder="{{'item_managing.item_num' | translate}}" [value]="item.quantity" #num>
     </mat-form-field>
 
     <mat-form-field id="unit">
-      <mat-select placeholder="{{'item_managing.item_unit' | translate}}" [value]="item.unit" #editedUnit>
+      <mat-select formControlName="unit" placeholder="{{'item_managing.item_unit' | translate}}" [value]="item.unit" #editedUnit>
         <mat-option *ngFor="let unit of unitTypes" [value]="unit">{{'units.' + unit | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -28,7 +29,7 @@
 
   <div class="edit_item_image_row">
     <mat-form-field id="image">
-      <input matInput placeholder=" Dodaj obrazek" [value]="selectedFileName" readonly/>
+      <input matInput formControlName="image" placeholder="{{'item_managing.add_image' | translate}}"  readonly/>
       <input type="file" id="fileInput" name="fileInput" accept="image/*"
              (change)="selectFile($event)"
       />
@@ -37,16 +38,17 @@
     <img mat-card-image class="preview" [src]="photoPreview" [hidden]="photoPreview === undefined ">
 
     <button [hidden]="photoPreview === undefined" mat-raised-button color="primary"
-            (click)="deletePicture()">Usuń obrazek
+            (click)="deletePicture()">{{'item_managing.delete_image' | translate}}
     </button>
   </div>
 
   <div class="edit_buttons">
 
-    <button [disabled]="name.value == ''" mat-raised-button color="primary"
-            (click)="editItem(item ,name.value, num.value, editedUnit.value);
-                  name.value = ''; num.value= '1'">{{'item_managing.save' | translate}}</button>
+    <button  mat-raised-button color="primary"
+             [disabled]="form.invalid"
+            (click)="editItem()">{{'item_managing.save' | translate}}</button>
     <button mat-raised-button color="primary"
             (click)=" item.isBeingEditing = false">{{'item_managing.cancel' | translate}}</button>
   </div>
+  </form>
 </div>

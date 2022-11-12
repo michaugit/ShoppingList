@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 })
 export class ShoppingListComponent implements OnInit {
 
-  listId?: number;
+  listId!: number;
   items: Item[];
   isValid = true;
 

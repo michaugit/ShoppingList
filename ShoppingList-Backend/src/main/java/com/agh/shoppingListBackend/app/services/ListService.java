@@ -3,6 +3,7 @@ package com.agh.shoppingListBackend.app.services;
 
 import com.agh.shoppingListBackend.app.exepction.ForbiddenException;
 import com.agh.shoppingListBackend.app.exepction.NotFoundException;
+import com.agh.shoppingListBackend.app.models.Item;
 import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.models.User;
 import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
@@ -19,10 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,6 +89,7 @@ public class ListService {
         listRepository.findListsByUser(user).ifPresent(
                 lists -> listsResponse.setShoppingLists(
                                 lists.stream()
+                                        .sorted(Comparator.comparing(ShoppingList::getId))
                                         .map(this::mapShoppingListToSingleListResponse)
                                         .collect(Collectors.toList())));
         return listsResponse;

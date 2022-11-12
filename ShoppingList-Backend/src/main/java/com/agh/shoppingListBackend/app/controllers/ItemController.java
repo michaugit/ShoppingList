@@ -6,6 +6,7 @@ import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
 import com.agh.shoppingListBackend.app.payload.response.MessageResponse;
 import com.agh.shoppingListBackend.app.services.ItemService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class ItemController {
         this.itemService = itemService;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        modelMapper.addMappings(new PropertyMap<ItemDTO, Item>() {
+            @Override
+            protected void configure() {
+                skip(destination.getId());
+                skip(destination.getList());
+            }
+        });
     }
 
     @PostMapping( path ="/add")

@@ -34,7 +34,9 @@
     "item_unit": "Jednostka",
     "save": "Zapisz",
     "cancel" : "Anuluj",
-    "write_or_select" : "Wpisz lub wybierz"
+    "write_or_select" : "Wpisz lub wybierz",
+    "add_image": "Dodaj obrazek",
+    "delete_image": "Usuń obrazek"
   },
   "count" : "szt.",
 

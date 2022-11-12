@@ -20,7 +20,7 @@ export class MainNavigationComponent implements OnInit {
   ngOnInit(): void {
     if(this.storageService.isLoggedIn()){
       this.isLoggedIn = true
-      this.router.navigate(['/user-lists'])
+      // this.router.navigate(['/user-lists'])
     } else {
       this.router.navigate(['/login'])
     }
