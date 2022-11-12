@@ -57,7 +57,7 @@ export class AddListItemComponent implements OnInit {
       'unit': this.form.get('unit')?.value,
       'listId': +this.listId,
       'done': false
-    }).subscribe({
+    }, this.selectedFile).subscribe({
       next: () => {
         this.refreshItems.emit()
       },

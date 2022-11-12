@@ -30,14 +30,14 @@ export class ListItemComponent implements OnInit {
   constructor(private translate: TranslateService, private itemService: ItemService) { }
 
   ngOnInit(): void {
-    if(this.item.photo !== undefined){
-      const reader = new FileReader();
-      reader.readAsDataURL(this.item.photo)
-
-      reader.onload = (e: any) => {
-        this.itemPhoto = e.target.result
-      }
-    }
+    // if(this.item.image !== undefined){
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(this.item.photo)
+    //
+    //   reader.onload = (e: any) => {
+    //     this.itemPhoto = e.target.result
+    //   }
+    // }
   }
 
   deleteItem(item: Item){
@@ -62,7 +62,7 @@ export class ListItemComponent implements OnInit {
 
   toggle(item: Item) {
     item.done = !item.done;
-    this.itemService.update(item).subscribe({
+    this.itemService.update(this.item.id, item).subscribe({
       next: () => {},
       error: err => {
         item.done = !item.done

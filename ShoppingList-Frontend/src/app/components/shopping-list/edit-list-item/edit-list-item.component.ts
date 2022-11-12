@@ -7,6 +7,8 @@ import UnitService from "../../../services/unitService";
 import CommonProductsService from "../../../services/commonProductsService";
 import {ItemService} from "../../../services/item.service";
 import Swal from "sweetalert2";
+import {ItemResponse} from "../../../models/responses/itemResponse";
+import {ItemRequest} from "../../../models/requests/itemRequest";
 
 @Component({
   selector: 'app-edit-list-item',
@@ -41,7 +43,7 @@ export class EditListItemComponent implements OnInit {
       text: [this.item.text, Validators.required],
       quantity: [this.item.quantity],
       unit: [this.item.unit],
-      image: [this.item.photo?.name]
+      image: ['']
     });
 
     this.filteredOptions = this.form.get('text')!.valueChanges.pipe(
@@ -51,14 +53,17 @@ export class EditListItemComponent implements OnInit {
   }
 
   editItem() {
-    this.item.text = this.form.get('text')?.value
-    this.item.quantity = +this.form.get('quantity')?.value
-    this.item.unit = this.form.get('unit')?.value
-    this.item.photo = this.selectedFile
+    let itemRequest: ItemRequest = {
+      "text": this.form.get('text')?.value,
+      "quantity": +this.form.get('quantity')?.value,
+      "unit": this.form.get('unit')?.value,
+      "listId": this.item.listId,
+      "done": this.item.done
+    }
 
-
-    this.itemService.update(this.item).subscribe({
-      next: () => {
+    this.itemService.update(this.item.id, itemRequest, this.selectedFile).subscribe({
+      next: (itemResponse) => {
+        this.refreshItem(itemResponse)
         this.item.isBeingEditing = false
       },
       error: err => {
@@ -73,14 +78,8 @@ export class EditListItemComponent implements OnInit {
   }
 
   loadPhoto() {
-    if (this.item.photo !== undefined) {
-      this.selectedFile = this.item.photo
-
-      const reader = new FileReader();
-      reader.readAsDataURL(this.item.photo)
-      reader.onload = (e: any) => {
-        this.photoPreview = e.target.result
-      }
+    if (this.item.image != undefined) {
+      this.photoPreview = 'data:image/jpeg;base64,' + this.item.image
     }
   }
 
@@ -110,5 +109,22 @@ export class EditListItemComponent implements OnInit {
   deletePicture(): void {
     this.selectedFile = undefined
     this.photoPreview =  undefined
+    this.form.get('image')?.reset()
+  }
+
+  refreshItem(itemResponse: ItemResponse){
+    this.item.id = itemResponse.id;
+    this.item.text = itemResponse.text;
+    this.item.image = itemResponse.image;
+    this.item.unit = itemResponse.unit;
+    this.item.quantity = itemResponse.quantity;
+  }
+
+  getDynamicImagePlaceholder(): string{
+    if(this.item.image && this.photoPreview){
+      return this.translate.instant('item_managing.change_image');
+    } else {
+      return this.translate.instant('item_managing.add_image');
+    }
   }
 }

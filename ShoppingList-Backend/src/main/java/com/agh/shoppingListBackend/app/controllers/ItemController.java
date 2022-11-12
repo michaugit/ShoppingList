@@ -4,6 +4,7 @@ import com.agh.shoppingListBackend.app.models.Item;
 import com.agh.shoppingListBackend.app.payload.request.ItemDTO;
 import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
 import com.agh.shoppingListBackend.app.payload.response.MessageResponse;
+import com.agh.shoppingListBackend.app.payload.response.SingleItemResponse;
 import com.agh.shoppingListBackend.app.services.ItemService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -12,12 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/item")
@@ -44,19 +49,55 @@ public class ItemController {
         });
     }
 
-    @PostMapping( path ="/add")
+    @PostMapping( path ="/add", consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.MULTIPART_FORM_DATA_VALUE
+    })
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> addItem(@Valid @RequestBody ItemDTO itemDTO){
+    public ResponseEntity<?> addItem(@RequestPart(name="image", required=false) MultipartFile image,
+                                     @RequestPart("itemInfo") ItemDTO itemDTO){
         Item item = mapItemDTOtoItem(itemDTO);
-        itemService.addItem(item, itemDTO.getListId());
-        return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.addItem", null, LocaleContextHolder.getLocale())));
+        SingleItemResponse response;
+
+        if(image!=null) {
+            try {
+                response = itemService.addItem(item, itemDTO.getListId(), image);
+            } catch (IOException e) {
+                return ResponseEntity
+                        .status(HttpStatus.EXPECTATION_FAILED)
+                        .body(new MessageResponse(messageSource.getMessage(
+                                "exception.cannotSaveImage", null, LocaleContextHolder.getLocale())));
+            }
+        } else {
+            response = itemService.addItem(item, itemDTO.getListId());
+        }
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping( path ="/update/{id}")
+    @PostMapping( path ="/update/{id}", consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.MULTIPART_FORM_DATA_VALUE
+    })
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updateItem(@Valid @RequestBody ItemDTO itemDTO,  @PathVariable(value = "id") Long itemId){
-        itemService.updateItem(itemId, itemDTO);
-        return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.updateItem", null, LocaleContextHolder.getLocale())));
+    public ResponseEntity<?> updateItem(@RequestPart(name="image", required=false) MultipartFile image,
+                                        @RequestPart("itemInfo") ItemDTO itemDTO,
+                                        @PathVariable(value = "id") Long itemId){
+        Item item = mapItemDTOtoItem(itemDTO);
+        SingleItemResponse response;
+
+        if(image!=null) {
+            try {
+                response = itemService.updateItem(itemId, item, image);
+            } catch (IOException e) {
+                return ResponseEntity
+                        .status(HttpStatus.EXPECTATION_FAILED)
+                        .body(new MessageResponse(messageSource.getMessage(
+                                "exception.cannotSaveImage", null, LocaleContextHolder.getLocale())));
+            }
+        } else {
+            response = itemService.updateItem(itemId, item);
+        }
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping( path ="/delete/{id}")

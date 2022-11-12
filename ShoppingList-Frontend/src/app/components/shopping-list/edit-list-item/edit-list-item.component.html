@@ -29,7 +29,7 @@
 
   <div class="edit_item_image_row">
     <mat-form-field id="image">
-      <input matInput formControlName="image" placeholder="{{'item_managing.add_image' | translate}}"  readonly/>
+      <input matInput formControlName="image" placeholder="{{getDynamicImagePlaceholder()}}"  readonly/>
       <input type="file" id="fileInput" name="fileInput" accept="image/*"
              (change)="selectFile($event)"
       />
@@ -37,7 +37,7 @@
 
     <img mat-card-image class="preview" [src]="photoPreview" [hidden]="photoPreview === undefined ">
 
-    <button [hidden]="photoPreview === undefined" mat-raised-button color="primary"
+    <button [hidden]="photoPreview == undefined" mat-raised-button color="primary"
             (click)="deletePicture()">{{'item_managing.delete_image' | translate}}
     </button>
   </div>

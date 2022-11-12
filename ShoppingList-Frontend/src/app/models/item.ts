@@ -5,17 +5,17 @@ export class Item {
   text: string;
   quantity: number;
   unit: string;
-  photo?: File;
+  image?: string;
   done = false;
   isBeingEditing = false;
 
-  constructor(id: number, listId: number, text: string, num: number, unit: string, done: boolean, photo?: File) {
+  constructor(id: number, listId: number, text: string, num: number, unit: string, done: boolean, image?: string) {
     this.id = id;
     this.listId = listId;
     this.text = text;
     this.quantity = num;
     this.unit = unit;
-    this.photo = photo;
     this.done = done;
+    this.image = image;
   }
 }

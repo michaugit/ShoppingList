@@ -1,5 +1,5 @@
 <mat-card *ngIf="items.length > 0">
-  <h2>{{'item_managing.shopping_list' | translate}}</h2>
+  <h2>{{listTitle}}</h2>
   <mat-list class="shoppingList">
     <mat-list-item *ngFor="let item of items;let i = index">
       <mat-divider *ngIf="i != 0"></mat-divider>

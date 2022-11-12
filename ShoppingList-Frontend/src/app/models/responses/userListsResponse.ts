@@ -1,9 +1,5 @@
-export interface ShoppingList {
-  id: number;
-  name: string;
-  date: string;
-}
+import {SimpleListResponse} from "./simpleListResponse";
 
 export interface UserListsResponse {
-  shoppingLists: ShoppingList[];
+  shoppingLists: SimpleListResponse[];
 }

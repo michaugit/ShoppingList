@@ -7,8 +7,8 @@
     </div>
   </mat-checkbox>
 
-  <img mat-card-image [ngClass]="{done:item.done}" class="itemPhoto" [src]="[itemPhoto]"
-       [hidden]="itemPhoto === undefined">
+  <img mat-card-image [ngClass]="{done:item.done}" class="itemPhoto" [src]="'data:image/jpeg;base64,' + item.image"
+       [hidden]="item.image == undefined">
 
 
   <button matTooltip="{{'item_managing.edit_item' | translate}}" matTooltipPosition="above" mat-icon-button

@@ -36,7 +36,8 @@
     "cancel" : "Anuluj",
     "write_or_select" : "Wpisz lub wybierz",
     "add_image": "Dodaj obrazek",
-    "delete_image": "Usuń obrazek"
+    "delete_image": "Usuń obrazek",
+    "change_image": "Zmień obrazek"
   },
   "count" : "szt.",
 

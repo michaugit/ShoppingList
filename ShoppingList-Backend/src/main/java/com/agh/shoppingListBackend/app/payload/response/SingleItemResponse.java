@@ -13,8 +13,8 @@ public class SingleItemResponse {
     private String text;
     private Float quantity;
     private Units unit;
+    private byte[] image;
     private boolean done;
-
 
     public SingleItemResponse(Long id, String text, Float quantity, Units unit, boolean done){
         this.id = id;

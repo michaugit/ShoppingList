@@ -1,5 +1,3 @@
-import {ShoppingList} from "./responses/userListsResponse";
-
 export class List{
   name: string;
   date: string;

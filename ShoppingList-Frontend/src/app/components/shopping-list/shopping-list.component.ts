@@ -14,8 +14,9 @@ import Swal from "sweetalert2";
 export class ShoppingListComponent implements OnInit {
 
   listId!: number;
+  listTitle?: string;
   items: Item[];
-  isValid = true;
+
 
   constructor(private route: ActivatedRoute, private translate: TranslateService,
               private itemService: ItemService) {
@@ -32,9 +33,10 @@ export class ShoppingListComponent implements OnInit {
   refreshItems(){
     this.itemService.getListItems(this.listId!).subscribe({
       next: (data) => {
+        this.listTitle = data.listName;
         data.items.forEach((item) =>{
           if (this.items.find(function (listItem){return listItem.id == item.id}) == undefined){
-            this.items.push(new Item(item.id, data.listId, item.text, item.quantity, item.unit, item.done));
+            this.items.push(new Item(item.id, data.listId, item.text, item.quantity, item.unit, item.done, item.image));
           }
         })
       },
