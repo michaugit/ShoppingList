@@ -4,6 +4,7 @@ import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.payload.request.ListDTO;
 import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
 import com.agh.shoppingListBackend.app.payload.response.MessageResponse;
+import com.agh.shoppingListBackend.app.payload.response.SimpleListResponse;
 import com.agh.shoppingListBackend.app.services.ListService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -38,16 +39,16 @@ public class ListController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addList(@Valid @RequestBody ListDTO listDTO){
         ShoppingList list = mapListDTOtoList(listDTO);
-        listService.addList(list);
-        return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.addList", null, LocaleContextHolder.getLocale())));
+        SimpleListResponse response = listService.addList(list);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping( path ="/update/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateList(@Valid @RequestBody ListDTO listDTO,  @PathVariable(value = "id") Long listId){
         ShoppingList list = mapListDTOtoList(listDTO);
-        listService.updateList(listId, list);
-        return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.updateList", null, LocaleContextHolder.getLocale())));
+        SimpleListResponse response = listService.updateList(listId, list);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping( path ="/delete/{id}")

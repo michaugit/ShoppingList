@@ -1,6 +1,5 @@
 package com.agh.shoppingListBackend.app.payload.response;
 
-import com.agh.shoppingListBackend.app.models.ShoppingList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 public class ListsResponse implements Serializable {
-    private List<SingleListResponse> shoppingLists = new ArrayList<>();
+    private List<SimpleListResponse> shoppingLists = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

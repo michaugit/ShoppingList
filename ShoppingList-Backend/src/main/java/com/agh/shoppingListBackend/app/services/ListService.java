@@ -3,11 +3,10 @@ package com.agh.shoppingListBackend.app.services;
 
 import com.agh.shoppingListBackend.app.exepction.ForbiddenException;
 import com.agh.shoppingListBackend.app.exepction.NotFoundException;
-import com.agh.shoppingListBackend.app.models.Item;
 import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.models.User;
 import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
-import com.agh.shoppingListBackend.app.payload.response.SingleListResponse;
+import com.agh.shoppingListBackend.app.payload.response.SimpleListResponse;
 import com.agh.shoppingListBackend.app.repository.ItemRepository;
 import com.agh.shoppingListBackend.app.repository.ListRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
@@ -15,7 +14,6 @@ import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -41,14 +39,15 @@ public class ListService {
 
 
     @Transactional
-    public void addList(ShoppingList list) {
+    public SimpleListResponse addList(ShoppingList list) {
         User user = getCurrentUser();
         list.setUser(user);
         listRepository.save(list);
+        return mapShoppingListToSingleListResponse(list);
     }
 
     @Transactional
-    public void updateList(Long listId, ShoppingList updatedList) {
+    public SimpleListResponse updateList(Long listId, ShoppingList updatedList) {
         ShoppingList list = getListById(listId);
         User user = getCurrentUser();
 
@@ -65,6 +64,7 @@ public class ListService {
         }
 
         listRepository.save(list);
+        return mapShoppingListToSingleListResponse(list);
     }
 
 
@@ -109,7 +109,7 @@ public class ListService {
                 () -> new UsernameNotFoundException("Cannot found user"));
     }
 
-    private SingleListResponse mapShoppingListToSingleListResponse(ShoppingList list) {
-        return this.modelMapper.map(list, SingleListResponse.class);
+    private SimpleListResponse mapShoppingListToSingleListResponse(ShoppingList list) {
+        return this.modelMapper.map(list, SimpleListResponse.class);
     }
 }
