@@ -1,9 +1,13 @@
 package com.agh.shoppingListBackend.app.models;
 
 import com.agh.shoppingListBackend.app.enums.RoleEnum;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -15,27 +19,9 @@ public class Role {
   @Column(length = 20)
   private RoleEnum name;
 
-  public Role() {
-
-  }
+  public Role() { }
 
   public Role(RoleEnum name) {
-    this.name = name;
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public RoleEnum getName() {
-    return name;
-  }
-
-  public void setName(RoleEnum name) {
     this.name = name;
   }
 }

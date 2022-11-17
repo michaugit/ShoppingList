@@ -43,11 +43,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Locale;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -151,4 +151,41 @@ public class AuthControllerTest {
         verify(testRoleRepository).findByName(RoleEnum.ROLE_USER);
 
     }
+
+    @Test
+    @WithMockUser
+    void testRegisterUserWithRole() throws Exception{
+        SignupDTO signupDTO = new SignupDTO();
+
+        signupDTO.setUsername("user");
+        signupDTO.setPassword("pass");
+        signupDTO.setRole(Set.of(RoleEnum.ROLE_USER.toString()));
+
+        when(testUserRepository.existsByUsername(signupDTO.getUsername())).thenReturn(false);
+        when(testRoleRepository.findByName(RoleEnum.ROLE_USER)).thenReturn(java.util.Optional.of(new Role()));
+
+        mockMvc.perform(post("/api/auth/signup")
+                .content(objectMapper.writeValueAsString(signupDTO))
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf()))
+                .andExpect(status().isOk());
+
+        verify(testUserRepository).existsByUsername(signupDTO.getUsername());
+        verify(testRoleRepository).findByName(RoleEnum.ROLE_USER);
+    }
+
+    @Test
+    @WithMockUser
+    void testLogout() throws Exception {
+        ResponseCookie responseCookie = ResponseCookie.from("test","test").build();
+
+        when(jwtUtils.getCleanJwtCookie()).thenReturn(responseCookie);
+        mockMvc.perform(post("/api/auth/signout")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf()))
+                .andExpect(status().isOk());
+
+        verify(jwtUtils).getCleanJwtCookie();
+    }
+
 }

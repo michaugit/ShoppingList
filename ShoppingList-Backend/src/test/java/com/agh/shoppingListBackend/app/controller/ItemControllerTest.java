@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.IOException;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -106,6 +108,31 @@ public class ItemControllerTest {
         verify(testItemService).addItem(item, listId, image);
     }
 
+    @Test
+    @WithMockUser
+    void testAddItemWithImageException() throws Exception {
+        Long listId = 1L;
+        ItemDTO itemDTO = new ItemDTO();
+        itemDTO.setText("testList");
+        itemDTO.setListId(listId);
+        Item item = modelMapper.map(itemDTO, Item.class);
+
+        MockMultipartFile itemInfo = new MockMultipartFile("itemInfo", "",
+                "application/json", objectMapper.writeValueAsBytes(itemDTO));
+        MockMultipartFile image = new MockMultipartFile("image", new byte[1]);
+
+        when(testItemService.addItem(item, listId, image)).thenThrow(new IOException());
+
+        mockMvc.perform(multipart("/api/item/add")
+                .file(itemInfo)
+                .file(image)
+                .with(csrf()))
+                .andExpect(status().isExpectationFailed())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        verify(testItemService).addItem(item, listId, image);
+    }
+
 
     @Test
     @WithMockUser
@@ -154,6 +181,32 @@ public class ItemControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(objectMapper.writeValueAsString(new SingleItemResponse())));
+
+        verify(testItemService).updateItem(itemId, item, image);
+    }
+
+    @Test
+    @WithMockUser
+    void testUpdateItemWithImageException() throws Exception {
+        Long itemId = 1L;
+        ItemDTO itemDTO = new ItemDTO();
+        itemDTO.setText("testList");
+        itemDTO.setListId(2L);
+        Item item = modelMapper.map(itemDTO, Item.class);
+
+
+        MockMultipartFile itemInfo = new MockMultipartFile("itemInfo", "",
+                "application/json", objectMapper.writeValueAsBytes(itemDTO));
+        MockMultipartFile image = new MockMultipartFile("image", new byte[1]);
+
+        when(testItemService.updateItem(itemId, item, image)).thenThrow(new IOException());
+
+        mockMvc.perform(multipart("/api/item/update/{id}", itemId)
+                .file(itemInfo)
+                .file(image)
+                .with(csrf()))
+                .andExpect(status().isExpectationFailed())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         verify(testItemService).updateItem(itemId, item, image);
     }

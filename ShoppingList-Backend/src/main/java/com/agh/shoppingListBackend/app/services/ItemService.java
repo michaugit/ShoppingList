@@ -74,17 +74,32 @@ public class ItemService {
 
     @Transactional
     public SingleItemResponse updateItem(Long itemId, Item updatedItem){
-        Item item = checkAndReplaceChanges(itemId, updatedItem);
+        Item item = getItemById(itemId);
+        User user = getCurrentUser();
 
-        itemRepository.save(item);
-        return mapItemToSingleItemResponse(item);
-    }
+        if(!item.getUser().equals(user)){
+            throw new ForbiddenException("exception.itemNotBelongToUser");
+        }
 
-    @Transactional
-    public SingleItemResponse updateItem(Long itemId, Item updatedItem, MultipartFile image) throws IOException {
-        Item item = checkAndReplaceChanges(itemId, updatedItem);
+        if(!Objects.equals(item.getList().getId(), updatedItem.getList().getId())){
+            throw new ForbiddenException("exception.itemNotBelongToList");
+        }
 
-        updatedItem.setImage(ImageConverter.compressBytes(image.getBytes()));
+        if(!Objects.equals(item.getText(), updatedItem.getText())){
+            item.setText(updatedItem.getText());
+        }
+
+        if(!Objects.equals(item.getQuantity(), updatedItem.getQuantity())){
+            item.setQuantity(updatedItem.getQuantity());
+        }
+
+        if(!Objects.equals(item.getUnit(), updatedItem.getUnit())){
+            item.setUnit(updatedItem.getUnit());
+        }
+
+        if(!Objects.equals(item.isDone(), updatedItem.isDone())){
+            item.setDone(updatedItem.isDone());
+        }
 
         if(!Arrays.equals(item.getImage(), updatedItem.getImage())){
             item.setImage(updatedItem.getImage());
@@ -92,6 +107,12 @@ public class ItemService {
 
         itemRepository.save(item);
         return mapItemToSingleItemResponse(item);
+    }
+
+    @Transactional
+    public SingleItemResponse updateItem(Long itemId, Item updatedItem, MultipartFile image) throws IOException {
+        updatedItem.setImage(ImageConverter.compressBytes(image.getBytes()));
+        return updateItem(itemId, updatedItem);
     }
 
 
@@ -143,7 +164,7 @@ public class ItemService {
 
     private ShoppingList getListById(Long id){
         return listRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("exception.itemNotFound")
+                () -> new NotFoundException("exception.listNotFound")
         );
     }
 
@@ -161,37 +182,6 @@ public class ItemService {
             singleItemResponse.setImage(ImageConverter.decompressBytes(item.getImage()));
         }
         return singleItemResponse;
-    }
-
-    private Item checkAndReplaceChanges(Long itemId, Item updatedItem){
-        Item item = getItemById(itemId);
-        User user = getCurrentUser();
-
-        if(!item.getUser().equals(user)){
-            throw new ForbiddenException("exception.itemNotBelongToUser");
-        }
-
-        if(!Objects.equals(item.getList().getId(), updatedItem.getList().getId())){
-            throw new ForbiddenException("exception.itemNotBelongToList");
-        }
-
-        if(!Objects.equals(item.getText(), updatedItem.getText())){
-            item.setText(updatedItem.getText());
-        }
-
-        if(!Objects.equals(item.getQuantity(), updatedItem.getQuantity())){
-            item.setQuantity(updatedItem.getQuantity());
-        }
-
-        if(!Objects.equals(item.getUnit(), updatedItem.getUnit())){
-            item.setUnit(updatedItem.getUnit());
-        }
-
-        if(!Objects.equals(item.isDone(), updatedItem.isDone())){
-            item.setDone(updatedItem.isDone());
-        }
-
-        return item;
     }
 
 }
