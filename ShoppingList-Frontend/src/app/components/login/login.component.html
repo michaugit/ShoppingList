@@ -20,19 +20,7 @@
         <!--        </mat-error>-->
       </mat-form-field>
 
-<!--      <mat-form-field class="full-width-input" appearance="outline">-->
-<!--        <mat-label>{{ 'register.password_replay' | translate }}</mat-label>-->
-<!--        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>-->
-<!--        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"-->
-<!--                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">-->
-<!--          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>-->
-<!--        </button>-->
-<!--        &lt;!&ndash;        <mat-error>&ndash;&gt;-->
-<!--        &lt;!&ndash;          {{ 'manage-users.login.password_error' | translate}}&ndash;&gt;-->
-<!--        &lt;!&ndash;        </mat-error>&ndash;&gt;-->
-<!--      </mat-form-field>-->
-
-      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">
+      <button class="login-btn" mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">
         <span class="login-button">{{ 'login.login_button' | translate }}</span></button>
     </form>
 </mat-card>

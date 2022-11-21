@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [
         AppComponent
       ],
@@ -22,10 +24,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('ShoppingList-Frontend');
   });
 
-  it('should render title', () => {
+  it('should contain main-navigation', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('ShoppingList-Frontend app is running!');
+    expect(compiled.querySelector('app-main-navigation')).toBeDefined()
   });
 });

@@ -70,6 +70,7 @@ import { httpInterceptorProviders } from './helpers/http.interceptor';
     MainNavigationComponent
   ],
   imports: [
+    FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserModule,

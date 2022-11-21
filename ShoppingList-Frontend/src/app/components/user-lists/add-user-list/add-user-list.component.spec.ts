@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddUserListComponent } from './add-user-list.component';
 
-describe('AddUserListComponent', () => {
+xdescribe('AddUserListComponent', () => {
   let component: AddUserListComponent;
   let fixture: ComponentFixture<AddUserListComponent>;
 

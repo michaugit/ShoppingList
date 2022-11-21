@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditListItemComponent } from './edit-list-item.component';
 
-describe('EditListItemComponent', () => {
+xdescribe('EditListItemComponent', () => {
   let component: EditListItemComponent;
   let fixture: ComponentFixture<EditListItemComponent>;
 

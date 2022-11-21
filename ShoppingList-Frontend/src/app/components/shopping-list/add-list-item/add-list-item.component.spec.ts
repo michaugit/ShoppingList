@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddListItemComponent } from './add-list-item.component';
 
-describe('AddListItemComponent', () => {
+xdescribe('AddListItemComponent', () => {
   let component: AddListItemComponent;
   let fixture: ComponentFixture<AddListItemComponent>;
 
