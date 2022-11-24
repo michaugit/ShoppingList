@@ -1,13 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import {TranslateModule} from "@ngx-translate/core";
+import {MainNavigationComponent} from "./components/main-navigation/main-navigation.component";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule, MatToolbarModule],
       declarations: [
-        AppComponent
+        AppComponent,
+        MainNavigationComponent,
       ],
     }).compileComponents();
   });

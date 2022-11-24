@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
     if (this.storageService.isLoggedIn()) {
-      this.router.navigate(['/user-lists']).then(() => this.reloadPage());
+      this.router.navigate(['/user-lists'])
+        .then(() => this.reloadPage());
     }
 
   }
