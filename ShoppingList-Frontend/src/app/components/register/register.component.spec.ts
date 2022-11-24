@@ -58,7 +58,7 @@ describe('RegisterComponent', () => {
 
   it('to long filled password should be invalid', ()=> {
     const {password} = component.form.controls
-    password.setValue("above25signsPasswordAbove25signsPasswordAbove25signsPassword")
+    password.setValue('x'.repeat(26))
     expect(password.valid).toBeFalse()
   })
 
@@ -135,6 +135,7 @@ describe('RegisterComponent', () => {
     spyOn(authService, 'register').and.returnValue(Rx.of(response))
     spyOn(component, 'reloadPage')
     const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+    const spySweetAlert = spyOn(Swal ,'fire').and.callThrough()
 
     component.onSubmit();
     expect(Swal.isVisible()).toBeTruthy()
@@ -142,6 +143,7 @@ describe('RegisterComponent', () => {
     tick(1000)
 
     expect(spyRouter).toHaveBeenCalledWith(['/login'])
+    expect(spySweetAlert).toHaveBeenCalled()
   }));
 
   it('test form onSubmit() with error response', fakeAsync(() => {

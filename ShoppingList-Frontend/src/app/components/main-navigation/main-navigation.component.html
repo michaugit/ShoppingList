@@ -2,11 +2,11 @@
   <span>ShoppingListsApp</span>
   <span class="spacer"></span>
 
-  <button mat-button *ngIf="isLoggedIn" routerLink="user-lists">{{ 'navigation.user_lists' | translate}}</button>
-  <button mat-button *ngIf="isLoggedIn" (click)="logout()">{{ 'navigation.logout' | translate}}</button>
+  <button class="user_lists_btn" mat-button *ngIf="isLoggedIn" routerLink="user-lists">{{ 'navigation.user_lists' | translate}}</button>
+  <button class="logout_btn" mat-button *ngIf="isLoggedIn" (click)="logout()">{{ 'navigation.logout' | translate}}</button>
 
-  <button mat-button *ngIf="!isLoggedIn" routerLink="login">{{ 'navigation.login' | translate}}</button>
-  <button mat-button *ngIf="!isLoggedIn" routerLink="register">{{ 'navigation.register' | translate}}</button>
+  <button class="login_btn" mat-button *ngIf="!isLoggedIn" routerLink="login">{{ 'navigation.login' | translate}}</button>
+  <button class="register_btn" mat-button *ngIf="!isLoggedIn" routerLink="register">{{ 'navigation.register' | translate}}</button>
 
 </mat-toolbar>
 
