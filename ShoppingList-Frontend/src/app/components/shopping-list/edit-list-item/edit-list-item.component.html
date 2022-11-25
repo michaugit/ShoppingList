@@ -3,7 +3,7 @@
   <div class="edit_item_product_row">
     <mat-form-field id="name" >
       <mat-label>{{'item_managing.item_name' | translate}}</mat-label>
-      <input matInput type="text"
+      <input class="text-input" matInput type="text"
              formControlName="text"
              placeholder="{{'item_managing.write_or_select' | translate}}"
              [matAutocomplete]="auto">
@@ -44,10 +44,10 @@
 
   <div class="edit_buttons">
 
-    <button  mat-raised-button color="primary"
+    <button class="edit_button" mat-raised-button color="primary"
              [disabled]="form.invalid"
             (click)="editItem()">{{'item_managing.save' | translate}}</button>
-    <button mat-raised-button color="primary"
+    <button class="cancel_button" mat-raised-button color="primary"
             (click)=" item.isBeingEditing = false">{{'item_managing.cancel' | translate}}</button>
   </div>
   </form>

@@ -5,7 +5,7 @@
     <div class="add_item_product_row">
       <mat-form-field id="newItem">
         <mat-label>{{'item_managing.item_name' | translate}}</mat-label>
-        <input matInput type="text"
+        <input class="text-input" matInput type="text"
                formControlName="text"
                placeholder="{{'item_managing.write_or_select' | translate}}"
                [matAutocomplete]="auto">
@@ -45,11 +45,11 @@
     </div>
 
     <div class="add_buttons">
-      <button mat-raised-button color="primary"
+      <button class="add_button" mat-raised-button color="primary"
               [disabled]="form.invalid"
               (click)="addItem()">
         {{'item_managing.add_item' | translate}}</button>
-      <button mat-raised-button color="primary" (click)="clearForm(formDirective)">
+      <button class="cancel_button" mat-raised-button color="primary" (click)="clearForm(formDirective)">
         {{'item_managing.cancel' | translate}}</button>
     </div>
   </form>
