@@ -11,6 +11,10 @@ import {TranslateModule} from "@ngx-translate/core";
 import {CommonModule} from "@angular/common";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatListItem, MatListModule} from "@angular/material/list";
+import {MatDatepicker, MatDatepickerModule} from "@angular/material/datepicker";
 
 
 export const materialTestImports = [MatFormFieldModule,
@@ -20,7 +24,11 @@ export const materialTestImports = [MatFormFieldModule,
   MatCardModule,
   MatToolbarModule,
   MatAutocompleteModule,
-  MatSelectModule]
+  MatSelectModule,
+  MatCheckboxModule,
+  MatListModule,
+  MatDatepickerModule,
+  MatTooltipModule]
 
 export const commonTestImports = [FormsModule,
   CommonModule,

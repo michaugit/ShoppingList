@@ -1,5 +1,5 @@
 <div class="item">
-  <mat-checkbox (change)="toggle(item)" [checked]="item.done" color="primary">
+  <mat-checkbox id=checkbox [checked]="item.done" (change)="toggle(item)"  color="primary">
     <span [ngClass]="{done:item.done}">{{index}}. </span>
     <div class="itemVisualisation">
       <span [ngClass]="{done:item.done}">{{item.text}}</span>
@@ -11,11 +11,11 @@
        [hidden]="item.image == undefined">
 
 
-  <button matTooltip="{{'item_managing.edit_item' | translate}}" matTooltipPosition="above" mat-icon-button
+  <button class="edit_button" matTooltip="{{'item_managing.edit_item' | translate}}" matTooltipPosition="above" mat-icon-button
           (click)="doEditable(item)">
     <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
   </button>
-  <button matTooltip="{{'item_managing.delete_item' | translate}}" matTooltipPosition="above" mat-icon-button
+  <button class="delete_button" matTooltip="{{'item_managing.delete_item' | translate}}" matTooltipPosition="above" mat-icon-button
           (click)="deleteItem(item)">
     <mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
   </button>

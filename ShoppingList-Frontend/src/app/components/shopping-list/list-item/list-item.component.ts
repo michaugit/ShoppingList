@@ -24,21 +24,9 @@ export class ListItemComponent implements OnInit {
   @Output()
   public removeItem: EventEmitter<any> = new EventEmitter();
 
-
-  itemPhoto?: String
-
   constructor(private translate: TranslateService, private itemService: ItemService) { }
 
-  ngOnInit(): void {
-    // if(this.item.image !== undefined){
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(this.item.photo)
-    //
-    //   reader.onload = (e: any) => {
-    //     this.itemPhoto = e.target.result
-    //   }
-    // }
-  }
+  ngOnInit(): void {}
 
   deleteItem(item: Item){
     this.itemService.delete(item).subscribe({
