@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/12</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.09% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/11</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -154,21 +154,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,16 +175,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -221,19 +221,19 @@ export class ListItemComponent implements OnInit {
   index!: number;
 &nbsp;
   @Output()
-  public <span class="cstat-no" title="statement not covered" >removeItem: EventEmitter&lt;any&gt; = new EventEmitter();</span>
+  public removeItem: EventEmitter&lt;any&gt; = new EventEmitter();
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(private <span class="cstat-no" title="statement not covered" >t</span>ranslate: TranslateService,</span> private <span class="cstat-no" title="statement not covered" >itemService: ItemService)</span> { }
+  constructor(private translate: TranslateService, private itemService: ItemService) { }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  ngOnInit(</span>): void {}
+  ngOnInit(): void {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  deleteItem(</span>item: Item){
-<span class="cstat-no" title="statement not covered" >    this.itemService.delete(item).subscribe({</span>
-      next: <span class="fstat-no" title="function not covered" >() =</span>&gt; {
-<span class="cstat-no" title="statement not covered" >        this.removeItem.emit()</span>
+  deleteItem(item: Item){
+    this.itemService.delete(item).subscribe({
+      next: () =&gt; {
+        this.removeItem.emit()
       },
-      error: <span class="fstat-no" title="function not covered" >err </span>=&gt; {
-<span class="cstat-no" title="statement not covered" >        Swal.fire({</span>
+      error: err =&gt; {
+        Swal.fire({
           title: this.translate.instant('common.fail'),
           text: err.error.message,
           icon: 'error',
@@ -243,17 +243,17 @@ export class ListItemComponent implements OnInit {
     })
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  doEditable(</span>item: Item){
-<span class="cstat-no" title="statement not covered" >    item.isBeingEditing = true;</span>
+  doEditable(item: Item){
+    item.isBeingEditing = true;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  toggle(</span>item: Item) {
-<span class="cstat-no" title="statement not covered" >    item.done = !item.done;</span>
-<span class="cstat-no" title="statement not covered" >    this.itemService.update(this.item.id, item).subscribe({</span>
+  toggle(item: Item) {
+    item.done = !item.done;
+    this.itemService.update(this.item.id, item).subscribe({
       next: <span class="fstat-no" title="function not covered" >() =</span>&gt; {},
-      error: <span class="fstat-no" title="function not covered" >err </span>=&gt; {
-<span class="cstat-no" title="statement not covered" >        item.done = !item.done</span>
-<span class="cstat-no" title="statement not covered" >        Swal.fire({</span>
+      error: err =&gt; {
+        item.done = !item.done
+        Swal.fire({
           title: this.translate.instant('common.fail'),
           text: err.error.message,
           icon: 'error',
@@ -271,7 +271,7 @@ export class ListItemComponent implements OnInit {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-26T20:33:11.916Z
+                at 2022-11-26T20:48:48.533Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
