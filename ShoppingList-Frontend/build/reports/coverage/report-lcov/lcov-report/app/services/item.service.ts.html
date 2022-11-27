@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.77% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/18</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/16</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -129,32 +129,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">62x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable } from '@angular/core';
@@ -178,26 +178,26 @@ export class ItemService {
 &nbsp;
   constructor(private http: HttpClient) {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  create(</span>itemRequest: ItemRequest, image?: File): Observable&lt;any&gt; {
-    const formData = <span class="cstat-no" title="statement not covered" >new FormData();</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if(image) {<span class="cstat-no" title="statement not covered" >formData.append("image", image);}</span></span>
-    const itemInfo = <span class="cstat-no" title="statement not covered" >new Blob([JSON.stringify(itemRequest)], {type: 'application/json'})</span>
-<span class="cstat-no" title="statement not covered" >    formData.append('itemInfo', itemInfo);</span>
+  create(itemRequest: ItemRequest, image?: File): Observable&lt;any&gt; {
+    const formData = new FormData();
+    if(image) {formData.append("image", image);}
+    const itemInfo = new Blob([JSON.stringify(itemRequest)], {type: 'application/json'})
+    formData.append('itemInfo', itemInfo);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this.http.post(USER_ITEM_API + 'add', formData)</span>
+    return this.http.post(USER_ITEM_API + 'add', formData)
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  update(</span>id: number, itemRequest: ItemRequest, image?: File ): Observable&lt;ItemResponse&gt; {
-    const formData = <span class="cstat-no" title="statement not covered" >new FormData();</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if(image) {<span class="cstat-no" title="statement not covered" >formData.append("image", image);}</span></span>
-    const itemInfo = <span class="cstat-no" title="statement not covered" >new Blob([JSON.stringify(itemRequest)], {type: 'application/json'})</span>
-<span class="cstat-no" title="statement not covered" >    formData.append('itemInfo', itemInfo);</span>
+  update(id: number, itemRequest: ItemRequest, image?: File ): Observable&lt;ItemResponse&gt; {
+    const formData = new FormData();
+    if(image) {formData.append("image", image);}
+    const itemInfo = new Blob([JSON.stringify(itemRequest)], {type: 'application/json'})
+    formData.append('itemInfo', itemInfo);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this.http.post&lt;ItemResponse&gt;(USER_ITEM_API + 'update/' +id, formData)</span>
+    return this.http.post&lt;ItemResponse&gt;(USER_ITEM_API + 'update/' +id, formData)
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  delete(</span>item: Item): Observable&lt;any&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.http.delete(USER_ITEM_API + 'delete/' + item.id)</span>
+  delete(item: Item): Observable&lt;any&gt; {
+    return this.http.delete(USER_ITEM_API + 'delete/' + item.id)
   }
 &nbsp;
   getListItems(listId: number): Observable&lt;ListResponse&gt; {
@@ -211,7 +211,7 @@ export class ItemService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-27T16:57:15.698Z
+                at 2022-11-27T18:35:52.078Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

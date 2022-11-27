@@ -34,7 +34,4 @@ export class UserListsService {
   delete(list: List): Observable<any> {
     return this.http.delete(USER_LISTS_API + 'delete/' + list.id)
   }
-
-
-
 }
