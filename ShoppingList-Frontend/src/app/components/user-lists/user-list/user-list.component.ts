@@ -26,8 +26,7 @@ export class UserListComponent implements OnInit {
   constructor(private translate: TranslateService, private router: Router,
               private userListsService: UserListsService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   doEditable(list: List){
     list.isBeingEditing = true;

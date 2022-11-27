@@ -16,9 +16,9 @@
     </div>
 
     <div class="edit_buttons">
-      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="editList()">
+      <button class="edit_button" mat-raised-button color="primary" [disabled]="form.invalid" (click)="editList()">
         {{'user_lists.save' | translate}}</button>
-      <button mat-raised-button color="primary" (click)=" list.isBeingEditing = false">
+      <button class="cancel_button" mat-raised-button color="primary" (click)=" list.isBeingEditing = false">
         {{'user_lists.cancel' | translate}}</button>
     </div>
   </form>

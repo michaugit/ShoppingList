@@ -160,7 +160,7 @@ describe('EditListItemComponent', () => {
     expect(component.item.isBeingEditing).toBeFalse()
   }));
 
-  it('should show sweetAlert when item adding failed', fakeAsync(() => {
+  it('should show sweetAlert when item edditing failed', fakeAsync(() => {
     const itemService = fixture.debugElement.injector.get(ItemService)
     const mockErrorResponse = { status: 401, statusText:"Unauthorized", error: { message: 'Smth went wrong' } };
     spyOn(itemService, 'update').and.returnValue(throwError(() => mockErrorResponse));

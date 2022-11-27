@@ -18,9 +18,9 @@
       </div>
 
       <div class="add_buttons">
-        <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="addList()">
+        <button class="add_button" mat-raised-button color="primary" [disabled]="form.invalid" (click)="addList()">
           {{'user_lists.add' | translate}}</button>
-        <button mat-raised-button color="primary" (click)="cancel(formDirective)">
+        <button class="cancel_button" mat-raised-button color="primary" (click)="cancel(formDirective)">
           {{'user_lists.cancel' | translate}}</button>
       </div>
     </form>
