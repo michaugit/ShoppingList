@@ -37,6 +37,7 @@ describe('UserListsComponent', () => {
     component = fixture.componentInstance;
     component.lists.push(new List("test name", "2022-11-26", 1))
     fixture.detectChanges();
+    httpTestingController = TestBed.inject(HttpTestingController);
     router = TestBed.inject(Router)
   });
 
@@ -106,5 +107,77 @@ describe('UserListsComponent', () => {
     const listToRemove = component.lists[0]
     component.removeList(listToRemove)
     expect(component.lists.find(function (list){return list.id == listToRemove.id})).toBeUndefined()
+  }));
+
+  it('#integration successful fetch user lists', fakeAsync(() => {
+    component.lists = []
+    const expectedDataResponse = {
+      "shoppingLists": [
+        {
+          "id": 23,
+          "name": "test 1",
+          "date": "2020-07-15"
+        },
+        {
+          "id": 24,
+          "name": "test 2",
+          "date": "2022-11-25"
+        },
+        {
+          "id": 28,
+          "name": "test 3",
+          "date": "2022-11-09"
+        }
+      ]
+    }
+
+    const listService = fixture.debugElement.injector.get(UserListsService)
+    const storageService = fixture.debugElement.injector.get(StorageService)
+    spyOn(storageService, 'isLoggedIn').and.returnValue(true)
+    const spyListGet = spyOn(listService, 'getUserLists').and.callThrough()
+
+    component.ngOnInit()
+    tick(1000)
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/list/'+ 'all');
+    expect(request.request.method).toBe('GET');
+    request.flush(expectedDataResponse);
+
+    expect(spyListGet).toHaveBeenCalled()
+    expect(component.lists.length).toBe(3)
+    const listItemComponent = fixture.debugElement.nativeElement.querySelector('app-user-list')
+    expect(listItemComponent).toBeDefined()
+  }));
+
+
+  it('#integration error fetch user lists', fakeAsync(() => {
+    component.lists = []
+    fixture.detectChanges()
+    const mockErrorResponse = { status: 401, statusText:"Unauthorized", error: { message: 'Full authentication is required to access this resource.' } };
+    const expectedDataResponse = {
+      "path": "/api/list/add",
+      "error": "Unauthorized",
+      "message": "Full authentication is required to access this resource",
+      "status": 401
+    }
+
+    const listService = fixture.debugElement.injector.get(UserListsService)
+    const storageService = fixture.debugElement.injector.get(StorageService)
+    spyOn(storageService, 'isLoggedIn').and.returnValue(true)
+    const spyListGet = spyOn(listService, 'getUserLists').and.callThrough()
+    const spySweetAlert = spyOn(Swal,"fire")
+
+    component.ngOnInit()
+    tick(1000)
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/list/'+ 'all');
+    expect(request.request.method).toBe('GET');
+    request.flush(expectedDataResponse, mockErrorResponse);
+
+    expect(spyListGet).toHaveBeenCalled()
+    expect(component.lists.length).toBe(0)
+    const listItemComponent = fixture.debugElement.nativeElement.querySelector('app-user-list')
+    expect(listItemComponent).toBeNull()
+    expect(spySweetAlert).toHaveBeenCalled()
   }));
 });

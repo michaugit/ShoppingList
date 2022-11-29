@@ -11,10 +11,12 @@ import {ListRequest} from "../../../models/requests/listRequest";
 import {throwError} from "rxjs";
 import Swal from "sweetalert2";
 import {SimpleListResponse} from "../../../models/responses/simpleListResponse";
+import {HttpTestingController} from "@angular/common/http/testing";
 
 describe('AddUserListComponent', () => {
   let component: AddUserListComponent;
   let fixture: ComponentFixture<AddUserListComponent>;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,6 +30,7 @@ describe('AddUserListComponent', () => {
 
     fixture = TestBed.createComponent(AddUserListComponent);
     component = fixture.componentInstance;
+    httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
 
@@ -152,5 +155,72 @@ describe('AddUserListComponent', () => {
 
     expect(spySweetAlert).toHaveBeenCalled()
   }));
+
+  it('#integration successful add new list', fakeAsync(() => {
+    const expectedDataResponse = {
+      "id": 30,
+      "name": "test shopping list name",
+      "date": "2022-12-14"
+    }
+
+    const {name, date} = component.form.controls;
+    name.setValue("test shopping list name")
+    date.setValue("2022-12-14")
+    expect(component.form.valid).toBeTruthy()
+    fixture.detectChanges()
+
+    const listService = fixture.debugElement.injector.get(UserListsService)
+    const spyListCreate = spyOn(listService, 'create').and.callThrough()
+    const spyRefreshEmit = spyOn(component.refreshUserLists, 'emit')
+
+    const addBtn = fixture.debugElement.nativeElement.querySelector('.add_button')
+    addBtn.click()
+    tick(1000)
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/list/'+ 'add');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.responseType).toBe('json')
+    request.flush(expectedDataResponse);
+
+    expect(spyListCreate).toHaveBeenCalled()
+    expect(spyRefreshEmit).toHaveBeenCalled()
+  }));
+
+  it('#integration error add new list', fakeAsync(() => {
+    const mockErrorResponse = { status: 401, statusText:"Unauthorized", error: { message: 'Full authentication is required to access this resource.' } };
+    const expectedDataResponse = {
+      "path": "/api/list/add",
+      "error": "Unauthorized",
+      "message": "Full authentication is required to access this resource",
+      "status": 401
+    }
+
+    const {name, date} = component.form.controls;
+    name.setValue("test shopping list name")
+    date.setValue("2022-12-14")
+    expect(component.form.valid).toBeTruthy()
+    fixture.detectChanges()
+
+    const listService = fixture.debugElement.injector.get(UserListsService)
+    const spyListCreate = spyOn(listService, 'create').and.callThrough()
+    const spyRefreshEmit = spyOn(component.refreshUserLists, 'emit')
+    const spySweetAlert = spyOn(Swal,"fire")
+
+    const addBtn = fixture.debugElement.nativeElement.querySelector('.add_button')
+    addBtn.click()
+    tick(1000)
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/list/'+ 'add');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.responseType).toBe('json')
+    request.flush(expectedDataResponse, mockErrorResponse);
+
+    expect(spyListCreate).toHaveBeenCalled()
+    expect(spyRefreshEmit).not.toHaveBeenCalled()
+    expect(spySweetAlert).toHaveBeenCalled()
+  }));
+
+
+
 
 });

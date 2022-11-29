@@ -96,7 +96,7 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
 
     spyOn(component, 'onSubmit');
-    const btn = fixture.debugElement.nativeElement.querySelector('.login-btn')
+    const btn = fixture.debugElement.nativeElement.querySelector('.register-btn')
     btn.click()
     expect(component.onSubmit).toHaveBeenCalled();
   }));
@@ -170,5 +170,92 @@ describe('RegisterComponent', () => {
     const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     component.ngOnInit()
     expect(spyRouter).toHaveBeenCalledWith(['/user-lists'])
+  }));
+
+  it('#intergration  successful register', fakeAsync(() => {
+    const expectedDataResponse = {
+      "id": 1,
+      "username": "test",
+      "roles": [
+        "ROLE_USER"
+      ]
+    }
+
+    const { username, password, passwordRepeat} = component.form.controls;
+    username.setValue('test');
+    password.setValue('pass');
+    passwordRepeat.setValue('pass');
+    expect(component.form.valid).toBeTruthy();
+    fixture.detectChanges();
+
+    const authService = fixture.debugElement.injector.get(AuthService)
+    const storageService = fixture.debugElement.injector.get(StorageService)
+    const spyAuthRegister = spyOn(authService, 'register').and.callThrough()
+    const spyOnSubmit = spyOn(component, 'onSubmit').and.callThrough()
+    const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+    const spySweetAlert = spyOn(Swal,"fire").and.callThrough()
+    spyOn(component, 'reloadPage')
+
+    const btn = fixture.debugElement.nativeElement.querySelector('.register-btn')
+    btn.click()
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/auth/'+ 'signup');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.responseType).toBe('json')
+    request.flush(expectedDataResponse);
+
+    expect(Swal.isVisible()).toBeTruthy()
+    Swal.clickConfirm()
+    tick(1000)
+
+    expect(spyAuthRegister).toHaveBeenCalled()
+    expect(spyOnSubmit).toHaveBeenCalled()
+    expect(spyRouter).toHaveBeenCalledWith(['/login'])
+    expect(storageService.isLoggedIn()).toBeFalsy()
+    expect(component.isLoggedIn).toBeFalsy()
+    expect(spySweetAlert).toHaveBeenCalled()
+  }));
+
+  it('#intergration  error register', fakeAsync(() => {
+    const mockErrorResponse = { status: 500, statusText:"Unauthorized", error: { message: 'Server error' } };
+    const expectedErrorData = {
+      "path": "/api/auth/signin",
+      "error": "Unauthorized",
+      "message": "server error ",
+      "status": 500
+    }
+
+    const { username, password, passwordRepeat} = component.form.controls;
+    username.setValue('test');
+    password.setValue('pass');
+    passwordRepeat.setValue('pass');
+    expect(component.form.valid).toBeTruthy();
+    fixture.detectChanges();
+
+    const authService = fixture.debugElement.injector.get(AuthService)
+    const storageService = fixture.debugElement.injector.get(StorageService)
+    const spyAuthRegister = spyOn(authService, 'register').and.callThrough()
+    const spyOnSubmit = spyOn(component, 'onSubmit').and.callThrough()
+    const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+    const spySweetAlert = spyOn(Swal,"fire")
+
+    const btn = fixture.debugElement.nativeElement.querySelector('.register-btn')
+    btn.click()
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/auth/'+ 'signup');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.responseType).toBe('json')
+    request.flush(expectedErrorData, mockErrorResponse);
+    tick(1000)
+
+    expect(spyAuthRegister).toHaveBeenCalled()
+    expect(spyOnSubmit).toHaveBeenCalled()
+    expect(spyRouter).not.toHaveBeenCalledWith(['/login'])
+    expect(storageService.isLoggedIn()).toBeFalsy()
+    expect(component.isLoggedIn).toBeFalsy()
+    expect(spySweetAlert).toHaveBeenCalled()
+    expect(username.valid).toBeFalsy()
+    expect(password.valid).toBeFalsy()
+    expect(passwordRepeat.valid).toBeFalsy()
   }));
 });

@@ -10,10 +10,12 @@ import * as Rx from "rxjs";
 import {throwError} from "rxjs";
 import Swal from "sweetalert2";
 import {UserListsService} from "../../../services/user-lists.service";
+import {HttpTestingController} from "@angular/common/http/testing";
 
 describe('UserListComponent', () => {
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,6 +32,7 @@ describe('UserListComponent', () => {
     component.list = new List("test shopping list name", "2022-12-16", 2)
     component.list.isBeingEditing = false
     component.index = 1
+    httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
 
@@ -76,6 +79,54 @@ describe('UserListComponent', () => {
     tick(1000)
 
     expect(spySweetAlert).toHaveBeenCalled()
+  }));
+
+  it('#integration successful delete list', fakeAsync(() => {
+    const expectedDataResponse = {
+      "message": "Pomyślnie usunięto liste."
+    }
+
+    const listService = fixture.debugElement.injector.get(UserListsService)
+    const spyListDelete = spyOn(listService, 'delete').and.callThrough()
+    const spyRemoveEmit = spyOn(component.removeList, 'emit')
+
+    const delBtn = fixture.debugElement.nativeElement.querySelector('.delete_button')
+    delBtn.click()
+    tick(1000)
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/list/'+ 'delete/' + component.list.id);
+    expect(request.request.method).toBe('DELETE');
+    request.flush(expectedDataResponse);
+
+    expect(spyListDelete).toHaveBeenCalled()
+    expect(spyRemoveEmit).toHaveBeenCalled()
+  }));
+
+  it('#integration error delete list', fakeAsync(() => {
+    const mockErrorResponse = { status: 401, statusText:"Unauthorized", error: { message: 'Full authentication is required to access this resource.' } };
+    const expectedDataResponse = {
+      "path": "/api/list/add",
+      "error": "Unauthorized",
+      "message": "Full authentication is required to access this resource",
+      "status": 401
+    }
+
+    const listService = fixture.debugElement.injector.get(UserListsService)
+    const spyListDelete = spyOn(listService, 'delete').and.callThrough()
+    const spyRemoveEmit = spyOn(component.removeList, 'emit')
+    const spySweetAlert = spyOn(Swal,"fire")
+
+    const delBtn = fixture.debugElement.nativeElement.querySelector('.delete_button')
+    delBtn.click()
+    tick(1000)
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/list/'+ 'delete/' + component.list.id);
+    expect(request.request.method).toBe('DELETE');
+    request.flush(expectedDataResponse, mockErrorResponse);
+
+    expect(spyListDelete).toHaveBeenCalled()
+    expect(spySweetAlert).toHaveBeenCalled()
+    expect(spyRemoveEmit).not.toHaveBeenCalled()
   }));
 
 });

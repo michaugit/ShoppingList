@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 
 import { LoginComponent } from './login.component';
 import {HttpTestingController} from "@angular/common/http/testing";
@@ -138,6 +138,93 @@ describe('LoginComponent', () => {
     const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     component.ngOnInit()
     expect(spyRouter).toHaveBeenCalledWith(['/user-lists'])
+  }));
+
+  it('#intergration  successful login', fakeAsync(() => {
+    const expectedDataResponse = {
+      "id": 1,
+      "username": "test",
+      "roles": [
+        "ROLE_USER"
+      ]
+    }
+
+    const { username, password } = component.form.controls;
+    username.setValue('test');
+    password.setValue('pass');
+    expect(component.form.valid).toBeTruthy();
+    fixture.detectChanges();
+
+    const authService = fixture.debugElement.injector.get(AuthService)
+    const storageService = fixture.debugElement.injector.get(StorageService)
+    const spyAuthLogin = spyOn(authService, 'login').and.callThrough()
+    const spyStorageSaveUser = spyOn  (storageService, 'saveUser').and.callThrough()
+    const spyOnSubmit = spyOn(component, 'onSubmit').and.callThrough()
+    const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+    spyOn(component, 'reloadPage')
+
+    const btn = fixture.debugElement.nativeElement.querySelector('.login-btn')
+    btn.click()
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/auth/'+ 'signin');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.responseType).toBe('json')
+    request.flush(expectedDataResponse);
+
+    expect(spyAuthLogin).toHaveBeenCalled()
+    expect(spyStorageSaveUser).toHaveBeenCalled()
+    expect(spyOnSubmit).toHaveBeenCalled()
+    expect(spyRouter).toHaveBeenCalledWith(['/user-lists'])
+    expect(storageService.isLoggedIn()).toBeTruthy()
+    expect(component.isLoggedIn).toBeTruthy()
+    expect(storageService.getUser()).toEqual(expectedDataResponse)
+  }));
+
+
+  it('#intergration error login', fakeAsync(() => {
+    const mockErrorResponse = { status: 401, statusText:"Unauthorized", error: { message: 'Nieprawidłowa nazwa użytkownika lub hasło.' } };
+    const expectedErrorData = {
+      "path": "/api/auth/signin",
+      "error": "Unauthorized",
+      "message": "Nieprawidłowa nazwa użytkownika lub hasło. ",
+      "status": 401
+    }
+
+    const { username, password } = component.form.controls;
+    username.setValue('invalidName');
+    password.setValue('invalidPass');
+    expect(component.form.valid).toBeTruthy();
+    fixture.detectChanges();
+
+    const authService = fixture.debugElement.injector.get(AuthService)
+    const storageService = fixture.debugElement.injector.get(StorageService)
+    const spyAuthLogin = spyOn(authService, 'login').and.callThrough()
+    const spyStorageSaveUser = spyOn  (storageService, 'saveUser').and.callThrough()
+    const spyOnSubmit = spyOn(component, 'onSubmit').and.callThrough()
+    const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+    const spySweetAlert = spyOn(Swal,"fire")
+    spyOn(component, 'reloadPage')
+    storageService.clean()
+
+    const btn = fixture.debugElement.nativeElement.querySelector('.login-btn')
+    btn.click()
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/auth/'+ 'signin');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.responseType).toBe('json')
+    request.flush(expectedErrorData, mockErrorResponse);
+
+    expect(spyAuthLogin).toHaveBeenCalled()
+    expect(spyOnSubmit).toHaveBeenCalled()
+    expect(spyStorageSaveUser).not.toHaveBeenCalled()
+    expect(spyRouter).not.toHaveBeenCalledWith(['/user-lists'])
+    expect(storageService.isLoggedIn()).toBeFalsy()
+    expect(component.isLoggedIn).toBeFalsy()
+    expect(storageService.getUser()).toEqual({})
+    expect(spySweetAlert).toHaveBeenCalled()
+    expect(username.valid).toBeFalse()
+    expect(password.valid).toBeFalse()
+    flush()
   }));
 
 
