@@ -13,6 +13,7 @@ import {ItemResponse} from "../../../models/responses/itemResponse";
 import {throwError} from "rxjs";
 import Swal from "sweetalert2";
 import {TranslateService} from "@ngx-translate/core";
+import {UserListsService} from "../../../services/user-lists.service";
 
 describe('EditListItemComponent', () => {
   let component: EditListItemComponent;
@@ -264,6 +265,84 @@ describe('EditListItemComponent', () => {
 
     expect(spyTranslateService).toHaveBeenCalledWith('item_managing.add_image')
     expect(response).toBe("translatedValue")
+  }));
+
+  it('#integration successful edit item', fakeAsync(() => {
+    const expectedDataResponse = {
+      "id": 1,
+      "text": "Chleb",
+      "quantity": 1.0,
+      "unit": "COUNT",
+      "image": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/M7ubXdtdb1xSFyeilBapySVU8h8OoFaooFSqiihIVIpQBKci6KEg9Q6H9kovIHoCIVQJJCKE1ENFjnAgcaSGC6rEnxBwA04Tx43t2FnvDAfjkNibxgHxnWb2e/u992bee7tCa00YFsffekFY+nUzFtjW0LrvjRXrCDIAaPLlW0nHL0SsZtVoaF98mLrx3pdhOqLtYPHChahZcYYO7KvPFxvRl5XPp1sN3adWiD1ZAqD6XYK1b/dvE5IWryTt2udLFedwc1+9kLp+vbbpoDh+6TklxBeAi9TL0taeWpdmZzQDry0AcO+jQ12RyohqqoYoo8RDwJrU+qXkjWtfi8Xxt58BdQuwQs9qC/afLwCw8tnQbqYAPsgxE1S6F3EAIXux2oQFKm0ihMsOF71dHYx+f3NND68ghCu1YIoePPQN1pGRABkJ6Bus96CutRZMydTl+TvuiRW1m3n0eDl0vRPcEysqdXn+jsQPsrHMquGeXEaY4Yk4wxWcY5V/9scqOMOVUFthatyTy8QyqwZ+kDURKoMWxNKr2EeqVKcTNOajqKoBgOE28U4tdQl5p5bwCw7BWquaZSzAPlwjlithJtp3pTImSqQRrb2Z8PHGigD4RZuNX6JYj6wj7O4TFLbCO/Mn/m8R+h6rYSUb3ekokRY6f/YukArN979jcW+V/S8g0eT/N3VN3kTqWbQ428m9/8k0P/1aIhF36PccEl6EhOcAUCrXKZXXWS3XKd2vc/TRBG9O5ELC17MmWubD2nKhUKZa26Ba2+D3P+4/MNCFwg59oWVeYhkzgN/JDR8deKBoD7Y+ljEjGZ0sosXVTvbc6RHirr2reNy1OXd6pJsQ+gqjk8VWFYmHrwBzW/n+uMPFiRwHB2I7ih8ciHFxIkd/3Omk5tCDV1t+2nNu5sxxpDFNx+huNhVT3/zMDz8usXC3ddaHBj1GHj/As08fwTS7Kt1HBTmyN29vdwAw+/wbwLVOJ3uAD1wi/dUH7Qei66PfyuRj4Ik9is+hglfbkbfR3cnZm7chlUWLdwmprtCohX4HUtlOcQjLYCu+fzGJH2QRKvP3UNz8bWk1qMxjGTOMThZ3kvgLI5AzFfo379UAAAAASUVORK5CYII=",
+      "done": false
+    }
+
+    const {text, quantity, unit} = component.form.controls
+    text.setValue("Chleb")
+    quantity.setValue('1.0')
+    unit.setValue("COUNT")
+    component.selectedFile =  new File([""], 'testName')
+    expect(component.form.valid).toBeTruthy()
+    fixture.detectChanges()
+
+
+    const itemService = fixture.debugElement.injector.get(ItemService)
+    const spyListUpdate = spyOn(itemService, 'update').and.callThrough()
+    const spyRefresh = spyOn(component, 'refreshItem').and.callThrough()
+
+    const editBtn = fixture.debugElement.nativeElement.querySelector('.edit_button')
+    editBtn.click()
+    tick(1000)
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/item/'+ 'update/' + component.item.id);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.responseType).toBe('json')
+    request.flush(expectedDataResponse);
+
+    expect(spyListUpdate).toHaveBeenCalled()
+    expect(spyRefresh).toHaveBeenCalled()
+    expect(component.item.isBeingEditing).toBeFalsy()
+    expect(component.item.text).toBe(expectedDataResponse.text)
+    expect(component.item.quantity).toBe(expectedDataResponse.quantity)
+    expect(component.item.unit).toBe(expectedDataResponse.unit)
+    expect(component.item.image).toBe(expectedDataResponse.image)
+  }));
+
+  it('#integration error edit item', fakeAsync(() => {
+    const mockErrorResponse = { status: 401, statusText:"Unauthorized", error: { message: 'Full authentication is required to access this resource.' } };
+    const expectedDataResponse = {
+      "path": "/api/list/add",
+      "error": "Unauthorized",
+      "message": "Full authentication is required to access this resource",
+      "status": 401
+    }
+
+    const {text, quantity, unit} = component.form.controls
+    text.setValue("Chleb")
+    quantity.setValue('1.0')
+    unit.setValue("COUNT")
+    component.selectedFile =  new File([""], 'testName')
+    expect(component.form.valid).toBeTruthy()
+    fixture.detectChanges()
+
+    const itemService = fixture.debugElement.injector.get(ItemService)
+    const spyListUpdate = spyOn(itemService, 'update').and.callThrough()
+    const spyRefresh = spyOn(component, 'refreshItem').and.callThrough()
+    const spySweetAlert = spyOn(Swal,"fire")
+
+    const editBtn = fixture.debugElement.nativeElement.querySelector('.edit_button')
+    editBtn.click()
+    tick(1000)
+
+    const request = httpTestingController.expectOne('http://localhost:8080/api/item/'+ 'update/' + component.item.id);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.responseType).toBe('json')
+    request.flush(expectedDataResponse, mockErrorResponse);
+
+    expect(spyListUpdate).toHaveBeenCalled()
+    expect(spyRefresh).not.toHaveBeenCalled()
+    expect(spySweetAlert).toHaveBeenCalled()
+    expect(component.item.isBeingEditing).toBeTruthy()
   }));
 
 
