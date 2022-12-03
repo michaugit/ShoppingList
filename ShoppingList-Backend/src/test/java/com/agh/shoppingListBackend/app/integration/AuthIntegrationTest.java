@@ -1,6 +1,5 @@
 package com.agh.shoppingListBackend.app.integration;
 
-import com.agh.shoppingListBackend.app.controllers.ListController;
 import com.agh.shoppingListBackend.app.enums.RoleEnum;
 import com.agh.shoppingListBackend.app.models.Role;
 import com.agh.shoppingListBackend.app.models.User;
@@ -11,8 +10,6 @@ import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -158,7 +155,4 @@ class AuthIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(cookie().value("shoppingList", ""));
     }
-
-
-
 }

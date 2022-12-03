@@ -1,5 +1,6 @@
 package com.agh.shoppingListBackend.app.controllers;
 
+import com.agh.shoppingListBackend.app.exepction.ForbiddenException;
 import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.payload.request.ListDTO;
 import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
@@ -20,53 +21,63 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/list")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 public class ListController {
 
     private static final Logger logger = LoggerFactory.getLogger(ListController.class);
     private final ListService listService;
-    private ModelMapper modelMapper;
-    private MessageSource messageSource;
+    private final ModelMapper modelMapper;
+    private final MessageSource messageSource;
 
     @Autowired
-    public ListController(ListService listService, ModelMapper modelMapper, MessageSource messageSource){
+    public ListController(ListService listService, ModelMapper modelMapper, MessageSource messageSource) {
         this.listService = listService;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
     }
 
-    @PostMapping( path ="/add")
+    @PostMapping(path = "/add")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> addList(@Valid @RequestBody ListDTO listDTO){
+    public ResponseEntity<?> addList(@Valid @RequestBody ListDTO listDTO) {
         ShoppingList list = mapListDTOtoList(listDTO);
         SimpleListResponse response = listService.addList(list);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping( path ="/update/{id}")
+    @PostMapping(path = "/update/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updateList(@Valid @RequestBody ListDTO listDTO,  @PathVariable(value = "id") Long listId){
-        ShoppingList list = mapListDTOtoList(listDTO);
-        SimpleListResponse response = listService.updateList(listId, list);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> updateList(@Valid @RequestBody ListDTO listDTO, @PathVariable(value = "id") Long listId) {
+        try {
+            ShoppingList list = mapListDTOtoList(listDTO);
+            SimpleListResponse response = listService.updateList(listId, list);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse(messageSource.getMessage(e.getMessage(), null, LocaleContextHolder.getLocale())));
+        }
     }
 
-    @DeleteMapping( path ="/delete/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> deleteList(@PathVariable(value = "id") Long listId){
-        listService.deleteList(listId);
-        return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.deleteList", null, LocaleContextHolder.getLocale())));
+    public ResponseEntity<?> deleteList(@PathVariable(value = "id") Long listId) {
+        try {
+            listService.deleteList(listId);
+            return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("success.deleteList", null, LocaleContextHolder.getLocale())));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse(messageSource.getMessage(e.getMessage(), null, LocaleContextHolder.getLocale())));
+        }
     }
 
-    @GetMapping( path = "/all" )
+    @GetMapping(path = "/all")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getAllLists(){
+    public ResponseEntity<?> getAllLists() {
         ListsResponse listsResponse = listService.getAllLists();
         return ResponseEntity.ok(listsResponse);
     }
 
 
-    private ShoppingList mapListDTOtoList(ListDTO listDTO){
+    private ShoppingList mapListDTOtoList(ListDTO listDTO) {
         return this.modelMapper.map(listDTO, ShoppingList.class);
     }
 }
