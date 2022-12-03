@@ -1,0 +1,199 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: JwtUtils</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.agh.shoppingListBackend.app.security.jwt</a> ]
+</div>
+
+<h1>Coverage Summary for Class: JwtUtils (com.agh.shoppingListBackend.app.security.jwt)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JwtUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62,5%
+  </span>
+  <span class="absValue">
+    (20/ 32)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd</td>
+  </tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd$auxiliary$AeqCeKwy</td>
+  </tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd$auxiliary$C2qyWo3Q</td>
+  </tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd$auxiliary$CeGaEr6c</td>
+  </tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd$auxiliary$D2cvstp1</td>
+  </tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd$auxiliary$QmZV3sdG</td>
+  </tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd$auxiliary$rIvWwstc</td>
+  </tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd$auxiliary$SPvXUsI7</td>
+  </tr>
+  <tr>
+    <td class="name">JwtUtils$MockitoMock$BunPaldd$auxiliary$y4kAWiN1</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62,5%
+  </span>
+  <span class="absValue">
+    (20/ 32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.agh.shoppingListBackend.app.security.jwt;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Date;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import javax.servlet.http.Cookie;
+<i>6</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import org.slf4j.Logger;
+<i>9</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>10</i>&nbsp;import org.springframework.beans.factory.annotation.Value;
+<i>11</i>&nbsp;import org.springframework.http.ResponseCookie;
+<i>12</i>&nbsp;import org.springframework.stereotype.Component;
+<i>13</i>&nbsp;import org.springframework.web.util.WebUtils;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
+<i>16</i>&nbsp;import io.jsonwebtoken.*;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;@Component
+<b class="fc"><i>19</i>&nbsp;public class JwtUtils {</b>
+<b class="fc"><i>20</i>&nbsp;  private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;  @Value(&quot;${shoppinglist.app.jwtSecret}&quot;)
+<i>23</i>&nbsp;  private String jwtSecret;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;  @Value(&quot;${shoppinglist.app.jwtExpirationMs}&quot;)
+<i>26</i>&nbsp;  private int jwtExpirationMs;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;  @Value(&quot;${shoppinglist.app.jwtCookieName}&quot;)
+<i>29</i>&nbsp;  private String jwtCookie;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;  public String getJwtFromCookies(HttpServletRequest request) {
+<b class="fc"><i>32</i>&nbsp;    Cookie cookie = WebUtils.getCookie(request, jwtCookie);</b>
+<b class="fc"><i>33</i>&nbsp;    if (cookie != null) {</b>
+<b class="fc"><i>34</i>&nbsp;      return cookie.getValue();</b>
+<i>35</i>&nbsp;    } else {
+<b class="fc"><i>36</i>&nbsp;      return null;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;  }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;  public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
+<b class="fc"><i>41</i>&nbsp;    String jwt = generateTokenFromUsername(userPrincipal.getUsername());</b>
+<b class="fc"><i>42</i>&nbsp;    ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path(&quot;/api&quot;).maxAge(24 * 60 * 60).httpOnly(true).build();</b>
+<b class="fc"><i>43</i>&nbsp;    return cookie;</b>
+<i>44</i>&nbsp;  }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;  public ResponseCookie getCleanJwtCookie() {
+<b class="fc"><i>47</i>&nbsp;    ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path(&quot;/api&quot;).build();</b>
+<b class="fc"><i>48</i>&nbsp;    return cookie;</b>
+<i>49</i>&nbsp;  }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;  public String getUserNameFromJwtToken(String token) {
+<b class="fc"><i>52</i>&nbsp;    return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();</b>
+<i>53</i>&nbsp;  }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;  public boolean validateJwtToken(String authToken) {
+<i>56</i>&nbsp;    try {
+<b class="fc"><i>57</i>&nbsp;      Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);</b>
+<b class="fc"><i>58</i>&nbsp;      return true;</b>
+<b class="nc"><i>59</i>&nbsp;    } catch (SignatureException e) {</b>
+<b class="nc"><i>60</i>&nbsp;      logger.error(&quot;Invalid JWT signature: {}&quot;, e.getMessage());</b>
+<b class="nc"><i>61</i>&nbsp;    } catch (MalformedJwtException e) {</b>
+<b class="nc"><i>62</i>&nbsp;      logger.error(&quot;Invalid JWT token: {}&quot;, e.getMessage());</b>
+<b class="nc"><i>63</i>&nbsp;    } catch (ExpiredJwtException e) {</b>
+<b class="nc"><i>64</i>&nbsp;      logger.error(&quot;JWT token is expired: {}&quot;, e.getMessage());</b>
+<b class="nc"><i>65</i>&nbsp;    } catch (UnsupportedJwtException e) {</b>
+<b class="nc"><i>66</i>&nbsp;      logger.error(&quot;JWT token is unsupported: {}&quot;, e.getMessage());</b>
+<b class="nc"><i>67</i>&nbsp;    } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i>68</i>&nbsp;      logger.error(&quot;JWT claims string is empty: {}&quot;, e.getMessage());</b>
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;    return false;</b>
+<i>72</i>&nbsp;  }
+<i>73</i>&nbsp;  
+<i>74</i>&nbsp;  public String generateTokenFromUsername(String username) {   
+<b class="fc"><i>75</i>&nbsp;    return Jwts.builder()</b>
+<b class="fc"><i>76</i>&nbsp;        .setSubject(username)</b>
+<b class="fc"><i>77</i>&nbsp;        .setIssuedAt(new Date())</b>
+<b class="fc"><i>78</i>&nbsp;        .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))</b>
+<b class="fc"><i>79</i>&nbsp;        .signWith(SignatureAlgorithm.HS512, jwtSecret)</b>
+<b class="fc"><i>80</i>&nbsp;        .compact();</b>
+<i>81</i>&nbsp;  }
+<i>82</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-04 00:07</div>
+</div>
+</body>
+</html>

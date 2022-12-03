@@ -1,0 +1,76 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemRepository</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.agh.shoppingListBackend.app.repository</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemRepository (com.agh.shoppingListBackend.app.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">ItemRepository$MockitoMock$fIzzblqt</td>
+  </tr>
+  <tr>
+    <td class="name">ItemRepository$MockitoMock$fIzzblqt$auxiliary$69VNdYQB</td>
+  </tr>
+  <tr>
+    <td class="name">ItemRepository$MockitoMock$fIzzblqt$auxiliary$Ti7PXZam</td>
+  </tr>
+  <tr>
+    <td class="name">ItemRepository$MockitoMock$fIzzblqt$auxiliary$WcyXCvvM</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.agh.shoppingListBackend.app.repository;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.agh.shoppingListBackend.app.models.Item;
+<i>4</i>&nbsp;import com.agh.shoppingListBackend.app.models.ShoppingList;
+<i>5</i>&nbsp;import com.agh.shoppingListBackend.app.models.User;
+<i>6</i>&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+<i>7</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>8</i>&nbsp;import org.springframework.transaction.annotation.Transactional;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.List;
+<i>11</i>&nbsp;import java.util.Optional;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;@Repository
+<i>14</i>&nbsp;public interface ItemRepository extends JpaRepository&lt;Item, Long&gt; {
+<i>15</i>&nbsp;    @Transactional
+<i>16</i>&nbsp;    Optional&lt;List&lt;Item&gt;&gt; findItemsByList(ShoppingList list);
+<i>17</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-04 00:07</div>
+</div>
+</body>
+</html>

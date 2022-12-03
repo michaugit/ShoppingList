@@ -1,0 +1,332 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.agh.shoppingListBackend.app.services</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemService (com.agh.shoppingListBackend.app.services)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemService</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,3%
+  </span>
+  <span class="absValue">
+    (14/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98,6%
+  </span>
+  <span class="absValue">
+    (70/ 71)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ItemService$$EnhancerBySpringCGLIB$$13df1d91</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$$EnhancerBySpringCGLIB$$13df1d91$$FastClassBySpringCGLIB$$ca7eed50</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$$FastClassBySpringCGLIB$$4a557eb8</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p$auxiliary$2fCUbWve</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p$auxiliary$aWx7Zvbw</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p$auxiliary$D0Ijlk55</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p$auxiliary$Is4i62yD</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p$auxiliary$Kde0l0rF</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p$auxiliary$m21PorZG</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p$auxiliary$nRhjy52t</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$wfFcpz6p$auxiliary$xCKndvbZ</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    94,1%
+  </span>
+  <span class="absValue">
+    (16/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98,6%
+  </span>
+  <span class="absValue">
+    (73/ 74)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.agh.shoppingListBackend.app.services;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.agh.shoppingListBackend.app.exepction.ForbiddenException;
+<i>4</i>&nbsp;import com.agh.shoppingListBackend.app.exepction.NotFoundException;
+<i>5</i>&nbsp;import com.agh.shoppingListBackend.app.models.Item;
+<i>6</i>&nbsp;import com.agh.shoppingListBackend.app.models.ShoppingList;
+<i>7</i>&nbsp;import com.agh.shoppingListBackend.app.models.User;
+<i>8</i>&nbsp;import com.agh.shoppingListBackend.app.payload.request.ItemDTO;
+<i>9</i>&nbsp;import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
+<i>10</i>&nbsp;import com.agh.shoppingListBackend.app.payload.response.SingleItemResponse;
+<i>11</i>&nbsp;import com.agh.shoppingListBackend.app.repository.ItemRepository;
+<i>12</i>&nbsp;import com.agh.shoppingListBackend.app.repository.ListRepository;
+<i>13</i>&nbsp;import com.agh.shoppingListBackend.app.repository.UserRepository;
+<i>14</i>&nbsp;import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
+<i>15</i>&nbsp;import com.agh.shoppingListBackend.app.utils.ImageConverter;
+<i>16</i>&nbsp;import org.modelmapper.ModelMapper;
+<i>17</i>&nbsp;import org.modelmapper.PropertyMap;
+<i>18</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>19</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>20</i>&nbsp;import org.springframework.security.core.userdetails.UsernameNotFoundException;
+<i>21</i>&nbsp;import org.springframework.stereotype.Service;
+<i>22</i>&nbsp;import org.springframework.web.multipart.MultipartFile;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;import javax.transaction.Transactional;
+<i>25</i>&nbsp;import java.io.IOException;
+<i>26</i>&nbsp;import java.util.Arrays;
+<i>27</i>&nbsp;import java.util.Comparator;
+<i>28</i>&nbsp;import java.util.Objects;
+<i>29</i>&nbsp;import java.util.stream.Collectors;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;@Service
+<i>32</i>&nbsp;public class ItemService {
+<i>33</i>&nbsp;    private final UserRepository userRepository;
+<i>34</i>&nbsp;    private final ItemRepository itemRepository;
+<i>35</i>&nbsp;    private final ListRepository listRepository;
+<i>36</i>&nbsp;    private final ModelMapper modelMapper;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @Autowired
+<b class="fc"><i>40</i>&nbsp;    public ItemService(UserRepository userRepository, ItemRepository itemRepository, ListRepository listRepository, ModelMapper modelMapper){</b>
+<b class="fc"><i>41</i>&nbsp;        this.userRepository = userRepository;</b>
+<b class="fc"><i>42</i>&nbsp;        this.itemRepository = itemRepository;</b>
+<b class="fc"><i>43</i>&nbsp;        this.listRepository = listRepository;</b>
+<b class="fc"><i>44</i>&nbsp;        this.modelMapper = modelMapper;</b>
+<b class="fc"><i>45</i>&nbsp;        modelMapper.addMappings(new PropertyMap&lt;ItemDTO, Item&gt;() {</b>
+<i>46</i>&nbsp;            @Override
+<i>47</i>&nbsp;            protected void configure() {
+<b class="fc"><i>48</i>&nbsp;                skip(destination.getImage());</b>
+<b class="fc"><i>49</i>&nbsp;            }</b>
+<i>50</i>&nbsp;        });
+<b class="fc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    @Transactional
+<i>55</i>&nbsp;    public SingleItemResponse addItem(Item item, Long listId){
+<b class="fc"><i>56</i>&nbsp;        ShoppingList list = getListById(listId);</b>
+<b class="fc"><i>57</i>&nbsp;        User user = getCurrentUser();</b>
+<i>58</i>&nbsp;
+<b class="fc"><i>59</i>&nbsp;        if(!list.getUser().equals(user)){</b>
+<b class="fc"><i>60</i>&nbsp;            throw new ForbiddenException(&quot;exception.itemNotBelongToUser&quot;);</b>
+<i>61</i>&nbsp;        }
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;        item.setList(list);</b>
+<b class="fc"><i>64</i>&nbsp;        item.setUser(user);</b>
+<b class="fc"><i>65</i>&nbsp;        itemRepository.save(item);</b>
+<b class="fc"><i>66</i>&nbsp;        return mapItemToSingleItemResponse(item);</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    @Transactional
+<i>70</i>&nbsp;    public SingleItemResponse addItem(Item item, Long listId, MultipartFile image ) throws IOException {
+<b class="fc"><i>71</i>&nbsp;        item.setImage(ImageConverter.compressBytes(image.getBytes()));</b>
+<b class="fc"><i>72</i>&nbsp;        return addItem(item, listId);</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    @Transactional
+<i>76</i>&nbsp;    public SingleItemResponse updateItem(Long itemId, Item updatedItem){
+<b class="fc"><i>77</i>&nbsp;        Item item = getItemById(itemId);</b>
+<b class="fc"><i>78</i>&nbsp;        User user = getCurrentUser();</b>
+<i>79</i>&nbsp;
+<b class="fc"><i>80</i>&nbsp;        if(!item.getUser().equals(user)){</b>
+<b class="fc"><i>81</i>&nbsp;            throw new ForbiddenException(&quot;exception.itemNotBelongToUser&quot;);</b>
+<i>82</i>&nbsp;        }
+<i>83</i>&nbsp;
+<b class="fc"><i>84</i>&nbsp;        if(!Objects.equals(item.getList().getId(), updatedItem.getList().getId())){</b>
+<b class="fc"><i>85</i>&nbsp;            throw new ForbiddenException(&quot;exception.itemNotBelongToList&quot;);</b>
+<i>86</i>&nbsp;        }
+<i>87</i>&nbsp;
+<b class="fc"><i>88</i>&nbsp;        if(!Objects.equals(item.getText(), updatedItem.getText())){</b>
+<b class="fc"><i>89</i>&nbsp;            item.setText(updatedItem.getText());</b>
+<i>90</i>&nbsp;        }
+<i>91</i>&nbsp;
+<b class="fc"><i>92</i>&nbsp;        if(!Objects.equals(item.getQuantity(), updatedItem.getQuantity())){</b>
+<b class="fc"><i>93</i>&nbsp;            item.setQuantity(updatedItem.getQuantity());</b>
+<i>94</i>&nbsp;        }
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;        if(!Objects.equals(item.getUnit(), updatedItem.getUnit())){</b>
+<b class="fc"><i>97</i>&nbsp;            item.setUnit(updatedItem.getUnit());</b>
+<i>98</i>&nbsp;        }
+<i>99</i>&nbsp;
+<b class="fc"><i>100</i>&nbsp;        if(!Objects.equals(item.isDone(), updatedItem.isDone())){</b>
+<b class="fc"><i>101</i>&nbsp;            item.setDone(updatedItem.isDone());</b>
+<i>102</i>&nbsp;        }
+<i>103</i>&nbsp;
+<b class="fc"><i>104</i>&nbsp;        if(!Arrays.equals(item.getImage(), updatedItem.getImage())){</b>
+<b class="fc"><i>105</i>&nbsp;            item.setImage(updatedItem.getImage());</b>
+<i>106</i>&nbsp;        }
+<i>107</i>&nbsp;
+<b class="fc"><i>108</i>&nbsp;        itemRepository.save(item);</b>
+<b class="fc"><i>109</i>&nbsp;        return mapItemToSingleItemResponse(item);</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    @Transactional
+<i>113</i>&nbsp;    public SingleItemResponse updateItem(Long itemId, Item updatedItem, MultipartFile image) throws IOException {
+<b class="fc"><i>114</i>&nbsp;        updatedItem.setImage(ImageConverter.compressBytes(image.getBytes()));</b>
+<b class="fc"><i>115</i>&nbsp;        return updateItem(itemId, updatedItem);</b>
+<i>116</i>&nbsp;    }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    @Transactional
+<i>120</i>&nbsp;    public void deleteItem(Long itemId){
+<b class="fc"><i>121</i>&nbsp;        Item item = getItemById(itemId);</b>
+<b class="fc"><i>122</i>&nbsp;        User user = getCurrentUser();</b>
+<i>123</i>&nbsp;
+<b class="fc"><i>124</i>&nbsp;        if(!item.getUser().equals(user)){</b>
+<b class="fc"><i>125</i>&nbsp;            throw new ForbiddenException(&quot;exception.itemNotBelongToUser&quot;);</b>
+<i>126</i>&nbsp;        }
+<i>127</i>&nbsp;
+<b class="fc"><i>128</i>&nbsp;        itemRepository.delete(item);</b>
+<b class="fc"><i>129</i>&nbsp;    }</b>
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    @Transactional
+<i>132</i>&nbsp;    public ItemsResponse getAllItemsByListId(Long listId) {
+<b class="fc"><i>133</i>&nbsp;        User user = getCurrentUser();</b>
+<b class="fc"><i>134</i>&nbsp;        ShoppingList list = getListById(listId);</b>
+<i>135</i>&nbsp;
+<b class="fc"><i>136</i>&nbsp;        if(!list.getUser().equals(user)){</b>
+<b class="fc"><i>137</i>&nbsp;            throw new ForbiddenException(&quot;exception.listNotBelongToUser&quot;);</b>
+<i>138</i>&nbsp;        }
+<i>139</i>&nbsp;
+<b class="fc"><i>140</i>&nbsp;        ItemsResponse itemsResponse = new ItemsResponse();</b>
+<b class="fc"><i>141</i>&nbsp;        itemsResponse.setListId(list.getId());</b>
+<b class="fc"><i>142</i>&nbsp;        itemsResponse.setListName(list.getName());</b>
+<b class="fc"><i>143</i>&nbsp;        itemsResponse.setDate(list.getDate().toString());</b>
+<i>144</i>&nbsp;
+<b class="fc"><i>145</i>&nbsp;        itemRepository.findItemsByList(list).ifPresent(</b>
+<b class="fc"><i>146</i>&nbsp;                items -&gt; itemsResponse.setItems(</b>
+<b class="fc"><i>147</i>&nbsp;                        items.stream()</b>
+<b class="fc"><i>148</i>&nbsp;                                .sorted(Comparator.comparing(Item::getId))</b>
+<b class="fc"><i>149</i>&nbsp;                                .map(this::mapItemToSingleItemResponse)</b>
+<b class="fc"><i>150</i>&nbsp;                                .collect(Collectors.toList())</b>
+<i>151</i>&nbsp;                )
+<i>152</i>&nbsp;        );
+<i>153</i>&nbsp;
+<b class="fc"><i>154</i>&nbsp;        return itemsResponse;</b>
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;    private Item getItemById(Long id){
+<b class="fc"><i>160</i>&nbsp;        return itemRepository.findById(id).orElseThrow(</b>
+<b class="fc"><i>161</i>&nbsp;                () -&gt; new NotFoundException(&quot;exception.itemNotFound&quot;)</b>
+<i>162</i>&nbsp;        );
+<i>163</i>&nbsp;    }
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    private ShoppingList getListById(Long id){
+<b class="fc"><i>166</i>&nbsp;        return listRepository.findById(id).orElseThrow(</b>
+<b class="fc"><i>167</i>&nbsp;                () -&gt; new NotFoundException(&quot;exception.listNotFound&quot;)</b>
+<i>168</i>&nbsp;        );
+<i>169</i>&nbsp;    }
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    private User getCurrentUser(){
+<b class="fc"><i>172</i>&nbsp;        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()</b>
+<b class="fc"><i>173</i>&nbsp;                .getPrincipal();</b>
+<b class="fc"><i>174</i>&nbsp;        String username = userDetails.getUsername();</b>
+<b class="fc"><i>175</i>&nbsp;        return userRepository.findByUsername(username).orElseThrow(</b>
+<b class="nc"><i>176</i>&nbsp;                () -&gt; new UsernameNotFoundException(&quot;Cannot found user&quot;));</b>
+<i>177</i>&nbsp;    }
+<i>178</i>&nbsp;
+<i>179</i>&nbsp;    private SingleItemResponse mapItemToSingleItemResponse(Item item) {
+<b class="fc"><i>180</i>&nbsp;        SingleItemResponse singleItemResponse = this.modelMapper.map(item, SingleItemResponse.class);</b>
+<b class="fc"><i>181</i>&nbsp;        if(item.getImage() != null) {</b>
+<b class="fc"><i>182</i>&nbsp;            singleItemResponse.setImage(ImageConverter.decompressBytes(item.getImage()));</b>
+<i>183</i>&nbsp;        }
+<b class="fc"><i>184</i>&nbsp;        return singleItemResponse;</b>
+<i>185</i>&nbsp;    }
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-04 00:07</div>
+</div>
+</body>
+</html>

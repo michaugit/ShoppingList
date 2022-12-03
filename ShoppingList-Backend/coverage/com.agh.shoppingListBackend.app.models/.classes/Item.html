@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Item</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.agh.shoppingListBackend.app.models</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Item (com.agh.shoppingListBackend.app.models)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Item</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$5vUW2DBC</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$asuZjlFG</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$cDoWxbKL</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$Cwal6g20</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$dVRxVsNr</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$Jb6zUGfb</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$LmI8L7GH</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$LUF5tEzL</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$MWvkeaDE</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$TgYhdRzv</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$UDqYzNXW</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$VN9lGgaA</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$x12S0oWw</td>
+  </tr>
+  <tr>
+    <td class="name">Item$ByteBuddy$xpXCjRGb</td>
+  </tr>
+  <tr>
+    <td class="name">Item$HibernateProxy$dnbLcRRt</td>
+  </tr>
+  <tr>
+    <td class="name">Item$HibernateProxy$SCNL3gmg</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.agh.shoppingListBackend.app.models;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.agh.shoppingListBackend.app.enums.Units;
+<i>4</i>&nbsp;import lombok.Getter;
+<i>5</i>&nbsp;import lombok.Setter;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import javax.persistence.*;
+<i>8</i>&nbsp;import javax.validation.constraints.NotNull;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;@Getter
+<b class="fc"><i>11</i>&nbsp;@Setter</b>
+<i>12</i>&nbsp;@Entity
+<i>13</i>&nbsp;@Table(name = &quot;items&quot;)
+<b class="fc"><i>14</i>&nbsp;public class Item {</b>
+<i>15</i>&nbsp;    @Id
+<i>16</i>&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<b class="fc"><i>17</i>&nbsp;    private Long id;</b>
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;    private String text;</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    @NotNull
+<b class="fc"><i>22</i>&nbsp;    private Float quantity;</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    @Enumerated(EnumType.STRING)
+<b class="fc"><i>25</i>&nbsp;    private Units unit;</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @NotNull
+<b class="fc"><i>28</i>&nbsp;    private boolean done;</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Lob
+<b class="fc"><i>31</i>&nbsp;    private byte[] image;</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY)
+<i>34</i>&nbsp;    @JoinColumn(name=&quot;list_id&quot;, nullable = false)
+<b class="fc"><i>35</i>&nbsp;    private ShoppingList list;</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY)
+<i>38</i>&nbsp;    @JoinColumn(name=&quot;user_id&quot;, nullable = false)
+<b class="fc"><i>39</i>&nbsp;    private User user;</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;}
+<i>42</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-04 00:07</div>
+</div>
+</body>
+</html>

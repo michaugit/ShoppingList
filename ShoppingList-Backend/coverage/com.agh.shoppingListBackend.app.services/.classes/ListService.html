@@ -1,0 +1,235 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ListService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.agh.shoppingListBackend.app.services</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ListService (com.agh.shoppingListBackend.app.services)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ListService</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,9%
+  </span>
+  <span class="absValue">
+    (10/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,7%
+  </span>
+  <span class="absValue">
+    (43/ 44)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ListService$$EnhancerBySpringCGLIB$$cafbeaf0</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$$EnhancerBySpringCGLIB$$cafbeaf0$$FastClassBySpringCGLIB$$4800d5cc</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$$FastClassBySpringCGLIB$$7cc206cd</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$MockitoMock$WqzKJsXT</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$MockitoMock$WqzKJsXT$auxiliary$9hwPEl3M</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$MockitoMock$WqzKJsXT$auxiliary$bTm4UMxG</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$MockitoMock$WqzKJsXT$auxiliary$dcOt0pgK</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$MockitoMock$WqzKJsXT$auxiliary$fOALTwOU</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$MockitoMock$WqzKJsXT$auxiliary$g4BQMb7M</td>
+  </tr>
+  <tr>
+    <td class="name">ListService$MockitoMock$WqzKJsXT$auxiliary$Ld0d0gSc</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    90,9%
+  </span>
+  <span class="absValue">
+    (10/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,7%
+  </span>
+  <span class="absValue">
+    (43/ 44)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.agh.shoppingListBackend.app.services;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import com.agh.shoppingListBackend.app.exepction.ForbiddenException;
+<i>5</i>&nbsp;import com.agh.shoppingListBackend.app.exepction.NotFoundException;
+<i>6</i>&nbsp;import com.agh.shoppingListBackend.app.models.ShoppingList;
+<i>7</i>&nbsp;import com.agh.shoppingListBackend.app.models.User;
+<i>8</i>&nbsp;import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
+<i>9</i>&nbsp;import com.agh.shoppingListBackend.app.payload.response.SimpleListResponse;
+<i>10</i>&nbsp;import com.agh.shoppingListBackend.app.repository.ItemRepository;
+<i>11</i>&nbsp;import com.agh.shoppingListBackend.app.repository.ListRepository;
+<i>12</i>&nbsp;import com.agh.shoppingListBackend.app.repository.UserRepository;
+<i>13</i>&nbsp;import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
+<i>14</i>&nbsp;import org.modelmapper.ModelMapper;
+<i>15</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>16</i>&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+<i>17</i>&nbsp;import org.springframework.security.core.userdetails.UsernameNotFoundException;
+<i>18</i>&nbsp;import org.springframework.stereotype.Service;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import javax.transaction.Transactional;
+<i>21</i>&nbsp;import java.util.*;
+<i>22</i>&nbsp;import java.util.stream.Collectors;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;@Service
+<i>25</i>&nbsp;public class ListService {
+<i>26</i>&nbsp;    private final UserRepository userRepository;
+<i>27</i>&nbsp;    private final ListRepository listRepository;
+<i>28</i>&nbsp;    private final ItemRepository itemRepository;
+<i>29</i>&nbsp;    private final ModelMapper modelMapper;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @Autowired
+<b class="fc"><i>33</i>&nbsp;    public ListService(UserRepository userRepository, ListRepository listRepository, ItemRepository itemRepository, ModelMapper modelMapper) {</b>
+<b class="fc"><i>34</i>&nbsp;        this.userRepository = userRepository;</b>
+<b class="fc"><i>35</i>&nbsp;        this.listRepository = listRepository;</b>
+<b class="fc"><i>36</i>&nbsp;        this.itemRepository = itemRepository;</b>
+<b class="fc"><i>37</i>&nbsp;        this.modelMapper = modelMapper;</b>
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @Transactional
+<i>42</i>&nbsp;    public SimpleListResponse addList(ShoppingList list) {
+<b class="fc"><i>43</i>&nbsp;        User user = getCurrentUser();</b>
+<b class="fc"><i>44</i>&nbsp;        list.setUser(user);</b>
+<b class="fc"><i>45</i>&nbsp;        listRepository.save(list);</b>
+<b class="fc"><i>46</i>&nbsp;        return mapShoppingListToSingleListResponse(list);</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    @Transactional
+<i>50</i>&nbsp;    public SimpleListResponse updateList(Long listId, ShoppingList updatedList) {
+<b class="fc"><i>51</i>&nbsp;        ShoppingList list = getListById(listId);</b>
+<b class="fc"><i>52</i>&nbsp;        User user = getCurrentUser();</b>
+<i>53</i>&nbsp;
+<b class="fc"><i>54</i>&nbsp;        if (!list.getUser().equals(user)) {</b>
+<b class="fc"><i>55</i>&nbsp;            throw new ForbiddenException(&quot;exception.listNotBelongToUser&quot;);</b>
+<i>56</i>&nbsp;        }
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        if (!Objects.equals(list.getName(), updatedList.getName())) {</b>
+<b class="fc"><i>59</i>&nbsp;            list.setName(updatedList.getName());</b>
+<i>60</i>&nbsp;        }
+<i>61</i>&nbsp;
+<b class="fc"><i>62</i>&nbsp;        if (!Objects.equals(list.getDate(), updatedList.getDate())) {</b>
+<b class="fc"><i>63</i>&nbsp;            list.setDate(updatedList.getDate());</b>
+<i>64</i>&nbsp;        }
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;        listRepository.save(list);</b>
+<b class="fc"><i>67</i>&nbsp;        return mapShoppingListToSingleListResponse(list);</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    @Transactional
+<i>72</i>&nbsp;    public void deleteList(Long listId) {
+<b class="fc"><i>73</i>&nbsp;        ShoppingList list = getListById(listId);</b>
+<b class="fc"><i>74</i>&nbsp;        User user = getCurrentUser();</b>
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;        if (!list.getUser().equals(user)) {</b>
+<b class="fc"><i>77</i>&nbsp;            throw new ForbiddenException(&quot;exception.listNotBelongToUser&quot;);</b>
+<i>78</i>&nbsp;        }
+<i>79</i>&nbsp;
+<b class="fc"><i>80</i>&nbsp;        list.getItems().forEach(itemRepository::delete);</b>
+<b class="fc"><i>81</i>&nbsp;        listRepository.delete(list);</b>
+<b class="fc"><i>82</i>&nbsp;    }</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    @Transactional
+<i>85</i>&nbsp;    public ListsResponse getAllLists() {
+<b class="fc"><i>86</i>&nbsp;        User user = getCurrentUser();</b>
+<b class="fc"><i>87</i>&nbsp;        ListsResponse listsResponse = new ListsResponse();</b>
+<i>88</i>&nbsp;
+<b class="fc"><i>89</i>&nbsp;        listRepository.findListsByUser(user).ifPresent(</b>
+<b class="fc"><i>90</i>&nbsp;                lists -&gt; listsResponse.setShoppingLists(</b>
+<b class="fc"><i>91</i>&nbsp;                                lists.stream()</b>
+<b class="fc"><i>92</i>&nbsp;                                        .sorted(Comparator.comparing(ShoppingList::getId))</b>
+<b class="fc"><i>93</i>&nbsp;                                        .map(this::mapShoppingListToSingleListResponse)</b>
+<b class="fc"><i>94</i>&nbsp;                                        .collect(Collectors.toList())));</b>
+<b class="fc"><i>95</i>&nbsp;        return listsResponse;</b>
+<i>96</i>&nbsp;    }
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    private ShoppingList getListById(Long id) {
+<b class="fc"><i>99</i>&nbsp;        return listRepository.findById(id).orElseThrow(</b>
+<b class="fc"><i>100</i>&nbsp;                () -&gt; new NotFoundException(&quot;exception.listNotFound&quot;)</b>
+<i>101</i>&nbsp;        );
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    private User getCurrentUser() {
+<b class="fc"><i>105</i>&nbsp;        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()</b>
+<b class="fc"><i>106</i>&nbsp;                .getPrincipal();</b>
+<b class="fc"><i>107</i>&nbsp;        String username = userDetails.getUsername();</b>
+<b class="fc"><i>108</i>&nbsp;        return userRepository.findByUsername(username).orElseThrow(</b>
+<b class="nc"><i>109</i>&nbsp;                () -&gt; new UsernameNotFoundException(&quot;Cannot found user&quot;));</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    private SimpleListResponse mapShoppingListToSingleListResponse(ShoppingList list) {
+<b class="fc"><i>113</i>&nbsp;        return this.modelMapper.map(list, SimpleListResponse.class);</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-04 00:07</div>
+</div>
+</body>
+</html>
