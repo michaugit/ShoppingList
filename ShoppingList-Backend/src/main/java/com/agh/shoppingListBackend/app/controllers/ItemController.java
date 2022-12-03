@@ -26,7 +26,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/item")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 public class ItemController {
 
     private static final Logger logger = LoggerFactory.getLogger(ListController.class);
@@ -36,7 +36,7 @@ public class ItemController {
 
 
     @Autowired
-    public ItemController(ItemService itemService, ModelMapper modelMapper, MessageSource messageSource){
+    public ItemController(ItemService itemService, ModelMapper modelMapper, MessageSource messageSource) {
         this.itemService = itemService;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
@@ -49,17 +49,17 @@ public class ItemController {
         });
     }
 
-    @PostMapping( path ="/add", consumes = {
+    @PostMapping(path = "/add", consumes = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> addItem(@RequestPart(name="image", required=false) MultipartFile image,
-                                     @RequestPart("itemInfo") ItemDTO itemDTO){
+    public ResponseEntity<?> addItem(@RequestPart(name = "image", required = false) MultipartFile image,
+                                     @RequestPart("itemInfo") ItemDTO itemDTO) {
         Item item = mapItemDTOtoItem(itemDTO);
         SingleItemResponse response;
 
-        if(image!=null) {
+        if (image != null) {
             try {
                 response = itemService.addItem(item, itemDTO.getListId(), image);
             } catch (IOException e) {
@@ -74,47 +74,61 @@ public class ItemController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping( path ="/update/{id}", consumes = {
+    @PostMapping(path = "/update/{id}", consumes = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updateItem(@RequestPart(name="image", required=false) MultipartFile image,
+    public ResponseEntity<?> updateItem(@RequestPart(name = "image", required = false) MultipartFile image,
                                         @RequestPart("itemInfo") ItemDTO itemDTO,
-                                        @PathVariable(value = "id") Long itemId){
-        Item item = mapItemDTOtoItem(itemDTO);
-        SingleItemResponse response;
+                                        @PathVariable(value = "id") Long itemId) {
+        try {
+            Item item = mapItemDTOtoItem(itemDTO);
+            SingleItemResponse response;
 
-        if(image!=null) {
-            try {
+            if (image != null) {
                 response = itemService.updateItem(itemId, item, image);
-            } catch (IOException e) {
-                return ResponseEntity
-                        .status(HttpStatus.EXPECTATION_FAILED)
-                        .body(new MessageResponse(messageSource.getMessage(
-                                "exception.cannotSaveImage", null, LocaleContextHolder.getLocale())));
+
+            } else {
+                response = itemService.updateItem(itemId, item);
             }
-        } else {
-            response = itemService.updateItem(itemId, item);
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new MessageResponse(messageSource.getMessage(
+                            "exception.cannotSaveImage", null, LocaleContextHolder.getLocale())));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse(messageSource.getMessage(e.getMessage(), null, LocaleContextHolder.getLocale())));
         }
-        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping( path ="/delete/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> deleteItem(@PathVariable(value = "id") Long itemId){
-        itemService.deleteItem(itemId);
-        return ResponseEntity.ok( new MessageResponse(messageSource.getMessage("success.deleteItem", null, LocaleContextHolder.getLocale())));
+    public ResponseEntity<?> deleteItem(@PathVariable(value = "id") Long itemId) {
+        try {
+            itemService.deleteItem(itemId);
+            return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("success.deleteItem", null, LocaleContextHolder.getLocale())));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse(messageSource.getMessage(e.getMessage(), null, LocaleContextHolder.getLocale())));
+        }
     }
 
-    @GetMapping( path = "/all/{list_id}" )
+    @GetMapping(path = "/all/{list_id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getAllItems(@PathVariable(value = "list_id") Long listId ){
-        ItemsResponse itemsResponse = itemService.getAllItemsByListId(listId);
-        return ResponseEntity.ok(itemsResponse);
+    public ResponseEntity<?> getAllItems(@PathVariable(value = "list_id") Long listId) {
+        try {
+            ItemsResponse itemsResponse = itemService.getAllItemsByListId(listId);
+            return ResponseEntity.ok(itemsResponse);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse(messageSource.getMessage(e.getMessage(), null, LocaleContextHolder.getLocale())));
+        }
     }
 
-    private Item mapItemDTOtoItem(ItemDTO itemDTO){
+    private Item mapItemDTOtoItem(ItemDTO itemDTO) {
         return this.modelMapper.map(itemDTO, Item.class);
     }
 }

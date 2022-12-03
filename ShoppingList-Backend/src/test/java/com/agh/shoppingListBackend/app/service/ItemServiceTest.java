@@ -35,7 +35,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ItemServiceTest {
+class ItemServiceTest {
 
 
     @Mock
@@ -56,7 +56,7 @@ public class ItemServiceTest {
 
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         ModelMapper modelMapper = new ModelMapper();
         itemService = new ItemService(userRepository, itemRepository, listRepository, modelMapper);
         user = new User("user", "pass");
@@ -82,7 +82,7 @@ public class ItemServiceTest {
 
 
     @Test
-    void testAddItem(){
+    void testAddItem() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(listRepository.findById(list.getId())).thenReturn(Optional.of(list));
 
@@ -106,7 +106,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void testAddItemToOtherUser(){
+    void testAddItemToOtherUser() {
         User otherUser = new User("user2", "pass2");
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(otherUser));
         when(listRepository.findById(list.getId())).thenReturn(Optional.of(list));
@@ -116,13 +116,13 @@ public class ItemServiceTest {
     }
 
     @Test
-    void testAddItemToNonExitsList(){
+    void testAddItemToNonExitsList() {
         assertThrows(NotFoundException.class, () ->
                 itemService.addItem(item, list.getId()));
     }
 
     @Test
-    void testUpdateItem(){
+    void testUpdateItem() {
         Item updateItem = new Item();
         updateItem.setImage(null);
         updateItem.setDone(true);
@@ -147,7 +147,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void testUpdateNonExistingItem(){
+    void testUpdateNonExistingItem() {
         Item updateItem = new Item();
         assertThrows(NotFoundException.class, () -> itemService.updateItem(item.getId(), updateItem));
     }
@@ -180,7 +180,7 @@ public class ItemServiceTest {
 
 
     @Test
-    void testUpdateItemWhichNotBelongToUser(){
+    void testUpdateItemWhichNotBelongToUser() {
         User otherUser = new User("user2", "pass2");
         Item updateItem = new Item();
 
@@ -191,7 +191,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void testUpdateItemWhichBelongToDifferentList(){
+    void testUpdateItemWhichBelongToDifferentList() {
         ShoppingList otherList = new ShoppingList("otherTestList", Date.valueOf("2022-11-16"), user);
         otherList.setId(3L);
         Item updateItem = new Item();
@@ -204,7 +204,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void testDeleteItem(){
+    void testDeleteItem() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
         itemService.deleteItem(1L);
@@ -212,7 +212,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void testDeleteItemWhichNotBelongToUser(){
+    void testDeleteItemWhichNotBelongToUser() {
         User otherUser = new User("user2", "pass2");
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(otherUser));
         when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
@@ -220,7 +220,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void testGetAllItemsByListId(){
+    void testGetAllItemsByListId() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(listRepository.findById(list.getId())).thenReturn(Optional.of(list));
         when(itemRepository.findItemsByList(list)).thenReturn(Optional.of(List.of(item)));

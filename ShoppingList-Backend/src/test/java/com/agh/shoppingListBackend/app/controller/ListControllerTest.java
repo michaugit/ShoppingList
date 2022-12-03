@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ListController.class)
-public class ListControllerTest {
+class ListControllerTest {
 
     private MockMvc mockMvc;
 
@@ -49,7 +49,7 @@ public class ListControllerTest {
                 .webAppContextSetup(this.context)
                 .apply(springSecurity())
                 .build();
-        objectMapper =  new ObjectMapper();
+        objectMapper = new ObjectMapper();
     }
 
     @Test

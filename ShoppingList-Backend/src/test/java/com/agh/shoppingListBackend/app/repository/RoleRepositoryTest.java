@@ -11,18 +11,18 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class RoleRepositoryTest {
+class RoleRepositoryTest {
     @Autowired
     private RoleRepository roleRepository;
 
 
     @AfterEach
-    void clear(){
+    void clear() {
         roleRepository.deleteAll();
     }
 
     @Test
-    void testFindByName(){
+    void testFindByName() {
         Role role = new Role();
         role.setName(RoleEnum.ROLE_USER);
         roleRepository.save(role);

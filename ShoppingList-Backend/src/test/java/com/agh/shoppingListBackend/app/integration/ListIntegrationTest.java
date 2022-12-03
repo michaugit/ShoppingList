@@ -2,6 +2,8 @@ package com.agh.shoppingListBackend.app.integration;
 
 
 import com.agh.shoppingListBackend.app.enums.RoleEnum;
+import com.agh.shoppingListBackend.app.enums.Units;
+import com.agh.shoppingListBackend.app.models.Item;
 import com.agh.shoppingListBackend.app.models.Role;
 import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.models.User;
@@ -9,6 +11,7 @@ import com.agh.shoppingListBackend.app.payload.request.ListDTO;
 import com.agh.shoppingListBackend.app.payload.request.LoginDTO;
 import com.agh.shoppingListBackend.app.payload.response.ListsResponse;
 import com.agh.shoppingListBackend.app.payload.response.SimpleListResponse;
+import com.agh.shoppingListBackend.app.repository.ItemRepository;
 import com.agh.shoppingListBackend.app.repository.ListRepository;
 import com.agh.shoppingListBackend.app.repository.RoleRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
@@ -52,10 +55,13 @@ class ListIntegrationTest {
     ListRepository listRepository;
 
     @Autowired
-    UserRepository testUserRepository;
+    ItemRepository itemRepository;
 
     @Autowired
-    RoleRepository testRoleRepository;
+    UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -70,31 +76,35 @@ class ListIntegrationTest {
                 .webAppContextSetup(this.context)
                 .apply(springSecurity())
                 .build();
-        objectMapper =  new ObjectMapper();
+        objectMapper = new ObjectMapper();
 
-        Role role = new Role(RoleEnum.ROLE_USER);
-        if(!testRoleRepository.findByName(RoleEnum.ROLE_USER).isPresent()){
-            testRoleRepository.save(role);
-        }
+        Role role = roleRepository.findByName(RoleEnum.ROLE_USER)
+                .orElseGet(() -> {
+                    Role roleToAdd = new Role(RoleEnum.ROLE_USER);
+                    roleRepository.save(roleToAdd);
+                    return roleToAdd;
+                });
 
         LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setUsername("testuser");
+        loginDTO.setUsername("user");
         loginDTO.setPassword("pass");
 
-        User user = new User(loginDTO.getUsername(), encoder.encode(loginDTO.getPassword()));
-        if(!testUserRepository.findByUsername(user.getUsername()).isPresent()) {
-            user.setRoles(Set.of(role));
-            testUserRepository.save(user);
-            loggedUser = user;
-        }
+        loggedUser = userRepository.findByUsername(loginDTO.getUsername()).orElseGet(() -> {
+            User userToAdd = new User(loginDTO.getUsername(), encoder.encode(loginDTO.getPassword()));
+            userToAdd.setRoles(Set.of(role));
+            userRepository.save(userToAdd);
+            return userToAdd;
+        });
 
-        User otherUser = new User("otherUser" , encoder.encode("pass"));
-        if(!testUserRepository.findByUsername(otherUser.getUsername()).isPresent()) {
-            otherUser.setRoles(Set.of(role));
-            testUserRepository.save(otherUser);
-            this.otherUserList = new ShoppingList("otherUser test list", Date.valueOf("2022-11-17"), otherUser);
-            listRepository.save(this.otherUserList);
-        }
+        String otherUserName = "otherUser";
+        User otherUser = userRepository.findByUsername(otherUserName).orElseGet(() -> {
+            User userToAdd = new User(otherUserName, encoder.encode("pass"));
+            userToAdd.setRoles(Set.of(role));
+            userRepository.save(userToAdd);
+            return userToAdd;
+        });
+        this.otherUserList = new ShoppingList("otherUser test list", Date.valueOf("2022-11-17"), otherUser);
+        listRepository.save(this.otherUserList);
 
 
         MvcResult result = mockMvc.perform(post("/api/auth/signin")
@@ -125,7 +135,7 @@ class ListIntegrationTest {
                 .andExpect(jsonPath("$.id").isNumber()).andReturn();
 
         String json = result.getResponse().getContentAsString();
-        SimpleListResponse  response = objectMapper.readValue(json, SimpleListResponse.class);
+        SimpleListResponse response = objectMapper.readValue(json, SimpleListResponse.class);
         assertTrue(listRepository.existsById(response.getId()));
     }
 
@@ -154,7 +164,7 @@ class ListIntegrationTest {
                 .andReturn();
 
         String json = result.getResponse().getContentAsString();
-        SimpleListResponse  response = objectMapper.readValue(json, SimpleListResponse.class);
+        SimpleListResponse response = objectMapper.readValue(json, SimpleListResponse.class);
         ShoppingList updatedList = listRepository.getReferenceById(response.getId());
         assertEquals(listDTO.getName(), updatedList.getName());
         assertEquals(listDTO.getDate(), updatedList.getDate().toString());
@@ -185,13 +195,22 @@ class ListIntegrationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     @Transactional
-    void testIntegrationDelete() throws Exception {
+    void testIntegrationDeleteListWithItems() throws Exception {
         Optional<List<ShoppingList>> userLists = listRepository.findListsByUser(loggedUser);
         assertTrue(userLists.isPresent());
         assertTrue(userLists.get().size() > 0);
         ShoppingList listToDelete = userLists.get().get(0);
+
+        Item item = new Item();
+        item.setText("otherUser test item");
+        item.setQuantity(2.0f);
+        item.setUnit(Units.COUNT);
+        item.setList(listToDelete);
+        item.setUser(loggedUser);
+        itemRepository.save(item);
+        assertTrue(itemRepository.existsById(item.getId()));
 
         mockMvc.perform(delete("/api/list/delete/" + listToDelete.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -200,10 +219,11 @@ class ListIntegrationTest {
                 .andExpect(status().isOk());
 
         assertFalse(listRepository.existsById(listToDelete.getId()));
+        assertFalse(itemRepository.existsById(item.getId()));
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     @Transactional
     void testIntegrationDeleteListWhichNotBelongToLoggedUser() throws Exception {
         mockMvc.perform(delete("/api/list/delete/" + otherUserList.getId())
@@ -216,7 +236,7 @@ class ListIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     @Transactional
     void testIntegrationUpdateListWhichNotBelongToLoggedUser() throws Exception {
         ListDTO listDTO = new ListDTO();
@@ -234,7 +254,7 @@ class ListIntegrationTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     @Transactional
     void testIntegrationUpdateListThatNotExists() throws Exception {
         Long id = 999999L;

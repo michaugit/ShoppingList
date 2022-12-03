@@ -11,19 +11,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-public class UserRepositoryTest {
+class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
 
 
     @AfterEach
-    void clear(){
+    void clear() {
         userRepository.deleteAll();
     }
 
     @Test
-    void testFindByUsername(){
+    void testFindByUsername() {
         User user = new User("user", "pass");
         userRepository.save(user);
         User result = userRepository.findByUsername(user.getUsername()).orElse(null);
@@ -31,7 +31,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    void testExistsByUsername(){
+    void testExistsByUsername() {
         User user = new User("user", "pass");
         userRepository.save(user);
         Boolean result = userRepository.existsByUsername(user.getUsername());

@@ -8,8 +8,7 @@ import com.agh.shoppingListBackend.app.payload.request.SignupDTO;
 import com.agh.shoppingListBackend.app.repository.RoleRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -30,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AuthIntegrationTest {
 
     private MockMvc mockMvc;
@@ -48,28 +48,30 @@ class AuthIntegrationTest {
     @Autowired
     PasswordEncoder encoder;
 
-    @BeforeEach
+    @BeforeAll
     void setUp() {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(this.context)
                 .apply(springSecurity())
                 .build();
-        objectMapper =  new ObjectMapper();
+        objectMapper = new ObjectMapper();
 
-        Role role = new Role(RoleEnum.ROLE_USER);
-        if(!testRoleRepository.findByName(RoleEnum.ROLE_USER).isPresent()){
-            testRoleRepository.save(role);
-        }
+        Role role = testRoleRepository.findByName(RoleEnum.ROLE_USER)
+                .orElseGet(() -> {
+                    Role roleToAdd = new Role(RoleEnum.ROLE_USER);
+                    testRoleRepository.save(roleToAdd);
+                    return roleToAdd;
+                });
 
-        User user = new User("user", encoder.encode("pass"));
-        if(!testUserRepository.findByUsername(user.getUsername()).isPresent()) {
+        if (!testUserRepository.findByUsername("user").isPresent()) {
+            User user = new User("user", encoder.encode("pass"));
             user.setRoles(Set.of(role));
             testUserRepository.save(user);
         }
     }
 
     @Test
-    void testIntegrationOfAuthenticateUser() throws Exception{
+    void testIntegrationOfAuthenticateUser() throws Exception {
         String username = "user";
         String password = "pass";
 
@@ -88,7 +90,7 @@ class AuthIntegrationTest {
     }
 
     @Test
-    void testIntegrationOfAuthenticateUserWhichNotExists() throws Exception{
+    void testIntegrationOfAuthenticateUserWhichNotExists() throws Exception {
         String username = "usernotexists";
         String password = "pass";
 
@@ -105,11 +107,8 @@ class AuthIntegrationTest {
     }
 
 
-
     @Test
-    void testIntegrationOfRegister() throws Exception{
-        testUserRepository.deleteAll();
-
+    void testIntegrationOfRegister() throws Exception {
         String username = "user2";
         String password = "pass";
 
@@ -130,7 +129,7 @@ class AuthIntegrationTest {
     }
 
     @Test
-    void testIntegrationOfRegisterOfUserAlreadyExists() throws Exception{
+    void testIntegrationOfRegisterOfUserAlreadyExists() throws Exception {
         String username = "user";
         String password = "pass";
 
@@ -148,7 +147,7 @@ class AuthIntegrationTest {
 
 
     @Test
-    void testIntegrationOfLogout() throws Exception{
+    void testIntegrationOfLogout() throws Exception {
         mockMvc.perform(post("/api/auth/signout")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(csrf()))

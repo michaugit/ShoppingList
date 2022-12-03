@@ -4,49 +4,32 @@ import com.agh.shoppingListBackend.app.controllers.AuthController;
 import com.agh.shoppingListBackend.app.enums.RoleEnum;
 import com.agh.shoppingListBackend.app.models.Role;
 import com.agh.shoppingListBackend.app.models.User;
-import com.agh.shoppingListBackend.app.payload.request.ItemDTO;
 import com.agh.shoppingListBackend.app.payload.request.LoginDTO;
 import com.agh.shoppingListBackend.app.payload.request.SignupDTO;
 import com.agh.shoppingListBackend.app.repository.RoleRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.agh.shoppingListBackend.app.security.jwt.JwtUtils;
 import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
-import com.agh.shoppingListBackend.app.security.services.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.support.DelegatingMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Locale;
 import java.util.Set;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -55,20 +38,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(AuthController.class)
-public class AuthControllerTest {
+class AuthControllerTest {
 
     private MockMvc mockMvc;
 
     @Autowired
     private WebApplicationContext context;
 
-    @MockBean
-    private ModelMapper modelMapper;
-
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private UserDetailsServiceImpl testUserDetailsServiceImpl;
 
     @MockBean
     AuthenticationManager authenticationManager;
@@ -91,13 +68,13 @@ public class AuthControllerTest {
                 .webAppContextSetup(this.context)
                 .apply(springSecurity())
                 .build();
-        objectMapper =  new ObjectMapper();
+        objectMapper = new ObjectMapper();
     }
 
 
     @Test
     @WithMockUser
-    void testAuthenticateUser() throws Exception{
+    void testAuthenticateUser() throws Exception {
         Authentication authentication = Mockito.mock(Authentication.class);
 
         String username = "user";
@@ -114,7 +91,7 @@ public class AuthControllerTest {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
         UserDetailsImpl userDetails = UserDetailsImpl.build(user);
-        ResponseCookie responseCookie = ResponseCookie.from("test","test").build();
+        ResponseCookie responseCookie = ResponseCookie.from("test", "test").build();
 
         when(authenticationManager.authenticate(authenticationToken)).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
@@ -132,7 +109,7 @@ public class AuthControllerTest {
 
     @Test
     @WithMockUser
-    void testRegisterUser() throws Exception{
+    void testRegisterUser() throws Exception {
         SignupDTO signupDTO = new SignupDTO();
 
         signupDTO.setUsername("user");
@@ -154,7 +131,7 @@ public class AuthControllerTest {
 
     @Test
     @WithMockUser
-    void testRegisterUserWithRole() throws Exception{
+    void testRegisterUserWithRole() throws Exception {
         SignupDTO signupDTO = new SignupDTO();
 
         signupDTO.setUsername("user");
@@ -177,7 +154,7 @@ public class AuthControllerTest {
     @Test
     @WithMockUser
     void testLogout() throws Exception {
-        ResponseCookie responseCookie = ResponseCookie.from("test","test").build();
+        ResponseCookie responseCookie = ResponseCookie.from("test", "test").build();
 
         when(jwtUtils.getCleanJwtCookie()).thenReturn(responseCookie);
         mockMvc.perform(post("/api/auth/signout")

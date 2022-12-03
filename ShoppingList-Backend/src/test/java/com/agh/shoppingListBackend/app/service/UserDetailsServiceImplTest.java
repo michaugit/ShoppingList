@@ -4,6 +4,7 @@ import com.agh.shoppingListBackend.app.models.User;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
 import com.agh.shoppingListBackend.app.security.services.UserDetailsServiceImpl;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,15 +25,15 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserDetailsServiceImplTest {
+class UserDetailsServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
 
+    private Authentication authentication;
+    private SecurityContext securityContext;
     private UserDetailsServiceImpl userDetailsService;
-
     private User user;
-
 
     @BeforeEach
     void setUp(){
@@ -40,11 +41,17 @@ public class UserDetailsServiceImplTest {
         user = new User("user", "pass");
 
         UserDetailsImpl applicationUser = UserDetailsImpl.build(user);
-        Authentication authentication = Mockito.mock(Authentication.class);
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        authentication = Mockito.mock(Authentication.class);
+        securityContext = Mockito.mock(SecurityContext.class);
         SecurityContextHolder.setContext(securityContext);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         lenient().when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(applicationUser);
+    }
+
+    @AfterEach
+    void resetMocks(){
+        Mockito.reset(authentication);
+        Mockito.reset(securityContext);
     }
 
     @Test

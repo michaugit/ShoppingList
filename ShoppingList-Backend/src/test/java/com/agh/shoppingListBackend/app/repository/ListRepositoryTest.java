@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-public class ListRepositoryTest {
+class ListRepositoryTest {
     @Autowired
     private ListRepository listRepository;
 
@@ -24,13 +24,13 @@ public class ListRepositoryTest {
 
 
     @AfterEach
-    void clear(){
+    void clear() {
         listRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Test
-    void testFindListsByUser(){
+    void testFindListsByUser() {
         User user = new User("user", "pass");
         ShoppingList list = new ShoppingList("testList", Date.valueOf("2022-11-17"), user);
 

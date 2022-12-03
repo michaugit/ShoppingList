@@ -32,7 +32,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ListServiceTest {
+class ListServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -49,7 +49,7 @@ public class ListServiceTest {
     private ShoppingList list;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         ModelMapper modelMapper = new ModelMapper();
         listService = new ListService(userRepository, listRepository, itemRepository, modelMapper);
         user = new User("user", "pass");
@@ -67,7 +67,7 @@ public class ListServiceTest {
 
 
     @Test
-    void testAddList(){
+    void testAddList() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         SimpleListResponse response = listService.addList(list);
@@ -77,7 +77,7 @@ public class ListServiceTest {
     }
 
     @Test
-    void testUpdateList(){
+    void testUpdateList() {
         ShoppingList updateList = new ShoppingList("updateList", Date.valueOf("2022-11-18"), user);
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
@@ -93,7 +93,7 @@ public class ListServiceTest {
 
 
     @Test
-    void testUpdateListNotBelongToUser(){
+    void testUpdateListNotBelongToUser() {
         User otherUser = new User("user2", "pass2");
         ShoppingList updateList = new ShoppingList("updateList", Date.valueOf("2022-11-17"), user);
 
@@ -104,7 +104,7 @@ public class ListServiceTest {
     }
 
     @Test
-    void testUpdateListWhichNotExists(){
+    void testUpdateListWhichNotExists() {
         ShoppingList updateList = new ShoppingList("updateList", Date.valueOf("2022-11-17"), user);
         when(listRepository.findById(list.getId())).thenThrow(new NotFoundException("exception.listNotFound"));
 
@@ -112,7 +112,7 @@ public class ListServiceTest {
     }
 
     @Test
-    void testDeleteList(){
+    void testDeleteList() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(listRepository.findById(list.getId())).thenReturn(Optional.of(list));
         listService.deleteList(list.getId());
@@ -120,7 +120,7 @@ public class ListServiceTest {
     }
 
     @Test
-    void testDeleteListWhichNotBelongToUser(){
+    void testDeleteListWhichNotBelongToUser() {
         User otherUser = new User("user2", "pass2");
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(otherUser));
         when(listRepository.findById(list.getId())).thenReturn(Optional.of(list));
@@ -129,7 +129,7 @@ public class ListServiceTest {
     }
 
     @Test
-    void testGetAllLists(){
+    void testGetAllLists() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(listRepository.findListsByUser(user)).thenReturn(Optional.of(List.of(list)));
 
