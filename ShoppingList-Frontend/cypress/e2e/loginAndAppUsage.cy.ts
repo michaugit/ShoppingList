@@ -92,6 +92,8 @@ describe('User lists managing', () => {
   it('delete list 2 and 3', () => {
     cy.contains('test list name 2').parent().parent().find('.delete_button').click()
     cy.contains('test list name 3').parent().parent().find('.delete_button').click()
+    cy.contains('test list name 2').should('not.exist')
+    cy.contains('test list name 3').should('not.exist')
   })
 })
 
@@ -112,6 +114,7 @@ describe('items managing', () => {
     cy.get('mat-select[formcontrolname="unit"]').click().get('mat-option').contains('kg').click()
     cy.get('#fileInput').selectFile('cypress/fixtures/jablka.jpg')
     cy.get('.add_button').click()
+    cy.contains('Jabłka').should('exist')
   })
 
   it('new item with own name', () => {
@@ -119,6 +122,7 @@ describe('items managing', () => {
     cy.get('input[formcontrolname="quantity"]').type('{selectall}{backspace}2')
     cy.get('mat-select[formcontrolname="unit"]').click().get('mat-option').contains('szt.').click()
     cy.get('.add_button').click()
+    cy.contains('Mleko kozie').should('exist')
   })
 
   it('new item with cancel click', () => {
@@ -127,6 +131,7 @@ describe('items managing', () => {
     cy.get('mat-select[formcontrolname="unit"]').click().get('mat-option').contains('szt.').click()
     cy.get('#fileInput').selectFile('cypress/fixtures/jablka.jpg')
     cy.get('.cancel_button').click()
+    cy.contains("Item I don't want to add").should('not.exist')
   })
 
   it('check item 1 and 2', () => {
@@ -144,10 +149,13 @@ describe('items managing', () => {
     cy.get('.edit_item input[formcontrolname="quantity"]').type("{selectall}{backspace}5")
     cy.get('.edit_item #fileInput').selectFile('cypress/fixtures/jablka.jpg')
     cy.get('.edit_item .edit_button').click()
+    cy.contains('Mleko kozie').should('not.exist')
+    cy.contains('Mleko kokosowe').should('exist')
   })
 
   it('delete item', () => {
     cy.contains('Mleko kokosowe').parent().parent().find('.delete_button').click()
+    cy.contains('Mleko kokosowe').should('not.exist')
   })
 
   it('back to user lists', () => {
