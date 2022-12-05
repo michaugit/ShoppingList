@@ -1,5 +1,5 @@
 <div class="item">
-  <mat-checkbox id=checkbox [checked]="item.done" (change)="toggle(item)"  color="primary">
+  <mat-checkbox class="checkbox" [checked]="item.done" (change)="toggle(item)"  color="primary">
     <span [ngClass]="{done:item.done}">{{index}}. </span>
     <div class="itemVisualisation">
       <span [ngClass]="{done:item.done}">{{item.text}}</span>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>3/8</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>3/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -119,22 +119,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">53x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable } from '@angular/core';
@@ -156,22 +156,22 @@ const httpOptions = {
 })
 export class UserListsService {
 &nbsp;
-  constructor(private http: HttpClient) {}
+<span class="fstat-no" title="function not covered" >  constructor(private <span class="cstat-no" title="statement not covered" >h</span>ttp: HttpClient)</span> {}
 &nbsp;
-  getUserLists(): Observable&lt;UserListsResponse&gt; {
-    return this.http.get&lt;UserListsResponse&gt;(USER_LISTS_API + 'all')
+<span class="fstat-no" title="function not covered" >  getUserLists(</span>): Observable&lt;UserListsResponse&gt; {
+<span class="cstat-no" title="statement not covered" >    return this.http.get&lt;UserListsResponse&gt;(USER_LISTS_API + 'all')</span>
   }
 &nbsp;
-  create(listRequest: ListRequest): Observable&lt;SimpleListResponse&gt; {
-    return this.http.post&lt;SimpleListResponse&gt;(USER_LISTS_API + 'add', listRequest, httpOptions)
+<span class="fstat-no" title="function not covered" >  create(</span>listRequest: ListRequest): Observable&lt;SimpleListResponse&gt; {
+<span class="cstat-no" title="statement not covered" >    return this.http.post&lt;SimpleListResponse&gt;(USER_LISTS_API + 'add', listRequest, httpOptions)</span>
   }
 &nbsp;
-  update(id: number, listRequest: ListRequest): Observable&lt;SimpleListResponse&gt; {
-    return this.http.post&lt;SimpleListResponse&gt;(USER_LISTS_API + 'update/' + id, listRequest, httpOptions)
+<span class="fstat-no" title="function not covered" >  update(</span>id: number, listRequest: ListRequest): Observable&lt;SimpleListResponse&gt; {
+<span class="cstat-no" title="statement not covered" >    return this.http.post&lt;SimpleListResponse&gt;(USER_LISTS_API + 'update/' + id, listRequest, httpOptions)</span>
   }
 &nbsp;
-  delete(list: List): Observable&lt;any&gt; {
-    return this.http.delete(USER_LISTS_API + 'delete/' + list.id)
+<span class="fstat-no" title="function not covered" >  delete(</span>list: List): Observable&lt;any&gt; {
+<span class="cstat-no" title="statement not covered" >    return this.http.delete(USER_LISTS_API + 'delete/' + list.id)</span>
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -181,7 +181,7 @@ export class UserListsService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-04T13:28:42.135Z
+                at 2022-12-05T16:02:19.978Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

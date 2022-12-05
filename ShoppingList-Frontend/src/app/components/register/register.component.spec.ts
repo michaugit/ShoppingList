@@ -185,8 +185,9 @@ describe('RegisterComponent', () => {
     username.setValue('test');
     password.setValue('pass');
     passwordRepeat.setValue('pass');
-    expect(component.form.valid).toBeTruthy();
     fixture.detectChanges();
+    expect(component.form.valid).toBeTruthy();
+
 
     const authService = fixture.debugElement.injector.get(AuthService)
     const storageService = fixture.debugElement.injector.get(StorageService)
@@ -229,8 +230,8 @@ describe('RegisterComponent', () => {
     username.setValue('test');
     password.setValue('pass');
     passwordRepeat.setValue('pass');
-    expect(component.form.valid).toBeTruthy();
     fixture.detectChanges();
+    expect(component.form.valid).toBeTruthy();
 
     const authService = fixture.debugElement.injector.get(AuthService)
     const storageService = fixture.debugElement.injector.get(StorageService)

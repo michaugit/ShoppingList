@@ -51,6 +51,7 @@ describe('MainNavigationComponent', () => {
 
   it('should present logout nav when user is logged out', fakeAsync(() => {
     component.isLoggedIn = false
+    fixture.detectChanges()
     expect(fixture.debugElement.nativeElement.querySelector('.user_lists_btn')).toBeNull()
     expect(fixture.debugElement.nativeElement.querySelector('.logout_btn')).toBeNull()
     expect(fixture.debugElement.nativeElement.querySelector('.login_btn')).toBeDefined()

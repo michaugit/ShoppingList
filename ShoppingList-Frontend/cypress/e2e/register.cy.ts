@@ -1,5 +1,8 @@
 describe('Register', () => {
   it('should start at login page ', () => {
+    cy.window().then((win) => {
+      win.sessionStorage.clear()
+    });
     cy.visit('http://localhost:4200')
     cy.url().should('includes', 'login')
   })

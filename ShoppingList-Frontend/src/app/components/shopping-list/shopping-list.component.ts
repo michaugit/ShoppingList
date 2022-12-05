@@ -3,7 +3,6 @@ import {Item} from "../../models/item";
 import {TranslateService} from "@ngx-translate/core";
 import {ActivatedRoute} from "@angular/router";
 import {ItemService} from "../../services/item.service";
-import {List} from "../../models/list";
 import Swal from "sweetalert2";
 
 @Component({
@@ -31,7 +30,7 @@ export class ShoppingListComponent implements OnInit {
   }
 
   refreshItems(){
-    this.itemService.getListItems(this.listId!).subscribe({
+    this.itemService.getListItems(this.listId).subscribe({
       next: (data) => {
         this.listTitle = data.listName;
         data.items.forEach((item) =>{

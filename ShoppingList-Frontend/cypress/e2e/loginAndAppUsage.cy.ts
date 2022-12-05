@@ -1,4 +1,3 @@
-import cypressConfig from "cypress.config";
 Cypress.Cookies.defaults({
   preserve: 'shoppingList',
 })
@@ -135,12 +134,12 @@ describe('items managing', () => {
   })
 
   it('check item 1 and 2', () => {
-    cy.contains('Jabłka').parent().find('#checkbox-input').click({ force: true })
-    cy.contains('Mleko kozie').parent().find('#checkbox-input').click({ force: true })
+    cy.contains('Jabłka').parent().find('input[id*="mat-checkbox-"]').click({ force: true })
+    cy.contains('Mleko kozie').parent().find('input[id*="mat-checkbox-"]').click({ force: true })
   })
 
   it('uncheck item 2', () => {
-    cy.contains('Mleko kozie').parent().find('#checkbox-input').click({ force: true })
+    cy.contains('Mleko kozie').parent().find('input[id*="mat-checkbox-"]').click({ force: true })
   })
 
   it('edit item 2', () => {

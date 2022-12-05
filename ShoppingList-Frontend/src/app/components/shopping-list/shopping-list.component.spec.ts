@@ -1,10 +1,10 @@
 import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 
 import { ShoppingListComponent } from './shopping-list.component';
-import {HttpTestingController} from "@angular/common/http/testing";
+import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {commonTestImports, materialTestImports} from "../../app.providers";
 import {Observable, throwError} from "rxjs";
-import {ControlContainer} from "@angular/forms";
+import {ControlContainer, ReactiveFormsModule} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {AddListItemComponent} from "./add-list-item/add-list-item.component";
 import {Item} from "../../models/item";
@@ -16,6 +16,8 @@ import * as Rx from "rxjs";
 import Swal from "sweetalert2";
 import {UserListsService} from "../../services/user-lists.service";
 import {StorageService} from "../../services/auth/storage.service";
+import {TranslateModule} from "@ngx-translate/core";
+import {CommonModule} from "@angular/common";
 
 describe('ShoppingListComponent', () => {
   let component: ShoppingListComponent;

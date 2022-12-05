@@ -1,10 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Item} from "../../../models/item";
-import {FormControl} from "@angular/forms";
-import {map, Observable, startWith} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
-import UnitService from "../../../services/unitService";
-import CommonProductsService from "../../../services/commonProductsService";
 import Swal from "sweetalert2";
 import {ItemService} from "../../../services/item.service";
 
@@ -26,7 +22,7 @@ export class ListItemComponent implements OnInit {
 
   constructor(private translate: TranslateService, private itemService: ItemService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {  }
 
   deleteItem(item: Item){
     this.itemService.delete(item).subscribe({
