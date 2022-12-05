@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -158,34 +158,30 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,13 +189,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -228,30 +228,30 @@ export class EditUserListComponent implements OnInit {
 &nbsp;
   form!: FormGroup;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(private <span class="cstat-no" title="statement not covered" >t</span>ranslate: TranslateService,</span> private <span class="cstat-no" title="statement not covered" >formBuilder: FormBuilder,</span>
-              private <span class="cstat-no" title="statement not covered" >userListService: UserListsService)</span> {
+  constructor(private translate: TranslateService, private formBuilder: FormBuilder,
+              private userListService: UserListsService) {
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  ngOnInit(</span>): void {
-<span class="cstat-no" title="statement not covered" >    this.form = this.formBuilder.group({</span>
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
       name: [this.list.name, Validators.required],
       date: [this.formatDate(this.list.date), Validators.required]
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  editList(</span>): void{
-    let listRequest: ListRequest = <span class="cstat-no" title="statement not covered" >{</span>
+  editList(): void{
+    let listRequest: ListRequest = {
       "name": this.form.get('name')?.value,
       "date": formatDate(this.form.get('date')?.value, 'yyyy-MM-dd', 'en_US')
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.userListService.update(this.list.id, listRequest).subscribe({</span>
-      next: <span class="fstat-no" title="function not covered" >(s</span>impleListResponse) =&gt; {
-<span class="cstat-no" title="statement not covered" >        this.refreshList(simpleListResponse)</span>
-<span class="cstat-no" title="statement not covered" >        this.list.isBeingEditing = false</span>
+    this.userListService.update(this.list.id, listRequest).subscribe({
+      next: (simpleListResponse) =&gt; {
+        this.refreshList(simpleListResponse)
+        this.list.isBeingEditing = false
       },
-      error: <span class="fstat-no" title="function not covered" >err </span>=&gt; {
-<span class="cstat-no" title="statement not covered" >        Swal.fire({</span>
+      error: err =&gt; {
+        Swal.fire({
           title: this.translate.instant('common.fail'),
           text: err.error.message,
           icon: 'error',
@@ -262,14 +262,14 @@ export class EditUserListComponent implements OnInit {
 &nbsp;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  formatDate(</span>date: string): Date{
-    let splitedData = <span class="cstat-no" title="statement not covered" >date.split('-')</span>
-<span class="cstat-no" title="statement not covered" >    return new Date(splitedData[1] + '/' + splitedData[2] + '/' + splitedData[0])</span>
+  formatDate(date: string): Date{
+    let splitedData = date.split('-')
+    return new Date(splitedData[1] + '/' + splitedData[2] + '/' + splitedData[0])
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  refreshList(</span>simpleListResponse: SimpleListResponse){
-<span class="cstat-no" title="statement not covered" >    this.list.name = simpleListResponse.name;</span>
-<span class="cstat-no" title="statement not covered" >    this.list.date = simpleListResponse.date;</span>
+  refreshList(simpleListResponse: SimpleListResponse){
+    this.list.name = simpleListResponse.name;
+    this.list.date = simpleListResponse.date;
   }
 &nbsp;
 }
@@ -280,7 +280,7 @@ export class EditUserListComponent implements OnInit {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-05T16:02:19.978Z
+                at 2022-12-05T16:54:55.255Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

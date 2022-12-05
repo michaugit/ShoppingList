@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/16</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -139,36 +139,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -197,36 +197,36 @@ export class UserListsComponent implements OnInit {
 &nbsp;
   lists: List[];
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(private <span class="cstat-no" title="statement not covered" >t</span>ranslate: TranslateService,</span> private <span class="cstat-no" title="statement not covered" >router: Router,</span>
-              private <span class="cstat-no" title="statement not covered" >userListsService: UserListsService,</span> private <span class="cstat-no" title="statement not covered" >storageService: StorageService)</span> {
-<span class="cstat-no" title="statement not covered" >    this.lists = []</span>
+  constructor(private translate: TranslateService, private router: Router,
+              private userListsService: UserListsService, private storageService: StorageService) {
+    this.lists = []
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  ngOnInit(</span>): void {
-<span class="cstat-no" title="statement not covered" >    if (!this.storageService.isLoggedIn()) {</span>
-<span class="cstat-no" title="statement not covered" >      this.router.navigate(['/login'])</span>
+  ngOnInit(): void {
+    if (!this.storageService.isLoggedIn()) {
+      this.router.navigate(['/login'])
     } else {
-<span class="cstat-no" title="statement not covered" >      this.refreshUserLists()</span>
+      this.refreshUserLists()
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  removeList(</span>list: List) {
-<span class="cstat-no" title="statement not covered" >    this.lists.splice(this.lists.indexOf(list), 1);</span>
+  removeList(list: List) {
+    this.lists.splice(this.lists.indexOf(list), 1);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  refreshUserLists(</span>): void {
-<span class="cstat-no" title="statement not covered" >    this.userListsService.getUserLists().subscribe({</span>
-      next: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; {
-<span class="cstat-no" title="statement not covered" >        data.shoppingLists.forEach(<span class="fstat-no" title="function not covered" >(s</span>hoppingList) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (this.lists.find(<span class="fstat-no" title="function not covered" >function (l</span>ist) {</span>
-<span class="cstat-no" title="statement not covered" >            return list.id == shoppingList.id</span>
+  refreshUserLists(): void {
+    this.userListsService.getUserLists().subscribe({
+      next: (data) =&gt; {
+        data.shoppingLists.forEach((shoppingList) =&gt; {
+          if (this.lists.find(function (list) {
+            return list.id == shoppingList.id
           }) == undefined) {
-<span class="cstat-no" title="statement not covered" >            this.lists.push(new List(shoppingList.name, shoppingList.date, shoppingList.id));</span>
+            this.lists.push(new List(shoppingList.name, shoppingList.date, shoppingList.id));
           }
         })
       },
-      error: <span class="fstat-no" title="function not covered" >err </span>=&gt; {
-<span class="cstat-no" title="statement not covered" >        Swal.fire({</span>
+      error: err =&gt; {
+        Swal.fire({
           title: this.translate.instant('common.fail'),
           text: err.error.message,
           icon: 'error',
@@ -244,7 +244,7 @@ export class UserListsComponent implements OnInit {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-05T16:02:19.978Z
+                at 2022-12-05T16:54:55.254Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
 import {HttpTestingController} from "@angular/common/http/testing";
@@ -196,6 +196,7 @@ describe('RegisterComponent', () => {
     const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     const spySweetAlert = spyOn(Swal,"fire").and.callThrough()
     spyOn(component, 'reloadPage')
+    storageService.clean();
 
     const btn = fixture.debugElement.nativeElement.querySelector('.register-btn')
     btn.click()
@@ -239,6 +240,7 @@ describe('RegisterComponent', () => {
     const spyOnSubmit = spyOn(component, 'onSubmit').and.callThrough()
     const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     const spySweetAlert = spyOn(Swal,"fire")
+    storageService.clean();
 
     const btn = fixture.debugElement.nativeElement.querySelector('.register-btn')
     btn.click()
