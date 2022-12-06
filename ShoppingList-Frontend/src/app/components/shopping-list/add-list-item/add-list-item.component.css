@@ -1,5 +1,6 @@
 mat-card {
   width: 100%;
+  min-width: 500px;
   max-width: 800px;
   margin: 20px auto 0 auto;
 }
@@ -30,7 +31,7 @@ mat-icon {
 }
 
 .add_item_image_row #image{
-  width: 550px
+  width: 71%;
 }
 
 .add_item_image_row .preview{
@@ -53,15 +54,11 @@ mat-icon {
 }
 
 .add_buttons button {
-  width: -moz-available;
+  width: 100%;
 }
 
 #newItem{
-  width:550px
-}
-
-#nameItem{
-  width:500px
+  width: 100%;
 }
 
 #unit, #num {
@@ -76,5 +73,5 @@ mat-icon {
   height: 100%;
   left: 0px;
   top: 0px;
-  width: -moz-available;
+  width: 100%;
 }

@@ -1,5 +1,6 @@
 mat-card {
   width: 100%;
+  min-width: 500px;
   max-width: 800px;
   margin: 20px auto 0 auto;
 }
@@ -24,5 +25,9 @@ mat-divider {
 }
 
 .itemSimple {
-  width: -moz-available;
+  width: 100%;
+}
+
+.itemSimpleEdit {
+  width: 100%;
 }

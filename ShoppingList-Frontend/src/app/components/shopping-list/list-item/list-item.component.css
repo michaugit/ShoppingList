@@ -1,6 +1,6 @@
 .item{
   height: auto;
-  width: -moz-available;
+  width: 100%;
   align-items: center;
   display: flex;
   flex-direction: row;

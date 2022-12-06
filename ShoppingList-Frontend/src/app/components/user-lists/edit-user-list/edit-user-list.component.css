@@ -26,11 +26,11 @@ mat-icon {
 }
 
 .edit_buttons button {
-  width: -moz-available;
+  width: 100%;
 }
 
 #name {
-  width: 520px
+  width: 100%;
 }
 
 #date {

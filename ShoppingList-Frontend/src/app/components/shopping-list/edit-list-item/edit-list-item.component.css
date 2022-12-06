@@ -31,11 +31,11 @@
 }
 
 .edit_buttons button {
-  width: -moz-available;
+  width: 100%;
 }
 
 .edit_item_image_row #image {
-  width: 500px
+  width: 71%;
 }
 
 .edit_item_image_row .preview {
@@ -48,7 +48,7 @@
 }
 
 #name {
-  width: 500px
+  width: 100%;
 }
 
 #unit, #num {
@@ -63,5 +63,5 @@
   height: 100%;
   left: 0px;
   top: 0px;
-  width: -moz-available;
+  width: 100%;
 }
