@@ -4,4 +4,5 @@ export interface ItemRequest {
   unit: string;
   listId: number;
   done: boolean;
+  image?: string;
 }

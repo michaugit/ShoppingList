@@ -135,7 +135,7 @@ describe('EditListItemComponent', () => {
     expect(component.item.isBeingEditing).toBeFalse()
   }));
 
-  it('editItem should call editService with proper data', fakeAsync(() => {
+  it('editItem with image should call editService with proper data', fakeAsync(() => {
     const itemService = fixture.debugElement.injector.get(ItemService)
     const spyItemService = spyOn(itemService, 'update').and.returnValue(Rx.of())
     const {text, quantity, unit} = component.form.controls
@@ -146,7 +146,22 @@ describe('EditListItemComponent', () => {
     component.selectedFile =  <File>blob;
     component.editItem()
 
-    const expectedItemRequest: ItemRequest = {'text': 'any product', 'quantity': 2, 'unit': 'kg', 'listId': + component.item.listId, 'done': false}
+    const expectedItemRequest: ItemRequest = {'text': 'any product', 'quantity': 2, 'unit': 'kg', 'listId': + component.item.listId, 'done': false, 'image': component.item.image}
+    expect(spyItemService).toHaveBeenCalledWith(component.item.id, expectedItemRequest, component.selectedFile)
+  }));
+
+  it('editItem without image should call editService with proper data', fakeAsync(() => {
+    const itemService = fixture.debugElement.injector.get(ItemService)
+    const spyItemService = spyOn(itemService, 'update').and.returnValue(Rx.of())
+    const {text, quantity, unit} = component.form.controls
+    text.setValue("any product")
+    quantity.setValue('2')
+    unit.setValue("kg")
+    component.selectedFile = undefined
+    component.photoPreview = undefined
+    component.editItem()
+
+    const expectedItemRequest: ItemRequest = {'text': 'any product', 'quantity': 2, 'unit': 'kg', 'listId': + component.item.listId, 'done': false, 'image': undefined}
     expect(spyItemService).toHaveBeenCalledWith(component.item.id, expectedItemRequest, component.selectedFile)
   }));
 

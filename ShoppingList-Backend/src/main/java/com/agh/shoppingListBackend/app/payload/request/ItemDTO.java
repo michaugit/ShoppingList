@@ -24,4 +24,6 @@ public class ItemDTO {
 
     @NotNull
     private boolean done;
+
+    private byte[] image;
 }

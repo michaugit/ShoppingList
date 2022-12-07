@@ -9,6 +9,7 @@ import {ItemService} from "../../../services/item.service";
 import Swal from "sweetalert2";
 import {ItemResponse} from "../../../models/responses/itemResponse";
 import {ItemRequest} from "../../../models/requests/itemRequest";
+import {isDefined} from "@ngx-translate/core/lib/util";
 
 @Component({
   selector: 'app-edit-list-item',
@@ -58,7 +59,12 @@ export class EditListItemComponent implements OnInit {
       "quantity": +this.form.get('quantity')?.value,
       "unit": this.form.get('unit')?.value,
       "listId": this.item.listId,
-      "done": this.item.done
+      "done": this.item.done,
+      "image": this.item.image
+    }
+
+    if(this.photoPreview === undefined){
+      itemRequest.image = undefined
     }
 
     this.itemService.update(this.item.id, itemRequest, this.selectedFile).subscribe({

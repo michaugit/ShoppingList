@@ -6,6 +6,7 @@ import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
 import com.agh.shoppingListBackend.app.payload.response.MessageResponse;
 import com.agh.shoppingListBackend.app.payload.response.SingleItemResponse;
 import com.agh.shoppingListBackend.app.services.ItemService;
+import com.agh.shoppingListBackend.app.utils.ImageConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -129,6 +131,10 @@ public class ItemController {
     }
 
     private Item mapItemDTOtoItem(ItemDTO itemDTO) {
-        return this.modelMapper.map(itemDTO, Item.class);
+        Item mappedItem = this.modelMapper.map(itemDTO, Item.class);
+        if(itemDTO.getImage() != null){
+            mappedItem.setImage(ImageConverter.compressBytes(itemDTO.getImage()));
+        }
+        return mappedItem;
     }
 }
