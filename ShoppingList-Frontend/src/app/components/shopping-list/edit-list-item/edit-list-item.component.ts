@@ -9,7 +9,6 @@ import {ItemService} from "../../../services/item.service";
 import Swal from "sweetalert2";
 import {ItemResponse} from "../../../models/responses/itemResponse";
 import {ItemRequest} from "../../../models/requests/itemRequest";
-import {isDefined} from "@ngx-translate/core/lib/util";
 
 @Component({
   selector: 'app-edit-list-item',

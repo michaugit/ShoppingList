@@ -111,5 +111,6 @@ export class AddListItemComponent implements OnInit {
     this.selectedFile = undefined
     this.photoPreview =  undefined
     this.form.get('image')?.reset()
+
   }
 }

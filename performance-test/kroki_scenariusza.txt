@@ -1,0 +1,12 @@
+1. zaloguj
+2. dodaj 2 nowe listy
+3. edytuj 1 listę
+4. usuń drugą listę
+4. wejdz w 1 liste
+5. dodaj 4 nowe przedmioty (dwa przedmioty z obrazkiem)
+6. zmodyfikuj 2 przedmioty (jeden z obrazkiem drugi bez)
+7. usuń przedmiot
+8. wróć do głównego widoku
+9. usuń całą listę.
+10. wyloguj
+
