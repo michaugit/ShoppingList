@@ -62,7 +62,7 @@ class ItemControllerTest {
     void testAddItemWithoutImage() throws Exception {
         Long listId = 1L;
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setText("testList");
+        itemDTO.setText("testItem");
         itemDTO.setListId(listId);
         Item item = modelMapper.map(itemDTO, Item.class);
 
@@ -87,7 +87,7 @@ class ItemControllerTest {
     void testAddItemWithImage() throws Exception {
         Long listId = 1L;
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setText("testList");
+        itemDTO.setText("testItem");
         itemDTO.setListId(listId);
         Item item = modelMapper.map(itemDTO, Item.class);
 
@@ -113,7 +113,7 @@ class ItemControllerTest {
     void testAddItemWithImageException() throws Exception {
         Long listId = 1L;
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setText("testList");
+        itemDTO.setText("testItem");
         itemDTO.setListId(listId);
         Item item = modelMapper.map(itemDTO, Item.class);
 
@@ -139,7 +139,7 @@ class ItemControllerTest {
     void testUpdateWithoutImage() throws Exception {
         Long itemId = 1L;
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setText("testList");
+        itemDTO.setText("testItem");
         itemDTO.setListId(2L);
         Item item = modelMapper.map(itemDTO, Item.class);
 
@@ -163,7 +163,7 @@ class ItemControllerTest {
     void testUpdateItemWithImage() throws Exception {
         Long itemId = 1L;
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setText("testList");
+        itemDTO.setText("testItem");
         itemDTO.setListId(2L);
         Item item = modelMapper.map(itemDTO, Item.class);
 
@@ -190,7 +190,7 @@ class ItemControllerTest {
     void testUpdateItemWithImageException() throws Exception {
         Long itemId = 1L;
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setText("testList");
+        itemDTO.setText("testItem");
         itemDTO.setListId(2L);
         Item item = modelMapper.map(itemDTO, Item.class);
 
@@ -213,7 +213,7 @@ class ItemControllerTest {
 
     @Test
     @WithMockUser
-    void testDeleteList() throws Exception {
+    void testDeleteItem() throws Exception {
         Long id = 1L;
 
         doNothing().when(testItemService).deleteItem(id);
@@ -228,7 +228,7 @@ class ItemControllerTest {
 
     @Test
     @WithMockUser
-    void testGetAllLists() throws Exception {
+    void testGetAllListItems() throws Exception {
         Long listId = 1L;
 
         when(testItemService.getAllItemsByListId(listId)).thenReturn(new ItemsResponse());

@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {commonTestImports, materialTestImports} from "../../app.providers";
 import {StorageService} from "../../services/auth/storage.service";
 import {AuthService} from "../../services/auth/auth.service";
+import * as Rx from "rxjs";
 
 describe('MainNavigationComponent', () => {
   let component: MainNavigationComponent;
@@ -75,7 +76,7 @@ describe('MainNavigationComponent', () => {
   it('test logout function calls', fakeAsync(() => {
     const authService = fixture.debugElement.injector.get(AuthService)
     const storageService = fixture.debugElement.injector.get(StorageService)
-    const spyAuthService = spyOn(authService, 'logout')
+    const spyAuthService = spyOn(authService, 'logout').and.returnValue(Rx.of({"message": "You've been signed out!"}))
     const spyStorageService = spyOn(storageService, 'clean')
     const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     const spyReload = spyOn(component, 'reloadPage')

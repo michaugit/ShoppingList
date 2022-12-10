@@ -4,7 +4,7 @@
     <mat-list-item *ngFor="let item of items;let i = index">
       <mat-divider *ngIf="i != 0"></mat-divider>
 
-      <div *ngIf="!item.isBeingEditing; then content else edit_content">here is ignored</div>
+      <div *ngIf="!item.isBeingEdited; then content else edit_content">here is ignored</div>
 
       <ng-template #content>
         <app-list-item [item]="item" [index]="i+1" (removeItem)="removeItem(item)" class='itemSimple'></app-list-item>

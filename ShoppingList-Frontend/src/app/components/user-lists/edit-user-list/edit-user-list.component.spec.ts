@@ -34,7 +34,7 @@ describe('EditUserListComponent', () => {
     fixture = TestBed.createComponent(EditUserListComponent);
     component = fixture.componentInstance;
     component.list = new List("test shopping list name", "2022-12-16", 2)
-    component.list.isBeingEditing = true
+    component.list.isBeingEdited = true
     component.index = 1
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
@@ -44,7 +44,7 @@ describe('EditUserListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should present data from item', () => {
+  it('should present data from list', () => {
     const {name, date} = component.form.controls
     expect(name.value).toBe(component.list.name)
     expect(formatDate(date.value, 'yyyy-MM-dd', 'en_US')).toBe(component.list.date)
@@ -116,13 +116,13 @@ describe('EditUserListComponent', () => {
     date.setValue("2024-12-20")
     fixture.detectChanges()
 
-    expect(component.list.isBeingEditing).toBeTruthy()
+    expect(component.list.isBeingEdited).toBeTruthy()
     const cancelBtn = fixture.debugElement.nativeElement.querySelector('.cancel_button')
     cancelBtn.click()
     tick(1000)
 
     fixture.detectChanges()
-    expect(component.list.isBeingEditing).toBeFalsy()
+    expect(component.list.isBeingEdited).toBeFalsy()
     expect(component.list.name).toBe(oldName)
     expect(component.list.date).toBe(oldDate)
   }));
@@ -154,7 +154,7 @@ describe('EditUserListComponent', () => {
     expect(spyRefresh).toHaveBeenCalled()
     expect(component.list.name).toBe(testResponse.name)
     expect(component.list.date).toBe(testResponse.date)
-    expect(component.list.isBeingEditing).toBe(false)
+    expect(component.list.isBeingEdited).toBe(false)
   }));
 
   it('should show sweetAlert when list adding failed', fakeAsync(() => {
@@ -205,7 +205,7 @@ describe('EditUserListComponent', () => {
 
     expect(spyListUpdate).toHaveBeenCalled()
     expect(spyRefresh).toHaveBeenCalled()
-    expect(component.list.isBeingEditing).toBeFalsy()
+    expect(component.list.isBeingEdited).toBeFalsy()
     expect(component.list.name).toBe(expectedDataResponse.name)
     expect(component.list.date).toBe(expectedDataResponse.date)
   }));
@@ -242,6 +242,6 @@ describe('EditUserListComponent', () => {
     expect(spyListUpdate).toHaveBeenCalled()
     expect(spyRefresh).not.toHaveBeenCalled()
     expect(spySweetAlert).toHaveBeenCalled()
-    expect(component.list.isBeingEditing).toBeTruthy()
+    expect(component.list.isBeingEdited).toBeTruthy()
   }));
 });

@@ -27,9 +27,10 @@ export class MainNavigationComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout();
-    this.storageService.clean();
-    this.router.navigate(['/login']).then(() => this.reloadPage());
+    this.authService.logout().subscribe( ()=> {
+      this.storageService.clean();
+      this.router.navigate(['/login']).then(() => this.reloadPage());
+    });
   }
 
   reloadPage(): void {

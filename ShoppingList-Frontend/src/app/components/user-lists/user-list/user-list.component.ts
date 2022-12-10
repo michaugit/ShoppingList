@@ -29,7 +29,7 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {}
 
   doEditable(list: List){
-    list.isBeingEditing = true;
+    list.isBeingEdited = true;
   }
 
 

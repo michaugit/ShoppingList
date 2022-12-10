@@ -1,7 +1,7 @@
 export class List{
   name: string;
   date: string;
-  isBeingEditing = false;
+  isBeingEdited = false;
   id: number;
 
   constructor(name: string, date: string, id: number) {

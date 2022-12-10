@@ -66,7 +66,7 @@ describe('ListItemComponent', () => {
     editBtn.click()
 
     expect(spyDoEditable).toHaveBeenCalledWith(component.item)
-    expect(component.item.isBeingEditing).toBeTruthy()
+    expect(component.item.isBeingEdited).toBeTruthy()
   });
 
 

@@ -73,7 +73,7 @@ describe('UserListsService', () => {
   it('update should return SimpleListResponse when success', () => {
     const id = 1
     const expectedDataResponse = {
-      "id": 29,
+      "id": 1,
       "name": "lista",
       "date": "2022-08-02"
     }

@@ -30,7 +30,7 @@ describe('UserListComponent', () => {
     fixture = TestBed.createComponent(UserListComponent);
     component = fixture.componentInstance;
     component.list = new List("test shopping list name", "2022-12-16", 2)
-    component.list.isBeingEditing = false
+    component.list.isBeingEdited = false
     component.index = 1
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
@@ -56,7 +56,7 @@ describe('UserListComponent', () => {
     editBtn.click()
 
     expect(spyDoEditable).toHaveBeenCalledWith(component.list)
-    expect(component.list.isBeingEditing).toBeTruthy()
+    expect(component.list.isBeingEdited).toBeTruthy()
   });
 
   it('should emit removeList when successful deletion', fakeAsync(() => {

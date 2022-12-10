@@ -103,7 +103,8 @@ class AuthIntegrationTest {
                 .content(objectMapper.writeValueAsString(loginDTO))
                 .with(csrf()))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.message").value("Nieprawidłowa nazwa użytkownika lub hasło. "));
+                .andExpect(jsonPath("$.message").value("Nieprawidłowa nazwa użytkownika lub hasło. "))
+                .andExpect(cookie().doesNotExist("shoppingList"));;
     }
 
 

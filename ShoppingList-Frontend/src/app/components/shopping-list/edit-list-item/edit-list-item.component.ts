@@ -69,7 +69,7 @@ export class EditListItemComponent implements OnInit {
     this.itemService.update(this.item.id, itemRequest, this.selectedFile).subscribe({
       next: (itemResponse) => {
         this.refreshItem(itemResponse)
-        this.item.isBeingEditing = false
+        this.item.isBeingEdited = false
       },
       error: err => {
         Swal.fire({

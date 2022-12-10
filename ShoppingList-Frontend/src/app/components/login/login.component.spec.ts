@@ -99,13 +99,13 @@ describe('LoginComponent', () => {
     password.setValue('pass');
     expect(component.form.valid).toBeTruthy();
 
-    const response = {"id": 1, "username": "michal", "roles": ["ROLE_USER"]}
+    const response = {"id": 1, "username": "test", "roles": ["ROLE_USER"]}
     const authService = fixture.debugElement.injector.get(AuthService)
     const storageService = fixture.debugElement.injector.get(StorageService)
     spyOn(authService, 'login').and.returnValue(Rx.of(response))
     spyOn(storageService, 'saveUser')
     spyOn(component, 'reloadPage')
-    const spyRouter = spyOn(router, 'navigate')
+    const spyRouter = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
 
     component.onSubmit();
     tick(1000)

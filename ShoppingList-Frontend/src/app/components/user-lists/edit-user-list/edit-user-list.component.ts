@@ -43,7 +43,7 @@ export class EditUserListComponent implements OnInit {
     this.userListService.update(this.list.id, listRequest).subscribe({
       next: (simpleListResponse) => {
         this.refreshList(simpleListResponse)
-        this.list.isBeingEditing = false
+        this.list.isBeingEdited = false
       },
       error: err => {
         Swal.fire({

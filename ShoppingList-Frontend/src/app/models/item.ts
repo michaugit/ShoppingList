@@ -7,7 +7,7 @@ export class Item {
   unit: string;
   image?: string;
   done = false;
-  isBeingEditing = false;
+  isBeingEdited = false;
 
   constructor(id: number, listId: number, text: string, num: number, unit: string, done: boolean, image?: string) {
     this.id = id;

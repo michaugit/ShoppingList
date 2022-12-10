@@ -41,7 +41,7 @@ export class ListItemComponent implements OnInit {
   }
 
   doEditable(item: Item){
-    item.isBeingEditing = true;
+    item.isBeingEdited = true;
   }
 
   toggle(item: Item) {

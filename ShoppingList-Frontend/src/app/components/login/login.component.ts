@@ -41,8 +41,7 @@ export class LoginComponent implements OnInit {
       next: data => {
         this.storageService.saveUser(data);
         this.isLoggedIn = true;
-        this.router.navigate(['/user-lists'])
-        this.reloadPage()
+        this.router.navigate(['/user-lists']).then(this.reloadPage)
       },
       error: err => {
         this.isLoggedIn = false;
