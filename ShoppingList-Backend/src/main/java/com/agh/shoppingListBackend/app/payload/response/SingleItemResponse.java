@@ -15,6 +15,7 @@ public class SingleItemResponse {
     private Units unit;
     private byte[] image;
     private boolean done;
+    private EstimatedPriceResponse estimatedPrice;
 
     public SingleItemResponse(Long id, String text, Float quantity, Units unit, boolean done){
         this.id = id;

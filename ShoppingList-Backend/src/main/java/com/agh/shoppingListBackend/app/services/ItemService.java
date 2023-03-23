@@ -3,13 +3,16 @@ package com.agh.shoppingListBackend.app.services;
 import com.agh.shoppingListBackend.app.exepction.ForbiddenException;
 import com.agh.shoppingListBackend.app.exepction.NotFoundException;
 import com.agh.shoppingListBackend.app.models.Item;
+import com.agh.shoppingListBackend.app.models.ItemPrice;
 import com.agh.shoppingListBackend.app.models.ShoppingList;
 import com.agh.shoppingListBackend.app.models.User;
 import com.agh.shoppingListBackend.app.payload.request.ItemDTO;
+import com.agh.shoppingListBackend.app.payload.response.EstimatedPriceResponse;
 import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
 import com.agh.shoppingListBackend.app.payload.response.SingleItemResponse;
 import com.agh.shoppingListBackend.app.repository.ItemRepository;
 import com.agh.shoppingListBackend.app.repository.ListRepository;
+import com.agh.shoppingListBackend.app.repository.PriceRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
 import com.agh.shoppingListBackend.app.utils.ImageConverter;
@@ -23,23 +26,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
+    private final PriceRepository priceRepository;
     private final ListRepository listRepository;
     private final ModelMapper modelMapper;
 
 
     @Autowired
-    public ItemService(UserRepository userRepository, ItemRepository itemRepository, ListRepository listRepository, ModelMapper modelMapper){
+    public ItemService(UserRepository userRepository, ItemRepository itemRepository, PriceRepository priceRepository, ListRepository listRepository, ModelMapper modelMapper){
         this.userRepository = userRepository;
         this.itemRepository = itemRepository;
+        this.priceRepository = priceRepository;
         this.listRepository = listRepository;
         this.modelMapper = modelMapper;
         modelMapper.addMappings(new PropertyMap<ItemDTO, Item>() {
@@ -151,6 +154,8 @@ public class ItemService {
                 )
         );
 
+
+        findPricesForItems(itemsResponse);
         return itemsResponse;
     }
 
@@ -184,4 +189,16 @@ public class ItemService {
         return singleItemResponse;
     }
 
+    private void findPricesForItems(ItemsResponse rawItemsResponse){
+        List<ItemPrice> itemPriceList = priceRepository.findAll();
+        rawItemsResponse.getItems().forEach( item -> {
+            Optional<ItemPrice> longestMatch = itemPriceList.stream()
+                    .filter(itemPrice -> item.getText().toLowerCase().contains(itemPrice.getItemName().toLowerCase()))
+                    .max(Comparator.comparingInt(itemPrice -> itemPrice.getItemName().length()));
+
+            longestMatch.ifPresent(itemPrice -> {
+                        EstimatedPriceResponse estimatedPriceResponse = this.modelMapper.map(itemPrice, EstimatedPriceResponse.class);
+                        item.setEstimatedPrice(estimatedPriceResponse); });
+        });
+    }
 }

@@ -10,6 +10,7 @@ import com.agh.shoppingListBackend.app.payload.response.ItemsResponse;
 import com.agh.shoppingListBackend.app.payload.response.SingleItemResponse;
 import com.agh.shoppingListBackend.app.repository.ItemRepository;
 import com.agh.shoppingListBackend.app.repository.ListRepository;
+import com.agh.shoppingListBackend.app.repository.PriceRepository;
 import com.agh.shoppingListBackend.app.repository.UserRepository;
 import com.agh.shoppingListBackend.app.security.services.UserDetailsImpl;
 import com.agh.shoppingListBackend.app.services.ItemService;
@@ -42,6 +43,9 @@ class ItemServiceTest {
     private ItemRepository itemRepository;
 
     @Mock
+    private PriceRepository priceRepository;
+
+    @Mock
     private UserRepository userRepository;
 
     @Mock
@@ -58,7 +62,7 @@ class ItemServiceTest {
     @BeforeEach
     void setUp() {
         ModelMapper modelMapper = new ModelMapper();
-        itemService = new ItemService(userRepository, itemRepository, listRepository, modelMapper);
+        itemService = new ItemService(userRepository, itemRepository, priceRepository, listRepository, modelMapper);
         user = new User("user", "pass");
         list = new ShoppingList("testList", Date.valueOf("2022-11-17"), user);
         list.setId(2L);
